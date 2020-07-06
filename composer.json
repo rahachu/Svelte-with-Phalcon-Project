@@ -1,0 +1,20 @@
+{
+    "name": "pateron/app",
+    "description": "Pateron your education platform",
+    "type": "project",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2",
+        "vlucas/phpdotenv": "^5.0"
+    },
+    "authors": [
+        {
+            "name": "rahachu",
+            "email": "13518011@std.stei.itb.ac.id"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
