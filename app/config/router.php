@@ -9,7 +9,6 @@ $router->setDi($di);
 // $router->add('/','\index.html');
 $router->addPost('/login',['controller'=>'dashboard','action'=>'login']);
 $router->addPost('/register',['controller'=>'dashboard','action'=>'register']);
-$router->add('/token',['controller'=>'dashboard','action'=>'index']);
 $router->add('/confirm/{code}/{username}',['controller'=>'email','action'=>'confirm']);
 $router->add('/logout',"dashboard::logout");
 $router->add('/auth','dashboard::auth');
