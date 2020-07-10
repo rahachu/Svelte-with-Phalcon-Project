@@ -6,9 +6,9 @@ namespace App\Controllers;
 Use App\Models\User;
 Use App\Models\Siswa;
 Use App\Library\Exception;
-use Phalcon\Mvc\View;
+use Phalcon\Mvc\Controller;
 
-class DashboardController extends ControllerBase
+class DashboardController extends Controller
 {
     public function indexAction()
     {
@@ -72,5 +72,44 @@ class DashboardController extends ControllerBase
         }
     }
 
+    public function ConfirmAction($code,$username)
+    {
+        //Konfirmasi email
+        $user = User::findFirst([
+            'conditions'=>'token=:code: AND username = :username:',
+            'bind' => [
+                'code'=>$code,
+                'username'=>$username
+            ]
+        ]);
+        
+        if ($user and $user->email_verified_at === null) {
+            $user->email_verified_at = new \Phalcon\Db\RawValue('CURRENT_TIMESTAMP()');
+            $user->token = null;
+            $user->save();
+        }
+
+        $this->response->redirect('/dashboard');
+
+    }
+
+    public function ResetAction($token,$username)
+    {
+        if ($this->request->isPost()) {
+            $user = User::findFirst([
+                'conditions'=>'token=:token: AND username=:username:',
+                'bind'=>[
+                    'token'=>$token,
+                    'username'=>$username
+                ]
+            ]);
+
+            if ($user) {
+                $newPassword = $this->request->getPost('newPassword');
+                $user->password = $this->security->hash($newPassword);
+                $user->save();
+            }
+        }
+    }
 }
 
