@@ -22,6 +22,7 @@ return new \Phalcon\Config([
         'migrationsDir'  => APP_PATH . '/migrations/',
         'viewsDir'       => APP_PATH . '/views/',
         'libraryDir'     => APP_PATH . '/library/',
+        'controllersDir' => APP_PATH . '/Controllers',
         'baseUri'        => '/',
         'publicUrl'      => getenv('APP_PUBLIC_URL')
     ],

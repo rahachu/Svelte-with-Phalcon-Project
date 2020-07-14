@@ -8,7 +8,7 @@ Use App\Models\Siswa;
 Use App\Library\Exception;
 use Phalcon\Mvc\Controller;
 
-class DashboardController extends Controller
+class UserController extends Controller
 {
     public function indexAction()
     {
