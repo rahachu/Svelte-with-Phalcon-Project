@@ -3,18 +3,22 @@ Repository ini merupakan backend yang akan digunakan
 untuk membangun ulang aplikasi Pateron.
 
 Dibangun menggunakan phalcon framework
+```
+Pastikan versi phalcon anda 3.4
+```
 
 # Instalasi
 
 ```
 git clone git@github.com:rahachu/App.git
 composer install
-php -S localhost:8000 .htrouter.php
+npm install
 ```
-jika kamu memiliki phalcon devtools maka kamu hanya
-perlu mengetikan
+copy file .env.example ke .env lalu atur sesuai konfigurasi development kalian
+
+selanjutnya untuk memulai dev server:
 ```
-phalcon serve
+npm run dev
 ```
 
 # Aturan pengembangan
@@ -29,11 +33,11 @@ kerjaan_wahyu
 
 # Daftar API
 
-## GET 'domain/' dan 'domain/{terserah}'
+### GET 'domain/' dan 'domain/{terserah}'
 mengembalikan halaman pada frontend react
 dan selanjutnya diserahkan kepada react router dom
 
-## GET 'domain/auth'
+### GET 'domain/auth'
 output : 
 {
     id
@@ -43,10 +47,10 @@ output :
     login (true jika loged in)
 }
 
-## GET 'domain/logout'
+### GET 'domain/logout'
 menghapus info user pada session
 
-## POST 'domain/login'
+### POST 'domain/login'
 input :
 ```
 pastikan dalam object formdata()
@@ -57,7 +61,7 @@ pastikan dalam object formdata()
 }
 ```
 
-## POST 'domain/register'
+### POST 'domain/register'
 input :
 ```
 pastikan dalam object formdata()
@@ -72,6 +76,6 @@ pastikan dalam object formdata()
 }
 ```
 
-## GET 'domain/confirm/{code}/{username}'
+### GET 'domain/confirm/{code}/{username}'
 untuk mengonfirmasi email sehingga akun dapat
 diaktifkan
