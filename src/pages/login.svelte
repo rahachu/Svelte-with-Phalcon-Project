@@ -1,18 +1,28 @@
 <script>
-    let promise = login();
+    import {get,post} from "../library/csrfFetch.js"
+    import { goto } from "@sveltech/routify"
+
+    let userInfo = get("/auth").then(res=>res.json())
+    .then(data=>{
+        if (data.login) {
+            $goto('/');
+        }
+    })
+
+    let promise = null;
     let loginInfo = {
-        user : '',
+        login : '',
         password : '',
     };
     async function login() {
-        let auth = await fetch('/auth');
+        let auth = await post("/login",loginInfo);
         let authInfo = await auth.json();
 
         if (auth.ok) {
-            return authInfo;
+            $goto('/');
         }
         else {
-            throw new Error(authInfo);
+            throw new Error(authInfo.error);
         }
     }
 
@@ -21,15 +31,20 @@
     }
 </script>
 
-<input bind:value={loginInfo.user} placeholder="enter your name">
+{#await userInfo}
+    <p>loading</p>
+{:then res}
+<input bind:value={loginInfo.login} placeholder="enter your name">
+<input bind:value={loginInfo.password} type="password" placeholder="enter your password">
 <button on:click={handleClick}>
 	login
 </button>
+{/await}
 
 {#await promise}
 	<p>...waiting</p>
 {:then number}
 	<p>The number is {loginInfo.user}</p>
 {:catch error}
-	<p style="color: red">Gagal</p>
+	<p style="color: red">{error}</p>
 {/await}
