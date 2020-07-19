@@ -1,28 +1,7 @@
-<script>
-	let userInfo = auth()
-	async function auth() {
-		let getReq = await fetch('/auth');
-		let res = getReq.json()
-		if (getReq.ok) {
-			return res;
-		}
-		else{
-			throw new Error(res);
-		}
-	}
-	function handleClick() {
-		userInfo = fetch('/logout');
-	}
-</script>
 
-{#await userInfo}
-<p>loading...</p>
-{:then res}
-<h1>Hello {res.username}!</h1>
-<p>Visit the <a href="/login">Login</a> to learn how to build Svelte apps. <a href="/" on:click={handleClick}>logout</a></p>
-{:catch error}
-{error}
-{/await}
+
+	<h1>Hello World!</h1>
+	<p>Visit the <a href="/login">Login</a> to learn how to build Svelte apps.</p>
 
 <style>
 
