@@ -1,7 +1,6 @@
 <script>
   import Testimoni from "../components/landing-page/Testimoni.svelte"
 </script>
-
 <style>
   p{
     font-family: 'Lato', sans-serif;

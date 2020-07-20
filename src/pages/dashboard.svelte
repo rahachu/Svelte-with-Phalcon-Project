@@ -1,9 +1,8 @@
-<!-- <script>
+<script>
 	let userInfo = auth()
 	async function auth() {
 		let getReq = await fetch('/auth');
 		let res = getReq.json()
-		console.log(getReq);
 		if (getReq.ok) {
 			return res;
 		}
@@ -33,6 +32,4 @@
 		font-size: 4em;
 		font-weight: 100;
 	}
-</style> -->
-
-<h2>aaa</h2>
+</style>
