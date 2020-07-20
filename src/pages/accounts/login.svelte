@@ -2,10 +2,10 @@
 	import {get,post} from "../../library/csrfFetch.js"
 	import { goto } from "@sveltech/routify"
 
-	let userInfo = get("/auth").then(res=>res.json())
-	.then(data=>{
-		console.log(data)
-	})
+	// let userInfo = get("/auth").then(res=>res.json())
+	// .then(data=>{
+	// 	console.log(data)
+	// })
 
 	let userLogin = {
 		login:'',
@@ -22,19 +22,19 @@
 	$:isFieldNull = userLogin.username === '' || userLogin.password === '' ? true : false;
 
 	const loginProcess = async ()=>  {
+		console.log(userLogin)
 		try {
       let fetchLogin = await post("/login", userLogin);
-			let response = await fetchLogin.json();
+			console.log(fetchLogin);
 
-			isLoading = false;
+			// isLoading = false;
 			
-			if(fetchLogin.status === 200){
-				// $goto('/dashboard');
-				console.log(fetchLogin);
-			}else{
-				isError.status = true;
-				isError.message = response.error;
-			}
+			// if(fetchLogin.status === 200){
+			// 	$goto('/users/siswa/dashboard');	
+			// }else{
+			// 	isError.status = true;
+			// 	isError.message = response.error;
+			// }
 		} catch (error) {
 			console.log(error);
 		}
