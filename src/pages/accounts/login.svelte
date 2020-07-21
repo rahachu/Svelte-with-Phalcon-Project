@@ -21,26 +21,26 @@
 
 	$:isFieldNull = userLogin.username === '' || userLogin.password === '' ? true : false;
 
-	const loginProcess = async ()=>  {
-		console.log(userLogin)
+	async function loginProcess (){
 		try {
-      let fetchLogin = await post("/login", userLogin);
-			console.log(fetchLogin);
-
-			// isLoading = false;
+			let fetchLogin = await post("/login", userLogin);
+			let response = await fetchLogin.json();
+			console.log(response)
+			isLoading = false;
 			
-			// if(fetchLogin.status === 200){
-			// 	$goto('/users/siswa/dashboard');	
-			// }else{
-			// 	isError.status = true;
-			// 	isError.message = response.error;
-			// }
+			if(fetchLogin.status === 200){
+				$goto('/users/siswa/dashboard');	
+			}else{
+				isError.status = true;
+				isError.message = response.error;
+			}
 		} catch (error) {
-			console.log(error);
+			isError.status = true;
+			isError.message = error;
 		}
 	}
 
-	const handleSubmit = (e) => {
+	function handleSubmit(e){
 		e.preventDefault();
 		isLoading = true
 		loginProcess();

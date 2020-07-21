@@ -22,14 +22,16 @@ function handleSubmit(e){
 }
 
 async function registrationProcess(){
-  try {
-    const fetchRegistration = await post('/register', userRegistration);
-    // const response = await fetchRegistration.json();
-    isLoading = false;
-    console.log(fetchRegistration);
-  } catch (error) {
-    console.log(error);
-  }
+  const fetchRegistration = await post('/register', JSON.stringify(userRegistration));
+  console.log(fetchRegistration);
+  // try {
+  //   const response = await fetchRegistration.json();
+  //   console.log(fetchRegistration);
+  //   console.log(response);
+  //   isLoading = false;
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 </script>
@@ -51,32 +53,32 @@ async function registrationProcess(){
   <form on:submit={handleSubmit} method="POST">
     <div class="form-group">
       <label for="fullname">Fullname</label>
-      <input bind:value={userRegistration.fullname} type="text" name="fullname" id="fullname">
+      <input bind:value={userRegistration.fullname} type="text" autocomplete="off" name="fullname" id="fullname">
     </div>
 
     <div class="form-group">
       <label for="school">School</label>
-      <input bind:value={userRegistration.school} type="text" name="school" id="school">
+      <input bind:value={userRegistration.school} type="text" autocomplete="off" name="school" id="school">
     </div>
   
     <div class="form-group">
       <label for="city">City</label>
-      <input bind:value={userRegistration.city} type="text" name="city" id="city">
+      <input bind:value={userRegistration.city} type="text" autocomplete="off" name="city" id="city">
     </div>
 
     <div class="form-group">
       <label for="phone">Phone</label>
-      <input bind:value={userRegistration.phone} type="number" name="phone" id="phone">
+      <input bind:value={userRegistration.phone} type="number" autocomplete="off" name="phone" id="phone">
     </div>
 
     <div class="form-group">
       <label for="username">Username</label>
-      <input bind:value={userRegistration.username} type="text" name="username" id="username">
+      <input bind:value={userRegistration.username} type="text" autocomplete="off" name="username" id="username">
     </div>
     
     <div class="form-group">
       <label for="email">Email</label>
-      <input bind:value={userRegistration.email} type="email" name="email" id="email">
+      <input bind:value={userRegistration.email} type="email" autocomplete="off" name="email" id="email">
     </div>
 
     <div class="form-group">
