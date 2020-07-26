@@ -1,7 +1,8 @@
 <script>
 	import Cookies from 'js-cookie';
+  import { goto } from '@sveltech/routify'
 
-	let data 	= '';
+	$:data 	= '';
 	// let today = new Date();
 	// 	let bulan 	= today.toLocaleString('default', { month: 'short' });
 	// 	let tanggal = today.getDate()
@@ -20,11 +21,12 @@
 		let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 		let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 			
-		$:data = `${hours}Jam ${minutes}Menit ${seconds}s`;
+		data = `${hours}Jam : ${minutes}Menit : ${seconds}s`;
 			
 		if (distance < 0) {
 			clearInterval(startTime);
-			$:data = "EXPIRED"
+			data = "WAKTU HABIS"
+			$goto('/tryout');
 		}
 	}, 1000)
 

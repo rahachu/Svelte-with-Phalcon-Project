@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 import dummySoal from "./dummy-data";
 
-const soal = () => {
+const store = () => {
   const state = dummySoal;
 
   const { subscribe, set, update } = writable(state);
@@ -16,4 +16,4 @@ const soal = () => {
   };
 };
 
-export const soalStore = soal();
+export const soalStore = store();

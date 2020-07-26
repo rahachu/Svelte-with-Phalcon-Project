@@ -1,12 +1,13 @@
 import Cookies from "js-cookie";
 import { writable } from "svelte/store";
 
-const jawaban = () => {
+const store = () => {
   let checkCookie = Cookies.get("TRYOUTANSWER") || false;
   checkCookie ? (checkCookie = JSON.parse(Cookies.get("TRYOUTANSWER"))) : false;
   let state = checkCookie || [];
 
   const { subscribe, set, update } = writable(state);
+
   const methods = {
     createJawaban(data) {
       if (state.length == 0) {
@@ -14,12 +15,6 @@ const jawaban = () => {
       } else {
         state.filter((curr, i) => {
           if (curr.soal_no == data.soal_no) {
-            // state = state.splice(-1, 1);
-            // state.splice(i, 1);
-            // update((n) => {
-            //   state = state;
-            //   [...n, data];
-            // });
             curr.option = data.option;
             state.splice(-1, 1);
             state = state;
@@ -38,4 +33,4 @@ const jawaban = () => {
   };
 };
 
-export const jawabanStore = jawaban();
+export const jawabanStore = store();

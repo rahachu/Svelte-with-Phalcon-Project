@@ -28,12 +28,6 @@
     margin-bottom: 100px;
   }
 
-  /* .ilustration-program{
-  }
-
-  .pateron-program{
-  } */
-
   .pateron-program p{
     margin-top: 20px;
   }
