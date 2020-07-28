@@ -28,6 +28,7 @@
     let countDown = `${bulan} ${tanggal}, ${tahun} ${setJam}:${menit}:${setDetik}`
     let encrypt = btoa(countDown);
     Cookies.set('TRYOUTTIME', encrypt, { path: '/tryout' })
+    localStorage.setItem('no_soal', 1);
     // Cookies.remove('TRYOUTANSWER', { path: '/start-tryout' }) || false
     $goto('/tryout/start-tryout');
   }

@@ -17,6 +17,7 @@
   // active state
   let totalSoal = '';
   let activeSoal = false;
+  let activeAnswered = false;
 
   $:activateOption ="";
   onMount(()=> {
@@ -37,7 +38,6 @@
 
   // total soal
   totalSoal = dataSoal.length;
-
 
   // disable tombol sebelumnya
   // disable tombol selanjutnya
@@ -84,13 +84,7 @@
   //  get value option untuk navigasi soal
   function getOptionValue(){
     // Pull Option from Jawaban store or Cookies
-    let getOption = ''
-    let getCookie = Cookies.get('TRYOUTANSWER') || false
-    if(dataJawaban.length === 0){
-      getCookie ? getOption = JSON.parse(getCookie) : getOption = dataJawaban
-    }else{
-      getOption = dataJawaban;
-    }
+    let getOption = dataJawaban;
     getOption.filter((data) => {
       if(data.soal_no == soalNo){
         activateOption = data;
@@ -100,14 +94,8 @@
 
   //  get value option untuk tombol sebelumnya dan tombol selanjutnya
   function getOptionValueButton(){
-    let getOption = ''
-    let getCookie = Cookies.get('TRYOUTANSWER') || false
-    if(dataJawaban.length === 0){
-      getCookie ? getOption = JSON.parse(getCookie) : getOption = dataJawaban
-    }else{
-      getOption = dataJawaban;
-    }
-    let dataNomor = getOption.filter((data) => {
+    let getOptionData = dataJawaban;
+    let dataNomor = getOptionData.filter((data) => {
       if(data.soal_no == currentSoal+1){
         return activateOption = data
       }else{
@@ -121,6 +109,13 @@
     }
     soalNo = currentSoal+1
   }
+
+  // get soal terjawab
+  function getOptionAnswered(){
+
+  }
+
+  // get soal ditandai
 
   // handle button tombol sebelumnya
   function handlePrev(){
@@ -196,6 +191,11 @@
 
   .active-soal{
     background-color: var(--blue-color);
+    color: #fff;
+  }
+
+  .active-terjawab{
+    background-color: limegreen;
     color: #fff;
   }
 
@@ -313,7 +313,7 @@
         <div class="list-number">
         <!-- daftar soal -->
           {#each dataSoal as {no}, i}
-            <div title={no} on:click={handleSoalClick} class:active-soal={i === currentSoal} class="items-number">
+            <div title={no} on:click={handleSoalClick} class:active-terjawab={i === currentSoal} class="items-number">
               {no}
             </div>
           {/each}
