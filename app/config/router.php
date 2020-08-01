@@ -14,9 +14,6 @@ $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'re
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
 $router->add('/tryout/data','tryout::getAll');
-$router->add('/tryout/data/{idtryout}','tryout::getbyid');
-$router->add('/tryout/subtest','tryout::getsubtest');
-$router->add('/tryout/soal','tryout::getsoal');
 $router->notFound(
     [
         'controller' => 'index',
