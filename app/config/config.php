@@ -14,6 +14,7 @@ return new \Phalcon\Config([
         'username'   => getenv('DB_USERNAME'),
         'password'   => getenv('DB_PASSWORD'),
         'dbname'     => getenv('DB_NAME'),
+        'charset'    => 'utf8',
     ],
 
     'application' => [
