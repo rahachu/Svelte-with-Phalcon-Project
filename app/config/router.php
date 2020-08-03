@@ -13,6 +13,7 @@ $router->add('/confirm/{code}/{username}',['controller'=>'user','action'=>'confi
 $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'reset']);
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
+$router->add('/tryout/create',['controller'=>'tryout','action'=>'saveQuestion']);
 $router->notFound(
     [
         'controller' => 'index',
