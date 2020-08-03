@@ -13,7 +13,6 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 20px;
-    /* border-bottom: 3px solid #013183; */
     box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.2);
     position: fixed;
     width: 100%;
@@ -25,7 +24,21 @@
 
   .navigation img {
     height: 35px;
-    /* line-height: 35px; */
+  }
+
+  .logo {
+    display:flex;
+    flex-direction: row;
+  }
+
+  .nav-links {
+    line-height: 35px;
+    margin-left: 40px;
+    font-weight: 600;
+  }
+
+  .nav-links a{
+    margin-right: 40px;
   }
 
   .accounts{
@@ -64,6 +77,12 @@
     border: 2px solid #013183;
   }
 
+  /* mobile */
+  @media only screen and (max-width: 842px) {
+    .nav-links {
+      display: none;
+    }
+  }
 
 </style>
 
@@ -72,6 +91,17 @@
     <a href={$url('/index')}>
       <img src="./assets/logo.png" alt="logo">
     </a>
+    <div class="nav-links">
+      <a href="{$url('/index')}">
+        Paket Kelas
+      </a>
+      <a href="{$url('/index')}">
+        Paket Try Out
+      </a>
+      <a href="{$url('/index')}">
+        Pateron Blog
+      </a>
+    </div>
   </div>
   <div class="accounts">
     <a href={$url('/accounts/login')} class="login">Masuk</a>

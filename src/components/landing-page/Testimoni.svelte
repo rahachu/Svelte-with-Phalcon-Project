@@ -61,7 +61,6 @@
     width: 800px;
     padding: 50px;
     border: 8px solid skyblue;
-    border-radius: 20px;
     background-color: #fafafa;
   }
 
