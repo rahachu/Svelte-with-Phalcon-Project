@@ -78,7 +78,7 @@ let dummy = [
     option_c: "<p>Anak-anak yang sedang sakit demam, batuk, dan flu</p>",
     option_d:
       "<p>Orang yang keluar rumah tanpa menggunakan masker dan menghadiri kerumunan massa.</p>",
-    option_e: "<p>Semua Benar</p>",
+    option_e: "<p>Semua Benar </p>",
   },
   {
     no: 9,

@@ -8,7 +8,9 @@
   //  data tryout soal dan jawaban
   let dataSoal = [];
   let dataJawaban = [];
+  let tandaiSoal = []
   let title = ''
+  let listNumber = []
 
   // soal state
   let soalNo = localStorage.getItem('no_soal') || 1;
@@ -18,26 +20,31 @@
   let totalSoal = '';
   let activeSoal = false;
   let activeAnswered = false;
+  let activeTandaiSoal = false;
 
   $:activateOption ="";
   onMount(()=> {
     getOptionValue()
+    getOptionAnswered()
+    getMarkedQuestion(soalNo)
+    soalStore.getListNumber();
   })
 
 
   // get data soal dari soal store
-  soalStore.subscribe(val => {
+  soalStore.dataSoal.subscribe(val => {
     dataSoal  = val.subtest.soal;
     title     = val.subtest.judul;
+    totalSoal = val.subtest.soal.length
   });  
   
   // get data jawaban dari jawaban store
-  jawabanStore.subscribe(val =>{
-    dataJawaban = val
-  })
+  jawabanStore.subscribe(val => dataJawaban = val)
+  
+  // get data tandai soal dari soal store
+  soalStore.markQuestion.subscribe(val => tandaiSoal = val);
 
-  // total soal
-  totalSoal = dataSoal.length;
+  soalStore.listNumber.subscribe(val => listNumber = val)
 
   // disable tombol sebelumnya
   // disable tombol selanjutnya
@@ -63,6 +70,8 @@
     }else{
       disabledButtonPrev = false;
     }
+
+    getMarkedQuestion(soalNo)
   }
 
   if(soalNo == totalSoal){
@@ -76,8 +85,11 @@
       option
     }
     jawabanStore.createJawaban(data)
-    localStorage.setItem("A", JSON.stringify(dataJawaban))
-    Cookies.set('TRYOUTANSWER', JSON.stringify(dataJawaban));
+    listNumber.filter((number, i) => {
+      if(number.no == data.soal_no){
+        listNumber[i].terjawab = true;
+      }
+    })
     activateOption  = data
   }
 
@@ -110,9 +122,23 @@
     soalNo = currentSoal+1
   }
 
+  // get value tandai soal
+  function getMarkedQuestion(no){
+    listNumber.filter((number) => {
+      return number.no == no;
+    }).forEach(e => {
+      if(e.tandai_soal){
+        console.log("YE")
+        activeTandaiSoal = true
+      }else{
+        console.log("NO")
+        activeTandaiSoal = false
+      }
+    });
+  }
+
   // get soal terjawab
   function getOptionAnswered(){
-
   }
 
   // get soal ditandai
@@ -126,6 +152,7 @@
       disabledButtonPrev = true;
     }
     getOptionValueButton()
+    getMarkedQuestion(soalNo)
     localStorage.setItem('no_soal', soalNo);
   }
 
@@ -137,15 +164,34 @@
       activateSubmitButton = true
     }
     getOptionValueButton()
+    getMarkedQuestion(soalNo)
     localStorage.setItem('no_soal', soalNo);
+  }
+
+  // tandai soal
+  function handleTandaiSoal(){
+      const data = {
+        soal_no:parseInt(soalNo)
+      }
+
+      if(activeTandaiSoal){
+        soalStore.hapusTandaiSoal(data)
+      }else{
+        soalStore.tandaiSoal(data);
+      }
+      listNumber.filter((number, i) => {
+        if(number.no == data.soal_no){
+          listNumber[i].tandai_soal = !number.tandai_soal
+        }
+      })
   }
 
   // submit tombol tryout
   function submitTryOut(){
     console.log("SUBMITED")
   }
-</script>
 
+</script>
 <style>
 
   .tryout-navigation{
@@ -162,7 +208,7 @@
   .tryout-navigation .title{
     color: #fff;
     width: 100%;
-    height: 30%;
+    height: 20%;
     padding: 10px 0;
     background-color: var(--blue-color);
   }
@@ -175,6 +221,7 @@
   }
 
   .items-number{
+    position: relative;
     line-height: 60px;
     height: 60px;
     border-radius: 10px;
@@ -189,14 +236,33 @@
     cursor: pointer;
   }
 
-  .active-soal{
-    background-color: var(--blue-color);
+  .active-answered{
+    background-color: orange;
     color: #fff;
   }
 
-  .active-terjawab{
-    background-color: limegreen;
+  .active-tandai{
+    color: #000;
+  }
+
+  .active-tandai::after{
+    content:'';
+    position: absolute;
+    right:0;
+    top:-1px;
+    width:30px;
+    height:30px;
+    border-top-right-radius: 10px;
+    background-color: red;
+    /* background-image: url("/assets/flag.svg"); */
+    /* background-repeat:no-repeat; */
+    clip-path: polygon(0 0, 100% 100%, 100% 0);
+  }
+
+  .active-soal{
+    background-color: var(--blue-color);
     color: #fff;
+    z-index: 10;
   }
 
   .left-bar, .right-bar{
@@ -299,7 +365,6 @@
     padding: 30px;
   }
 </style>
-
 <div>
   <div class="columns">
     <div class="column left-bar is-one-quarter">
@@ -312,8 +377,13 @@
         </div>
         <div class="list-number">
         <!-- daftar soal -->
-          {#each dataSoal as {no}, i}
-            <div title={no} on:click={handleSoalClick} class:active-terjawab={i === currentSoal} class="items-number">
+          {#each listNumber as {no, tandai_soal, terjawab}, i}
+            <div title={no} 
+              on:click={handleSoalClick} 
+              class:active-soal={i === currentSoal} 
+              class:active-answered={terjawab}
+              class:active-tandai={tandai_soal}
+              class="items-number">
               {no}
             </div>
           {/each}
@@ -327,7 +397,7 @@
             <div class="time">
               <TryoutTime/>
             </div>
-            <button class="button is-primary">Submit</button>
+            <div></div>
           </div>
           <div class="soal">
             <div class="no-soal">
@@ -367,6 +437,12 @@
               <div class="option-value">
                 {@html dataSoal[currentSoal].option_e}
               </div>
+            </div>
+            <div class="jawaban-items">
+              <label class="checkbox">
+                <input type="checkbox" on:change={handleTandaiSoal} bind:checked={activeTandaiSoal}>
+                  Tandai Soal
+              </label>
             </div>
           </div>
           <div class="button-navigation-soal">

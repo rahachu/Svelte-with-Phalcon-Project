@@ -22,6 +22,8 @@ const store = () => {
         });
         update((n) => (state = [...n, data]));
       }
+      localStorage.setItem("A", JSON.stringify(state));
+      Cookies.set("TRYOUTANSWER", JSON.stringify(state));
     },
   };
 
