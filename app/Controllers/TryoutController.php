@@ -14,11 +14,42 @@ class TryoutController extends Controller
 
     public function getAllAction()
     {
-        $tryout = Tryout::find(); //Mengambil seluruh data tryout dari model Tryout.php
-        $subtest = Subtest::find(); //Mengambil seluruh data subtest dari model Subtest.php
-        $soal = Soal::find();   //Mengambil seluruh data soal dari model Soal.php
-        $tryout = [$tryout, $subtest, $soal];
-        return json_encode($tryout);    //Mengembalikan data berupa json
+        //Mengambil seluruh data tryout
+        $tryouts = Tryout::find();
+        $subtests = Subtest::find();
+        $soals = Soal::find();
+
+        //Mengubah data object menjadi array
+        $tryouts = json_decode(json_encode($tryouts),true);
+        $subtests = json_decode(json_encode($subtests),true);
+        $soals = json_decode(json_encode($soals),true);
+
+        //Inisiasi variabel array kosong
+        $new = [];  //Menampung object tryout
+        $sub = [];  //Menampung object subtest berdasarkan idtryout
+        $que = [];  //Menampung object soal berdasarkan idtryout dan idsubtest
+
+
+        foreach ($tryouts as $tryout){
+            foreach ($subtests as $subtest){
+                foreach($soals as $soal){
+                    if ($soal["subtest_idsubtest"] == $subtest["idsubtest"] AND $soal["subtest_tryout_idtryout"] == $tryout["idtryout"]){
+                        array_push($que, $soal);    //Mengisi soal berdasarkan idtryot dan idsubtest
+                    }
+
+                }
+                $subtest += array('soal'=>$que);    //Menambahkan property soal ke object subtest
+                $que = [];
+                if($subtest["tryout_idtryout"] == $tryout["idtryout"]){
+                    array_push($sub,$subtest);  //Mengisi subtest berdasarkan idtryout
+                }
+            }
+            $tryout += array('subtest'=>$sub);
+            array_push($new,$tryout);   //Menambahkan property subtest ke object tryout
+            $sub = [];          
+        };
+        
+        return json_encode($new);    //Mengembalikan data berupa json
     }
 
     public function getbyidAction($idtryout)
@@ -32,18 +63,37 @@ class TryoutController extends Controller
         ]);
 
         //Mengambil data subtest berdasarkan idtryout dari model Subtest.php
-        $subtest = Subtest::find([
+        $subtests = Subtest::find([
             'conditions' => 'tryout_idtryout=:idtryout:',
             'bind' => $conditions,
         ]);
 
         //Mengambil data soal berdasarkan idtryout dari model Soal.php
-        $soal = Soal::find([
+        $soals = Soal::find([
             'conditions' => 'subtest_tryout_idtryout=:idtryout:',
             'bind' => $conditions,
         ]);
         
-        $tryout = [$tryout,$subtest,$soal];
+        //Mengubah object menjadi array
+        $tryout = json_decode(json_encode($tryout),true);
+        $subtests = json_decode(json_encode($subtests),true);
+        $soals = json_decode(json_encode($soals),true);
+
+        //Inisiasi variabel penampung
+        $que = [];
+        $sub = [];
+        
+        foreach ($subtests as $subtest){
+            foreach($soals as $soal){
+                if ($soal["subtest_idsubtest"] == $subtest["idsubtest"]){
+                    array_push($que, $soal);    //Mengisi soal berdasarkan idsubtest
+                }
+            }
+            $subtest += array('soal'=>$que);    //Menambahkan property soal ke object subtest
+            $que = [];
+            array_push($sub,$subtest);  //Mengisi subtest berdasarkan idsubtest
+        }
+        $tryout += array("subtest" => $sub); //Menambahkan property subtest ke object tryout
 
         return json_encode($tryout);
     }
