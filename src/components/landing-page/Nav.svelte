@@ -1,6 +1,18 @@
 <script>
   import { url } from "@sveltech/routify";
+
+  let y = "";
+
+  let isShadow = false;
+  $:if(y > 0){
+    isShadow = true;
+  } else if(y === 0){
+    isShadow = false;
+  }
+
 </script>
+
+<svelte:window bind:scrollY={y}/>
 
 <style>
   a:hover{
@@ -13,13 +25,17 @@
     flex-direction: row;
     justify-content: space-between;
     padding: 20px;
-    box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.2);
     position: fixed;
     width: 100%;
     z-index: 100;
     top: 0;
     left: 0;
     border-radius: 0 0 5px 5px;
+    transition: .3s ease-in;
+  }
+
+  .navigation-shadow {
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
   }
 
   .navigation img {
@@ -86,7 +102,7 @@
 
 </style>
 
-<header class="navigation">
+<header class="navigation" class:navigation-shadow={isShadow}>
   <div class="logo">
     <a href={$url('/index')}>
       <img src="./assets/logo.png" alt="logo">

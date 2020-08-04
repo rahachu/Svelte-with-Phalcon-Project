@@ -48,6 +48,21 @@
 </script>
 
 <style>
+  .title-feature {
+    font-weight: 600;
+    color: var(--blue-color);
+  }
+
+  .subtitle {
+    font-weight: 600;
+    margin-bottom: 50px;
+    font-size: 16px;
+  }
+  
+  .testimoni{
+    padding: 20px;
+  }
+  
   .comment{
     display: flex;
     justify-content: center;
@@ -151,6 +166,11 @@
 
   /* mobile */
   @media only screen and (max-width: 768px) {
+    .subtitle {
+      font-size: 14px;
+      text-align: left;
+    }
+
     .comment .bubble-text{
       width: 400px;
     }
@@ -179,7 +199,11 @@
 
 </style>
 
-<div>
+<div class="testimoni">
+  <h3 class="title has-text-centered title-feature is-size-4-mobile is-size-3-tablet is-size-3-desktop mt-6">Testimoni</h3>
+  <p class="subtitle has-text-centered">
+    Apa kata mereka tentang Pateron
+  </p>
   <div class="comment">
   {#if visible}
     <div transition:fly="{{delay: 200, y:100, duration: 300, easing: cubicInOut }}" class="bubble-text">
