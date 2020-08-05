@@ -35,8 +35,8 @@ class Subtest extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("subtest");
-        $this->hasMany('idsubtest', 'Soal', 'subtest_idsubtest', ['alias' => 'Soal']);
-        $this->belongsTo('tryout_idtryout', 'Tryout', 'idtryout', ['alias' => 'Tryout']);
+        $this->hasMany('idsubtest', Soal::class, 'subtest_idsubtest', ['alias' => 'Soal']);
+        $this->belongsTo('tryout_idtryout', Tryout::class, 'idtryout', ['alias' => 'Tryout']);
     }
 
     /**

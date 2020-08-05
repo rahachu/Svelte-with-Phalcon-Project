@@ -13,7 +13,10 @@ $router->add('/confirm/{code}/{username}',['controller'=>'user','action'=>'confi
 $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'reset']);
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
-$router->add('/tryout/create',['controller'=>'tryout','action'=>'saveQuestion']);
+$router->addPost('/tryout/create',['controller'=>'tryout','action'=>'createTryout']);
+$router->addPost('/tryout/save',['controller'=>'tryout','action'=>'saveQuestion']);
+$router->add('/tryout/datalist',['controller'=>'tryout','action'=>'tryoutList']);
+$router->add('/tryout/fulldata',['controller'=>'tryout','action'=>'fulldata']);
 $router->notFound(
     [
         'controller' => 'index',

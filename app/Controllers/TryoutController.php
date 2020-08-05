@@ -11,6 +11,23 @@ use App\Models\soal;
 
 class TryoutController extends Controller
 {
+    public function createTryoutAction()
+    {
+        # Membuat tryout baru kosong
+        $postData = json_decode($this->request->getRawBody());
+        $tryout = new Tryout();
+        $tryout->name = $postData->name;
+        $tryout->tryout_price = $postData->tryout_price;
+        if ($tryout->save()) {
+            # Jika sukses membuat
+            $this->response->setStatusCode(201,"Created");
+        }
+        else {
+            # Jika gagal membuat
+            $this->response->setStatusCode(409,"Conflict");
+        }
+        return $this->response->send();
+    }
 
     public function saveQuestionAction()
     {
@@ -76,6 +93,32 @@ class TryoutController extends Controller
         }else{
             $this->response->setStatusCode(409,"Conflict");
         }
+        return $this->response->send();
+    }
+
+    public function tryoutListAction()
+    {
+        # memberikan daftar tryout
+        $tryouts = Tryout::find();
+        $this->response->setJsonContent($tryouts);
+        return $this->response->send();
+    }
+
+    public function fulldataAction()
+    {
+        # kembalikan data full tryout
+        $tryout = Tryout::findFirst(json_decode($this->request->getRawBody())->idtryout);
+        $subtest = $tryout->subtest;
+        $resp = $tryout->toArray();
+        $resp['subtest'] = $subtest->toArray();
+        $i = 0;
+        foreach ($subtest as $s) {
+            # loading soal
+            $soal = $s->soal;
+            $resp['subtest'][$i]['soal']=$soal;
+            $i++;
+        }
+        $this->response->setJsonContent($resp);
         return $this->response->send();
     }
 }
