@@ -1,22 +1,32 @@
 <script>
     import {dataTO} from './_store.js';
+    import { goto,beforeUrlChange } from "@sveltech/routify";
 
     let judul = '';
     let time = 0;
-    let templateSoal = {
-        question : '',
-        option_a : '',
-        option_b : '',
-        option_c : '',
-        option_d : '',
-        option_e : '',
-        kunci : null,
-        no : 0
+    const templateSoal = {
+        question : 'Masukan disini!',
+        option_a : 'Masukan disini!',
+        option_b : 'Masukan disini!',
+        option_c : 'Masukan disini!',
+        option_d : 'Masukan disini!',
+        option_e : 'Masukan disini!',
+        key : 'A',
+        no : 0,
+        solution: 'Masukan solusi persoalan disini'
     }
+    let isDirty = true;
 
     function addSoal(idSubtest) {
         dataTO.update(n => {
             n.subtest[idSubtest].soal.push({...templateSoal,no : n.subtest[idSubtest].soal.length+1});
+            return n;
+        })
+    }
+
+    function delSoal(idSubtest) {
+        dataTO.update(n => {
+            n.subtest[idSubtest].soal.pop();
             return n;
         })
     }
@@ -62,13 +72,15 @@
         </header>
         <div class="card-content">
             <div class="buttons">
-                {#each sub.soal as soal_value}
-                    <button class="button is-link is-light">{soal_value.no}</button>
+                {#each sub.soal as soal_value,j}
+                    <button on:click={(event) => {
+                        $goto('../soal',{subtest:i,soal:j});
+                    }} class="button is-link is-light">{soal_value.no}</button>
                 {:else}
                     <p>Belum ada soal &ensp;</p>
                 {/each}
                 <button on:click={() => addSoal(i)} class="button is-primary is-outlined"><span class="icon"><i class="fas fa-plus" aria-hidden="true"></i></span></button>
-                <button class="button is-danger is-outlined"><span class="icon"><i class="fas fa-trash" aria-hidden="true"></i></span></button>
+                <button on:click={() => delSoal(i)} class="button is-danger is-outlined"><span class="icon"><i class="fas fa-trash" aria-hidden="true"></i></span></button>
             </div>
         </div>
     </div>

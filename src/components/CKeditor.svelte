@@ -1,12 +1,11 @@
 <script>
     import { onMount } from 'svelte';
     import ClassicEditor from '../library/editor/ckeditor.js';
-    let editor;
+    export let editor = null;
 
     const initializeEditor = () => {
-		ClassicEditor
+		return ClassicEditor
 			.create( editor, {
-				
 				toolbar: {
 					items: [
 						'heading',
@@ -18,6 +17,7 @@
 						'numberedList',
 						'|',
 						'indent',
+						'alignment',
 						'outdent',
 						'|',
 						'imageUpload',
@@ -47,8 +47,8 @@
 				licenseKey: '',
 				
 			} )
-			.then( editor => {
-				window.editor = editor;	
+			.then( edit => {
+				editor = edit;	
 			} )
 			.catch( error => {
 				console.error( 'Oops, something gone wrong!' );
