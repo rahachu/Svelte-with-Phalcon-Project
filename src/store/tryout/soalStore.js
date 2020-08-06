@@ -41,7 +41,7 @@ const store = () => {
         // get from Cookies
         let getTandaiSoal = Cookies.get("MARKEDQUESTION") || false;
         let getJawabanSoal = Cookies.get("TRYOUTANSWER") || false;
-        let a = [];
+        let dataJawaban = [];
         for (let i = 0; i < val.subtest.soal.length; i++) {
           let data = {
             no: i + 1,
@@ -49,8 +49,8 @@ const store = () => {
             terjawab: false,
           };
           if (getTandaiSoal) {
-            JSON.parse(getTandaiSoal).map((asd) => {
-              if (asd.soal_no == i + 1) {
+            JSON.parse(getTandaiSoal).map((soal) => {
+              if (soal.soal_no == i + 1) {
                 data = {
                   no: i + 1,
                   tandai_soal: true,
@@ -61,16 +61,15 @@ const store = () => {
           }
 
           if (getJawabanSoal) {
-            JSON.parse(getJawabanSoal).map((aaa) => {
-              if (aaa.soal_no == i + 1) {
+            JSON.parse(getJawabanSoal).map((jawaban) => {
+              if (jawaban.soal_no == i + 1) {
                 data.terjawab = true;
               }
             });
           }
-          a.push(data);
+          dataJawaban.push(data);
         }
-        listNumber.set(a);
-        console.log(a);
+        listNumber.set(dataJawaban);
       });
     },
   };

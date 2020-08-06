@@ -25,6 +25,13 @@ const store = () => {
       localStorage.setItem("A", JSON.stringify(state));
       Cookies.set("TRYOUTANSWER", JSON.stringify(state));
     },
+    hapusJawaban(no) {
+      let a = state.filter((data) => data.soal_no != no);
+      state = a;
+      update((curState) => (curState = state));
+      localStorage.setItem("A", JSON.stringify(state));
+      Cookies.set("TRYOUTANSWER", JSON.stringify(state));
+    },
   };
 
   return {

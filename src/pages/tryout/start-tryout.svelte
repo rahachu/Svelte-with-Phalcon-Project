@@ -128,10 +128,8 @@
       return number.no == no;
     }).forEach(e => {
       if(e.tandai_soal){
-        console.log("YE")
         activeTandaiSoal = true
       }else{
-        console.log("NO")
         activeTandaiSoal = false
       }
     });
@@ -170,20 +168,32 @@
 
   // tandai soal
   function handleTandaiSoal(){
-      const data = {
-        soal_no:parseInt(soalNo)
-      }
+    const data = {
+      soal_no:parseInt(soalNo)
+    }
 
-      if(activeTandaiSoal){
-        soalStore.hapusTandaiSoal(data)
-      }else{
-        soalStore.tandaiSoal(data);
+    if(activeTandaiSoal){
+      soalStore.hapusTandaiSoal(data)
+    }else{
+      soalStore.tandaiSoal(data);
+    }
+    listNumber.filter((number, i) => {
+      if(number.no == data.soal_no){
+        listNumber[i].tandai_soal = !number.tandai_soal
       }
-      listNumber.filter((number, i) => {
-        if(number.no == data.soal_no){
-          listNumber[i].tandai_soal = !number.tandai_soal
-        }
-      })
+    })
+  }
+
+  function hapusJawaban(){
+    jawabanStore.hapusJawaban(soalNo)
+    jawabanStore.subscribe(val => dataJawaban = val)
+    activateOption = dataJawaban;
+    listNumber.filter((number, i) => {
+      if(number.no == soalNo){
+        number.terjawab = false
+      }
+    })
+    listNumber = listNumber
   }
 
   // submit tombol tryout
@@ -323,8 +333,18 @@
     display: flex;
     flex-direction:row;
     margin: 20px 0;
-    justify-content: flex-start;
+    justify-content: space-between;
     position: relative;
+    margin-top: 30px;
+  }
+
+  .jawaban-items input{
+    width: 20px;
+    height: 20px;
+  }
+
+  .jawaban-items label {
+    font-size: 18px;
   }
 
   .jawaban-items .option{
@@ -443,6 +463,7 @@
                 <input type="checkbox" on:change={handleTandaiSoal} bind:checked={activeTandaiSoal}>
                   Tandai Soal
               </label>
+              <button on:click={hapusJawaban} class="is-danger button">Hapus Pilihan</button>
             </div>
           </div>
           <div class="button-navigation-soal">
