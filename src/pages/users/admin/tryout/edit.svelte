@@ -1,8 +1,9 @@
 <script>
     import {dataTO} from './_store.js';
-    import { goto,beforeUrlChange } from "@sveltech/routify";
+    import { goto,params } from "@sveltech/routify";
 
     let judul = '';
+    let name = '';
     let time = 0;
     const templateSoal = {
         question : 'Masukan disini!',
@@ -16,6 +17,19 @@
         solution: 'Masukan solusi persoalan disini'
     }
     let isDirty = true;
+
+    let loadFullData = null;
+
+    if ($dataTO===null) {
+        loadFullData = fetch(`http://${window.location.host}/tryout/fulldata/${$params.idtryout}`)
+        .then(res=>res.json()).then((json)=>{
+            dataTO.update(n => json);
+            name = json.name;
+        });
+    }
+    else{
+        name = $dataTO.name;
+    }
 
     function addSoal(idSubtest) {
         dataTO.update(n => {
@@ -50,12 +64,28 @@
             return n;
         })
     }
+
+    function saveTO() {
+        let saveData = $dataTO;
+        saveData.name = name;
+        fetch(`http://${window.location.host}/tryout/save`,{
+        method: 'POST',
+        body: JSON.stringify(saveData)
+        })
+        .then(()=>{
+            $goto('../list');
+        })
+        .catch(e=>console.log(e.message))
+    }
 </script>
 
+{#await loadFullData}
+loading boss...
+{:then data}
 <div class="card" style="position: sticky; top: 0; z-index: 1;">
     <div class="columns is-vcentered card-content">
-        <div class="column"><input class="input is-large" type="text" placeholder="Judul Tryout"></div>
-        <button class="button is-info is-outlined is-large column is-2">save</button>
+        <div class="column"><input class="input is-large" type="text" placeholder="Judul Tryout" bind:value={name}></div>
+        <button class="button is-info is-outlined is-large column is-2" on:click={saveTO}>save</button>
     </div>
 </div>
 <div class="container" style="margin-top: 40px">
@@ -103,3 +133,6 @@
         </div>
     </div>
 </div>
+{:catch error}
+<p style="color: red">{error.message}</p>
+{/await}

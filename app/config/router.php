@@ -13,10 +13,17 @@ $router->add('/confirm/{code}/{username}',['controller'=>'user','action'=>'confi
 $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'reset']);
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
-$router->addPost('/tryout/create',['controller'=>'tryout','action'=>'createTryout']);
-$router->addPost('/tryout/save',['controller'=>'tryout','action'=>'saveQuestion']);
-$router->add('/tryout/datalist',['controller'=>'tryout','action'=>'tryoutList']);
-$router->add('/tryout/fulldata',['controller'=>'tryout','action'=>'fulldata']);
+
+//Tryout editor API
+$router->addPost('/tryout/create',['controller'=>'tryoutEditor','action'=>'createTryout']);
+$router->addDelete('/tryout/create',['controller'=>'tryoutEditor','action'=>'deleteTryout']);
+$router->addPost('/tryout/save',['controller'=>'tryoutEditor','action'=>'saveQuestion']);
+$router->add('/tryout/datalist',['controller'=>'tryoutEditor','action'=>'tryoutList']);
+$router->add('/tryout/fulldata/{idtryout}',['controller'=>'tryoutEditor','action'=>'fulldata']);
+$router->addPost('/tryout/publish/{idtryout}',['controller'=>'tryoutEditor','action'=>'publish']);
+$router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','action'=>'unpublish']);
+
+//Default route pass to svelte
 $router->notFound(
     [
         'controller' => 'index',

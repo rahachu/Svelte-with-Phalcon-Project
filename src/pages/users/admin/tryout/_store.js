@@ -1,8 +1,5 @@
 import { writable } from 'svelte/store';
 
-let TOdata = {
-    name: "Judul Tryout",
-    subtest: []
-}
+let TOdata = null
 
 export const dataTO = writable(TOdata);

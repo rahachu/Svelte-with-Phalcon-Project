@@ -16,11 +16,11 @@
             n.subtest[$params.subtest].soal[$params.soal].option_c=c.getData();
             n.subtest[$params.subtest].soal[$params.soal].option_d=d.getData();
             n.subtest[$params.subtest].soal[$params.soal].option_e=e.getData();
-            n.subtest[$params.subtest].soal[$params.soal].kunci=key;
+            n.subtest[$params.subtest].soal[$params.soal].key=key;
             n.subtest[$params.subtest].soal[$params.soal].solution=solution.getData();
             return n;
         })
-        $goto('../edit');
+        $goto('../edit',{idtryout:$dataTO.idtryout});
     }
 </script>
 
