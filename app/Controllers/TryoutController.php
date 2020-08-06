@@ -25,17 +25,29 @@ class TryoutController extends Controller
         $soals = json_decode(json_encode($soals),true);
 
         //Inisiasi variabel array kosong
-        $new = [];  //Menampung object tryout
+        $resp = [];  //Menampung object tryout
         $sub = [];  //Menampung object subtest berdasarkan idtryout
         $que = [];  //Menampung object soal berdasarkan idtryout dan idsubtest
+        $hidden_key = [];
 
 
         foreach ($tryouts as $tryout){
             foreach ($subtests as $subtest){
                 foreach($soals as $soal){
                     if ($soal["subtest_idsubtest"] == $subtest["idsubtest"] AND $soal["subtest_tryout_idtryout"] == $tryout["idtryout"]){
-                        array_push($que, $soal);    //Mengisi soal berdasarkan idtryot dan idsubtest
+                        $hidden_key += array(
+                            'no' => $soal['no'], 
+                            "subtest_idsubtest" => $soal["subtest_idsubtest"], 
+                            "subtest_tryout_idtryout" => $soal["subtest_tryout_idtryout"], 
+                            "question" => $soal["question"], 
+                            "option_a" => $soal["option_a"], 
+                            "option_b" => $soal["option_b"],
+                            "option_c" => $soal["option_c"],
+                            "option_d" => $soal["option_d"],
+                            "option_e" => $soal["option_e"]);
+                        array_push($que, $hidden_key);    //Mengisi soal berdasarkan idtryot dan idsubtest
                     }
+                    $hidden_key = [];
 
                 }
                 $subtest += array('soal'=>$que);    //Menambahkan property soal ke object subtest
@@ -45,11 +57,11 @@ class TryoutController extends Controller
                 }
             }
             $tryout += array('subtest'=>$sub);
-            array_push($new,$tryout);   //Menambahkan property subtest ke object tryout
+            array_push($resp,$tryout);   //Menambahkan property subtest ke object tryout
             $sub = [];          
         };
-        
-        return json_encode($new);    //Mengembalikan data berupa json
+        $this->response->setJsonContent($resp);
+        return $this->response->setJsonContent($resp);   //Mengembalikan data berupa json
     }
 
     public function getbyidAction($idtryout)
@@ -82,20 +94,32 @@ class TryoutController extends Controller
         //Inisiasi variabel penampung
         $que = [];
         $sub = [];
+        $hidden_key = [];
         
         foreach ($subtests as $subtest){
             foreach($soals as $soal){
                 if ($soal["subtest_idsubtest"] == $subtest["idsubtest"]){
-                    array_push($que, $soal);    //Mengisi soal berdasarkan idsubtest
+                    $hidden_key += array(
+                        'no' => $soal['no'], 
+                        "subtest_idsubtest" => $soal["subtest_idsubtest"], 
+                        "subtest_tryout_idtryout" => $soal["subtest_tryout_idtryout"], 
+                        "question" => $soal["question"], 
+                        "option_a" => $soal["option_a"], 
+                        "option_b" => $soal["option_b"],
+                        "option_c" => $soal["option_c"],
+                        "option_d" => $soal["option_d"],
+                        "option_e" => $soal["option_e"]);
+                    array_push($que, $hidden_key);    //Mengisi soal berdasarkan idsubtest
                 }
+                $hidden_key = [];
             }
             $subtest += array('soal'=>$que);    //Menambahkan property soal ke object subtest
             $que = [];
             array_push($sub,$subtest);  //Mengisi subtest berdasarkan idsubtest
         }
         $tryout += array("subtest" => $sub); //Menambahkan property subtest ke object tryout
-
-        return json_encode($tryout);
+        $this->response->setJsonContent($tryout);
+        return $this->response->setJsonContent($tryout);
     }
 
 }
