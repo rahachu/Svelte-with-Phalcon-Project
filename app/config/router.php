@@ -15,6 +15,7 @@ $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
 $router->add('/tryout/data','tryout::getAll');
 $router->add('/tryout/data/{idtryout}','tryout::getbyid');
+$router->addPost('/tryout/siswa/answer', 'tryout::siswaAnswer');
 $router->notFound(
     [
         'controller' => 'index',
