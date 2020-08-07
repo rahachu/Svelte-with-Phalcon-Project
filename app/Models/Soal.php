@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Phalcon\Mvc\Model;
-
 class Soal extends \Phalcon\Mvc\Model
 {
 
@@ -80,6 +78,7 @@ class Soal extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("soal");
+        $this->hasMany('no', 'SiswaHasSoal', 'soal_no', ['alias' => 'SiswaHasSoal']);
         $this->belongsTo('subtest_idsubtest', 'Subtest', 'idsubtest', ['alias' => 'Subtest']);
     }
 

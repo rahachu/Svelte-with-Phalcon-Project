@@ -6,6 +6,7 @@ namespace App\Controllers;
 Use App\Models\Tryout;
 Use App\Models\Subtest;
 Use App\Models\Soal;
+Use App\Models\SiswaHasSoal;
 Use App\Library\Exception;
 use Phalcon\Mvc\Controller;
 
@@ -120,6 +121,24 @@ class TryoutController extends Controller
         $tryout += array("subtest" => $sub); //Menambahkan property subtest ke object tryout
         $this->response->setJsonContent($tryout);
         return $this->response->setJsonContent($tryout);
+    }
+
+    public function siswaAnswerAction (){
+        $postData = json_decode($this->request->getRawBody());
+        $answer = new SiswaHasSoal();
+        $answer->siswa_iduser = $postData->siswa_iduser;
+        $answer->soal_no = $postData->soal_no;
+        $answer->answer = $postData->answer;
+        $answer->soal_subtest_idsubtest = $postData->soal_subtest_idsubtest;
+        $answer->soal_subtest_tryout_idtryout = $postData->soal_subtest_tryout_idtryout;
+        
+        if ($answer->save()) {
+            $this->response->setStatusCode(201,"Saved");
+        } else{
+            $this->response->setStatusCode(409,"Conflict");
+        }
+
+        return $this->response->send();
     }
 
 }
