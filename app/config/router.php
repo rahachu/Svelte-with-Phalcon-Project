@@ -23,6 +23,9 @@ $router->add('/tryout/fulldata/{idtryout}',['controller'=>'tryoutEditor','action
 $router->addPost('/tryout/publish/{idtryout}',['controller'=>'tryoutEditor','action'=>'publish']);
 $router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','action'=>'unpublish']);
 
+//Payment API
+$router->addPost('/tryout/publish/{idtryout}',['controller' => 'payment', 'action'=>'insertProduct']);
+
 //Default route pass to svelte
 $router->notFound(
     [
