@@ -2,6 +2,7 @@
     export let value = [];
     let nameFile = [];
     let newFile = null;
+    let dropzone;
     
     function uploadFile() {
         const reader = new FileReader();
@@ -9,11 +10,18 @@
             value = value.concat(e.target.result);
         }
         nameFile.push(newFile.files[0].name);
-        reader.readAsDataURL(newFile.files[0])
+        reader.readAsDataURL(newFile.files[0]);
+        dropzone.style.backgroundColor = 'transparent';
+    }
+
+    function delFile(i) {
+        value = value.filter((value,index,arr)=>index!==i);
+        nameFile = nameFile.filter((value,index,arr)=>index!==i);
+        newFile.value='';
     }
 </script>
 
-<div class="dropzone">
+<div bind:this={dropzone} on:dragover={()=>{dropzone.style.backgroundColor = 'beige'}} on:dragleave={()=>{dropzone.style.backgroundColor = 'transparent'}} class="dropzone">
     <input type="file" accept="image/*" name="img_logo" class="dropzone-file" on:change={uploadFile} bind:this={newFile}>
     <div class="dropzone-content">
         <i class="fa fa-upload title is-4"></i>
@@ -24,12 +32,14 @@
 {#each value as image, i}
 <div class="card column is-3">
   <header class="card-header">
-    <p class="card-header-title">
+    <div class="nowraptext">
       {nameFile[i]}
-    </p>
-      <span class="icon">
+    </div>
+    <p>
+      <span class="icon" on:click={()=>{delFile(i)}}>
         <i class="fas fa-times has-text-danger" aria-hidden="true"></i>
       </span>
+    </p>
   </header>
     <div class="card-image">
         <img class="image-uploaded" src="{image}" alt="">
@@ -41,13 +51,12 @@
 <style>
 .dropzone{
     border: 1px dashed;
-    margin: 10px;
     height: 150px;
 }
 
 .dropzone-content{
     height: 100%;
-    padding: 30px 0;
+    padding: 30px 30px;
     text-align: center;
 }
 
@@ -55,14 +64,13 @@
 .dropzone-file:focus {
   position: absolute;
   outline: none !important;
-  width: 100%;
+  width: 90%;
   height: 150px;
   cursor: pointer;
   opacity: 0;
 }
 
-.dropzone:hover,
-.dropzone.dragover{
+.dropzone:hover{
     opacity: 0.5;
 }
 
@@ -78,10 +86,21 @@
     opacity: 0.5;
 }
 
+.nowraptext{
+    text-overflow: ellipsis!important;
+    width: 88%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
 @media only screen and (min-width: 769px) {
   .card-image{
         max-height: 250px;
         overflow: hidden;
+    }
+    
+    .nowraptext{
+        width: 95%;
     }
 }
 </style>
