@@ -1,6 +1,6 @@
 <?php
-
-class SiswaBuyProduct extends \Phalcon\Mvc\Model
+namespace App\Models;
+class Buktipembayaran extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -37,31 +37,7 @@ class SiswaBuyProduct extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $proof_of_pyment1;
-
-    /**
-     *
-     * @var string
-     */
-    public $proof_of_payment2;
-
-    /**
-     *
-     * @var string
-     */
-    public $proof_of_payment3;
-
-    /**
-     *
-     * @var string
-     */
-    public $proof_of_payment4;
-
-    /**
-     *
-     * @var string
-     */
-    public $proof_of_payment5;
+    public $data;
 
     /**
      *
@@ -81,8 +57,9 @@ class SiswaBuyProduct extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("siswa_buy_product");
-        $this->belongsTo('iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
+        $this->setSource("buktipembayaran");
+        $this->belongsTo('iduser', 'App\\Models\\Siswa', 'iduser', ['reuseable' => true,
+        'alias' => 'Siswa']);
     }
 
     /**
@@ -92,14 +69,14 @@ class SiswaBuyProduct extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'siswa_buy_product';
+        return 'buktipembayaran';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaBuyProduct[]|SiswaBuyProduct|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Buktipembayaran[]|Buktipembayaran|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -110,7 +87,7 @@ class SiswaBuyProduct extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaBuyProduct|\Phalcon\Mvc\Model\ResultInterface
+     * @return Buktipembayaran|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

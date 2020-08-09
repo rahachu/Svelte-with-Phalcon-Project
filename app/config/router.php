@@ -23,8 +23,14 @@ $router->add('/tryout/fulldata/{idtryout}',['controller'=>'tryoutEditor','action
 $router->addPost('/tryout/publish/{idtryout}',['controller'=>'tryoutEditor','action'=>'publish']);
 $router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','action'=>'unpublish']);
 
-//Payment API
-$router->addPost('/tryout/publish/{idtryout}',['controller' => 'payment', 'action'=>'insertProduct']);
+//Siswa Payment API 
+$router->addPost('/dashboard/{idproduct}/{payment_method}',['controller' => 'siswaPayment', 'action'=>'postPayment']);
+$router->addGet('/dashboard/{idproduct}',['controller'=>"siswaPayment", 'action'=>'getPaymentMethod']);
+
+//Admin Payment API
+$router->addGet('/admin/validation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListValidated']);
+$router->addGet('/admin/unvalidation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListUnvalidated']);
+$router->addPost('/admin/unvalidation/:idpembayaran',['controller' => 'adminPayment','action'=> 'postValidation']);
 
 //Default route pass to svelte
 $router->notFound(
