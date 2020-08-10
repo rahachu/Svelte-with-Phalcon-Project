@@ -5,7 +5,7 @@
   import { goto } from '@sveltech/routify'
   import { soalStore } from '../../store/tryout/soalStore.js'
   // Library
-  import { setEncryptCookie } from "../../library/SetCryptoCookie";
+  import { setEncryptCookie, setDecryptCookie } from "../../library/SetCryptoCookie";
 
   let timeInMinute = ''
   let subtestId = ''
@@ -16,9 +16,10 @@
 
   soalStore.subtestId.subscribe( id => {
     subtestId = id;
-    setEncryptCookie("SUBTEST", subtestId)
+    setEncryptCookie("SUBTEST", parseInt(subtestId))
   })
 
+  let a = setDecryptCookie("SUBTEST", "number");
   async function setupSoalState(){
     await soalStore.getSoalApi();
     await soalStore.dataSoal.subscribe(tryout => {
@@ -30,7 +31,6 @@
 
   function handleKerjakan(){
     soalStore.startTryOut(timeInMinute);
-    console.log(Cookies.get("SUBTEST"))
     $goto('/tryout/start-tryout');
   }
 </script>

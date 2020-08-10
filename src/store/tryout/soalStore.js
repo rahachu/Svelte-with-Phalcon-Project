@@ -10,12 +10,13 @@ const store = () => {
   // let SECRET_KEY = "U2FsdGVkX196hp4EfKBtbvKnMpzlHZ5cyWeyYiS0P64Pateron2020";
 
   // LIST NUMBER STATE ===============================================
-  let subtestId = writable(0);
+  let decryptSubtestId = setDecryptCookie("SUBTEST", "number");
+  decryptSubtestId.length == 0 ? (decryptSubtestId = 0) : decryptSubtestId;
+  let subtestId = writable(decryptSubtestId);
   // =================================================================
 
   // SOAL STATE =====================================================
   let state = setDecryptCookie("SOALDATA", "object");
-  console.log(state);
   const dataSoal = writable(state);
   // =================================================================
 
@@ -30,7 +31,6 @@ const store = () => {
   //   ? (checkMarkedQuestion = JSON.parse(Cookies.get("MARKEDQUESTION")))
   //   : false;
   let checkMarkedQuestionState = setDecryptCookie("MARKEDQUESTION", "object");
-  console.log(checkMarkedQuestionState);
   let markQuestion = writable(checkMarkedQuestionState);
   // =================================================================
 

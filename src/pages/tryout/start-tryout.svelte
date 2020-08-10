@@ -6,7 +6,7 @@
   import { soalStore } from '../../store/tryout/soalStore.js'
   import { jawabanStore } from '../../store/tryout/jawabanStore.js'
   // Library
-  import { setEncryptCookie } from "../../library/SetCryptoCookie";
+  import { setEncryptCookie, setDecryptCookie } from "../../library/SetCryptoCookie";
 
   //  data tryout soal dan jawaban
   let timeInMinute = '';
@@ -15,8 +15,8 @@
   let tandaiSoal = []
   let title = ''
 
-  let decryptSubtest  = CryptoJS.AES.decrypt(Cookies.get("SUBTEST"), soalStore.SECRET_KEY);
-  let subtestId = decryptSubtest.toString(CryptoJS.enc.Utf8) || 0;
+  let subtestId = setDecryptCookie("SUBTEST", "number");
+  console.log(subtestId)
   let listNumber = []
 
   // soal state
@@ -31,13 +31,14 @@
   let activeTandaiSoal = false;
 
   $:activateOption ="";
-    setupDataSoal();
   onMount(()=> {
+    soalStore.subtestId.subscribe(id => subtestId = id)
     soalStore.getListNumber();
     getOptionValue()
     getOptionAnswered()
     getMarkedQuestion(soalNo)
   })
+  setupDataSoal();
 
 
   // disable tombol sebelumnya
@@ -51,8 +52,6 @@
   }
 
   function setupDataSoal(){
-    soalStore.subtestId.subscribe(id => subtestId = id)
-    console.log(subtestId)
     // get data soal dari soal store
     soalStore.dataSoal.subscribe(val => {
       dataSoal  = val.subtest[subtestId].soal;
@@ -213,11 +212,12 @@
   // submit tombol tryout
   function submitTryOut(){
     isLoading = true
+    subtestId = parseInt(subtestId)
     soalStore.subtestId.update(id => subtestId += 1)
     soalStore.subtestId.subscribe(id => {
       subtestId = id 
+      setEncryptCookie("SUBTEST", parseInt(subtestId))
     })
-    setEncryptCookie("SUBTEST", subtestId)
 
     // setup Data Soal
     setupDataSoal();

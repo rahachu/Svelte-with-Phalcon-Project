@@ -7,7 +7,6 @@ import {
 
 const store = () => {
   let state = setDecryptCookie("TRYOUTANSWER", "object");
-  console.log(state);
   const { subscribe, set, update } = writable(state);
 
   const methods = {
