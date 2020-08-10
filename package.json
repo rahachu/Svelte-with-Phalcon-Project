@@ -18,6 +18,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "js-cookie": "^2.2.1"
   }
 }

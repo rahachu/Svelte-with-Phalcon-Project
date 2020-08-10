@@ -1,15 +1,22 @@
 <script>
-  import {onMount} from 'svelte' 
   import Cookies from 'js-cookie'
+  import CryptoJS from 'crypto-js'
   import TryoutTime from '../../components/tryout/TryoutTime.svelte'
-  import { soalStore } from "../../store/tryout/soalStore.js"
-  import { jawabanStore } from "../../store/tryout/jawabanStore.js"
+  import { onMount } from 'svelte' 
+  import { soalStore } from '../../store/tryout/soalStore.js'
+  import { jawabanStore } from '../../store/tryout/jawabanStore.js'
+  // Library
+  import { setEncryptCookie } from "../../library/SetCryptoCookie";
 
   //  data tryout soal dan jawaban
+  let timeInMinute = '';
   let dataSoal = [];
   let dataJawaban = [];
   let tandaiSoal = []
   let title = ''
+
+  let decryptSubtest  = CryptoJS.AES.decrypt(Cookies.get("SUBTEST"), soalStore.SECRET_KEY);
+  let subtestId = decryptSubtest.toString(CryptoJS.enc.Utf8) || 0;
   let listNumber = []
 
   // soal state
@@ -18,33 +25,20 @@
 
   // active state
   let totalSoal = '';
+  let isLoading = false;
   let activeSoal = false;
   let activeAnswered = false;
   let activeTandaiSoal = false;
 
   $:activateOption ="";
+    setupDataSoal();
   onMount(()=> {
+    soalStore.getListNumber();
     getOptionValue()
     getOptionAnswered()
     getMarkedQuestion(soalNo)
-    soalStore.getListNumber();
   })
 
-
-  // get data soal dari soal store
-  soalStore.dataSoal.subscribe(val => {
-    dataSoal  = val.subtest.soal;
-    title     = val.subtest.judul;
-    totalSoal = val.subtest.soal.length
-  });  
-  
-  // get data jawaban dari jawaban store
-  jawabanStore.subscribe(val => dataJawaban = val)
-  
-  // get data tandai soal dari soal store
-  soalStore.markQuestion.subscribe(val => tandaiSoal = val);
-
-  soalStore.listNumber.subscribe(val => listNumber = val)
 
   // disable tombol sebelumnya
   // disable tombol selanjutnya
@@ -54,6 +48,26 @@
   let activateSubmitButton = false;
   if(soalNo == 1){
     disabledButtonPrev = true;
+  }
+
+  function setupDataSoal(){
+    soalStore.subtestId.subscribe(id => subtestId = id)
+    console.log(subtestId)
+    // get data soal dari soal store
+    soalStore.dataSoal.subscribe(val => {
+      dataSoal  = val.subtest[subtestId].soal;
+      title     = val.subtest[subtestId].judul;
+      totalSoal = val.subtest[subtestId].soal.length;
+      timeInMinute = val.subtest[subtestId].time_in_minute / 60
+    });  
+    
+    // get data jawaban dari jawaban store
+    jawabanStore.subscribe(val => dataJawaban = val)
+    
+    // get data tandai soal dari soal store
+    soalStore.markQuestion.subscribe(val => tandaiSoal = val);
+
+    soalStore.listNumber.subscribe(val => listNumber = val)
   }
 
   // handle navigation soal
@@ -198,7 +212,27 @@
 
   // submit tombol tryout
   function submitTryOut(){
-    console.log("SUBMITED")
+    isLoading = true
+    soalStore.subtestId.update(id => subtestId += 1)
+    soalStore.subtestId.subscribe(id => {
+      subtestId = id 
+    })
+    setEncryptCookie("SUBTEST", subtestId)
+
+    // setup Data Soal
+    setupDataSoal();
+
+    // setup timer
+    soalStore.startTryOut(timeInMinute)
+
+    // setup nomor
+    soalNo = 1;
+    localStorage.setItem('no_soal', soalNo)
+    soalStore.getListNumber();
+
+    setTimeout(() => {
+      isLoading = false
+    }, 2000);
   }
 
 </script>
@@ -386,100 +420,104 @@
   }
 </style>
 <div>
-  <div class="columns">
-    <div class="column left-bar is-one-quarter">
-      <div class="tryout-navigation">
-        <div class="title">
-          <h3 class="title has-text-centered is-3">
-            TRYOUT
-            <p class="title is-5">{title}</p>
-          </h3>
-        </div>
-        <div class="list-number">
-        <!-- daftar soal -->
-          {#each listNumber as {no, tandai_soal, terjawab}, i}
-            <div title={no} 
-              on:click={handleSoalClick} 
-              class:active-soal={i === currentSoal} 
-              class:active-answered={terjawab}
-              class:active-tandai={tandai_soal}
-              class="items-number">
-              {no}
-            </div>
-          {/each}
+  {#if isLoading}
+    <h5>Loading...</h5>
+  {:else}
+    <div class="columns">
+      <div class="column left-bar is-one-quarter">
+        <div class="tryout-navigation">
+          <div class="title">
+            <h3 class="title has-text-centered is-3">
+              TRYOUT
+              <p class="title is-5">{title}</p>
+            </h3>
+          </div>
+          <div class="list-number">
+          <!-- daftar soal -->
+            {#each listNumber as {no, tandai_soal, terjawab}, i}
+              <div title={no} 
+                on:click={handleSoalClick} 
+                class:active-soal={i === currentSoal} 
+                class:active-answered={terjawab}
+                class:active-tandai={tandai_soal}
+                class="items-number">
+                {no}
+              </div>
+            {/each}
+          </div>
         </div>
       </div>
-    </div>
-    <div class="column right-bar">
-      <div class="tryout-content">
-        <div class="soal-data">
-          <div class="action-soal">
-            <div class="time">
-              <TryoutTime/>
+      <div class="column right-bar">
+        <div class="tryout-content">
+          <div class="soal-data">
+            <div class="action-soal">
+              <div class="time">
+                <TryoutTime/>
+              </div>
+              <div></div>
             </div>
-            <div></div>
-          </div>
-          <div class="soal">
-            <div class="no-soal">
-              <h3 class="subtitle is-5">Soal Ke <b>{dataSoal[currentSoal].no}/{totalSoal}</b></h3><hr>
-            </div>
-            <div class="soal-text">
-              {@html dataSoal[currentSoal].question}
-            </div>
-          </div>
-          <div class="jawaban">
-            <div class="jawaban-items">
-              <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "A"} class="option" on:click={() => handlePilihOption('A')}>A</div>
-              <div class="option-value">
-                {@html dataSoal[currentSoal].option_a}
+            <div class="soal">
+              <div class="no-soal">
+                <h3 class="subtitle is-5">Soal Ke <b>{dataSoal[currentSoal].no}/{totalSoal}</b></h3><hr>
+              </div>
+              <div class="soal-text">
+                {@html dataSoal[currentSoal].question}
               </div>
             </div>
-            <div class="jawaban-items">
-              <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "B"} class="option" on:click={() => handlePilihOption('B')}>B</div>
-              <div class="option-value">
-                {@html dataSoal[currentSoal].option_b}
+            <div class="jawaban">
+              <div class="jawaban-items">
+                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "A"} class="option" on:click={() => handlePilihOption('A')}>A</div>
+                <div class="option-value">
+                  {@html dataSoal[currentSoal].option_a}
+                </div>
+              </div>
+              <div class="jawaban-items">
+                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "B"} class="option" on:click={() => handlePilihOption('B')}>B</div>
+                <div class="option-value">
+                  {@html dataSoal[currentSoal].option_b}
+                </div>
+              </div>
+              <div class="jawaban-items">
+                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "C"} class="option" on:click={() => handlePilihOption('C')}>C</div>
+                <div class="option-value">
+                  {@html dataSoal[currentSoal].option_c}
+                </div>
+              </div>
+              <div class="jawaban-items">
+                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "D"} class="option" on:click={() => handlePilihOption('D')}>D</div>
+                <div class="option-value">
+                  {@html dataSoal[currentSoal].option_d}
+                </div>
+              </div>
+              <div class="jawaban-items">
+                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "E"} class="option" on:click={() => handlePilihOption('E')}>E</div>
+                <div class="option-value">
+                  {@html dataSoal[currentSoal].option_e}
+                </div>
+              </div>
+              <div class="jawaban-items">
+                <label class="checkbox">
+                  <input type="checkbox" on:change={handleTandaiSoal} bind:checked={activeTandaiSoal}>
+                    Tandai Soal
+                </label>
+                <button on:click={hapusJawaban} class="is-danger button">Hapus Pilihan</button>
               </div>
             </div>
-            <div class="jawaban-items">
-              <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "C"} class="option" on:click={() => handlePilihOption('C')}>C</div>
-              <div class="option-value">
-                {@html dataSoal[currentSoal].option_c}
-              </div>
-            </div>
-            <div class="jawaban-items">
-              <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "D"} class="option" on:click={() => handlePilihOption('D')}>D</div>
-              <div class="option-value">
-                {@html dataSoal[currentSoal].option_d}
-              </div>
-            </div>
-            <div class="jawaban-items">
-              <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "E"} class="option" on:click={() => handlePilihOption('E')}>E</div>
-              <div class="option-value">
-                {@html dataSoal[currentSoal].option_e}
-              </div>
-            </div>
-            <div class="jawaban-items">
-              <label class="checkbox">
-                <input type="checkbox" on:change={handleTandaiSoal} bind:checked={activeTandaiSoal}>
-                  Tandai Soal
-              </label>
-              <button on:click={hapusJawaban} class="is-danger button">Hapus Pilihan</button>
-            </div>
-          </div>
-          <div class="button-navigation-soal">
-            <button disabled={disabledButtonPrev} on:click={handlePrev} class="button is-link is-outlined">
-              <span>Sebelumnya</span>
-            </button>
-            {#if activateSubmitButton}
-              <button on:click={submitTryOut} class="button is-primary">Submit</button>
-            {:else}
-              <button disabled={disabledButtonNext} on:click={handleNext} class="button is-link is-outlined">
-                <span>Selanjutnya</span>
+            <div class="button-navigation-soal">
+              <button disabled={disabledButtonPrev} on:click={handlePrev} class="button is-link is-outlined">
+                <span>Sebelumnya</span>
               </button>
-            {/if}
+              {#if activateSubmitButton}
+                <button on:click={submitTryOut} class="button is-primary">Submit</button>
+              {:else}
+                <button disabled={disabledButtonNext} on:click={handleNext} class="button is-link is-outlined">
+                  <span>Selanjutnya</span>
+                </button>
+              {/if}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {/if}
 </div>

@@ -1,15 +1,8 @@
 <script>
 	import Cookies from 'js-cookie';
-  import { goto } from '@sveltech/routify'
+	import { goto } from '@sveltech/routify'
 
 	$:data 	= '';
-	// let today = new Date();
-	// 	let bulan 	= today.toLocaleString('default', { month: 'short' });
-	// 	let tanggal = today.getDate()
-	// 	let tahun 	= today.getFullYear()
-	// 	let jam 		= today.getHours()+2
-	// 	let menit 	= today.getMinutes()
-	// 	let detik 	= today.getSeconds()
 
 	let countDown = new Date(`${getCookie("TRYOUTTIME")}`);
 	

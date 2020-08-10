@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `subtest` (
   `judul` VARCHAR(45) NULL,
   `time_in_minute` INT NULL,
   PRIMARY KEY (`idsubtest`, `tryout_idtryout`),
-  INDEX `fk_subtest_tryout1_idx` (`tryout_idtryout` ASC) VISIBLE,
+  INDEX `fk_subtest_tryout1_idx` (`tryout_idtryout` ASC),
   CONSTRAINT `fk_subtest_tryout1`
     FOREIGN KEY (`tryout_idtryout`)
     REFERENCES `tryout` (`idtryout`)
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `soal` (
   `key` ENUM('A', 'B', 'C', 'D', 'E') NULL,
   `solution` LONGTEXT NULL,
   PRIMARY KEY (`no`, `subtest_idsubtest`, `subtest_tryout_idtryout`),
-  INDEX `fk_soal_subtest1_idx` (`subtest_idsubtest` ASC, `subtest_tryout_idtryout` ASC) VISIBLE,
+  INDEX `fk_soal_subtest1_idx` (`subtest_idsubtest` ASC, `subtest_tryout_idtryout` ASC),
   CONSTRAINT `fk_soal_subtest1`
     FOREIGN KEY (`subtest_idsubtest` , `subtest_tryout_idtryout`)
     REFERENCES `subtest` (`idsubtest` , `tryout_idtryout`)
@@ -151,8 +151,8 @@ CREATE TABLE IF NOT EXISTS `siswa_has_tryout` (
   `tryout_idtryout` INT NOT NULL,
   `confirm_time` VARCHAR(45) NULL,
   PRIMARY KEY (`siswa_iduser`, `tryout_idtryout`),
-  INDEX `fk_siswa_has_tryout_tryout1_idx` (`tryout_idtryout` ASC) VISIBLE,
-  INDEX `fk_siswa_has_tryout_siswa1_idx` (`siswa_iduser` ASC) VISIBLE,
+  INDEX `fk_siswa_has_tryout_tryout1_idx` (`tryout_idtryout` ASC),
+  INDEX `fk_siswa_has_tryout_siswa1_idx` (`siswa_iduser` ASC),
   CONSTRAINT `fk_siswa_has_tryout_siswa1`
     FOREIGN KEY (`siswa_iduser`)
     REFERENCES `siswa` (`iduser`)
@@ -178,8 +178,8 @@ CREATE TABLE IF NOT EXISTS `siswa_has_soal` (
   `soal_subtest_idsubtest` INT NOT NULL,
   `soal_subtest_tryout_idtryout` INT NOT NULL,
   PRIMARY KEY (`siswa_iduser`, `soal_no`, `soal_subtest_idsubtest`, `soal_subtest_tryout_idtryout`),
-  INDEX `fk_siswa_has_soal_soal1_idx` (`soal_no` ASC, `soal_subtest_idsubtest` ASC, `soal_subtest_tryout_idtryout` ASC) VISIBLE,
-  INDEX `fk_siswa_has_soal_siswa1_idx` (`siswa_iduser` ASC) VISIBLE,
+  INDEX `fk_siswa_has_soal_soal1_idx` (`soal_no` ASC, `soal_subtest_idsubtest` ASC, `soal_subtest_tryout_idtryout` ASC),
+  INDEX `fk_siswa_has_soal_siswa1_idx` (`siswa_iduser` ASC),
   CONSTRAINT `fk_siswa_has_soal_siswa1`
     FOREIGN KEY (`siswa_iduser`)
     REFERENCES `siswa` (`iduser`)

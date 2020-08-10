@@ -1,11 +1,13 @@
-import Cookies from "js-cookie";
 import { writable } from "svelte/store";
+// Library
+import {
+  setEncryptCookie,
+  setDecryptCookie,
+} from "../../library/SetCryptoCookie";
 
 const store = () => {
-  let checkCookie = Cookies.get("TRYOUTANSWER") || false;
-  checkCookie ? (checkCookie = JSON.parse(Cookies.get("TRYOUTANSWER"))) : false;
-  let state = checkCookie || [];
-
+  let state = setDecryptCookie("TRYOUTANSWER", "object");
+  console.log(state);
   const { subscribe, set, update } = writable(state);
 
   const methods = {
@@ -23,14 +25,16 @@ const store = () => {
         update((n) => (state = [...n, data]));
       }
       localStorage.setItem("A", JSON.stringify(state));
-      Cookies.set("TRYOUTANSWER", JSON.stringify(state));
+      // Cookies.set("TRYOUTANSWER", JSON.stringify(state));
+      setEncryptCookie("TRYOUTANSWER", state);
     },
     hapusJawaban(no) {
       let a = state.filter((data) => data.soal_no != no);
       state = a;
       update((curState) => (curState = state));
       localStorage.setItem("A", JSON.stringify(state));
-      Cookies.set("TRYOUTANSWER", JSON.stringify(state));
+      // Cookies.set("TRYOUTANSWER", JSON.stringify(state));
+      setEncryptCookie("TRYOUTANSWER", state);
     },
   };
 
