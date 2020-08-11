@@ -122,8 +122,8 @@ class TryoutController extends Controller
         $this->response->setJsonContent($tryout);
         return $this->response->setJsonContent($tryout);
     }
-
-    public function siswaAnswerAction (){
+    
+    public function saveSiswaAnswerAction (){
         $postData = json_decode($this->request->getRawBody());
         $answer = new SiswaHasSoal();
         $answer->siswa_iduser = $postData->siswa_iduser;
@@ -131,7 +131,7 @@ class TryoutController extends Controller
         $answer->answer = $postData->answer;
         $answer->soal_subtest_idsubtest = $postData->soal_subtest_idsubtest;
         $answer->soal_subtest_tryout_idtryout = $postData->soal_subtest_tryout_idtryout;
-        
+
         if ($answer->save()) {
             $this->response->setStatusCode(201,"Saved");
         } else{
@@ -139,6 +139,17 @@ class TryoutController extends Controller
         }
 
         return $this->response->send();
+    }
+
+    public function getSiswaAnswerAction ($siswa_iduser, $soal_subtest_tryout_idtryout,$soal_subtest_idsubtest) {
+        $conditions = ['siswa_iduser'=>$siswa_iduser, 'soal_subtest_idsubtest' => $soal_subtest_idsubtest, 'soal_subtest_tryout_idtryout'=>$soal_subtest_tryout_idtryout];
+
+        $soal = SiswaHasSoal::find(
+            ['conditions' => 'siswa_iduser=:siswa_iduser: AND soal_subtest_idsubtest=:soal_subtest_idsubtest: AND soal_subtest_tryout_idtryout=:soal_subtest_tryout_idtryout:',
+            'bind' => $conditions,]
+        );
+        $this->response->setJsonContent($soal);
+        return $this->response->setJsonContent($soal);
     }
 
 }
