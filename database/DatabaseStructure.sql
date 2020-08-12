@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Table `user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `user` ;
+-- DROP TABLE IF EXISTS `user` ;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `iduser` INT(11) NOT NULL,
@@ -31,7 +31,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mentor`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mentor` ;
+-- DROP TABLE IF EXISTS `mentor` ;
 
 CREATE TABLE IF NOT EXISTS `mentor` (
   `iduser` INT(11) NOT NULL,
@@ -52,7 +52,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `siswa`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `siswa` ;
+-- DROP TABLE IF EXISTS `siswa` ;
 
 CREATE TABLE IF NOT EXISTS `siswa` (
   `iduser` INT(11) NOT NULL,
@@ -73,7 +73,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `tryout`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `tryout` ;
+-- DROP TABLE IF EXISTS `tryout` ;
 
 CREATE TABLE IF NOT EXISTS `tryout` (
   `idtryout` INT NOT NULL AUTO_INCREMENT,
@@ -87,7 +87,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `timestamps`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `timestamps` ;
+-- DROP TABLE IF EXISTS `timestamps` ;
 
 CREATE TABLE IF NOT EXISTS `timestamps` (
   `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `timestamps` (
 -- -----------------------------------------------------
 -- Table `subtest`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `subtest` ;
+-- DROP TABLE IF EXISTS `subtest` ;
 
 CREATE TABLE IF NOT EXISTS `subtest` (
   `idsubtest` INT NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `subtest` (
   `judul` VARCHAR(45) NULL,
   `time_in_minute` INT NULL,
   PRIMARY KEY (`idsubtest`, `tryout_idtryout`),
-  INDEX `fk_subtest_tryout1_idx` (`tryout_idtryout` ASC) VISIBLE,
+  INDEX `fk_subtest_tryout1_idx` (`tryout_idtryout` ASC),
   CONSTRAINT `fk_subtest_tryout1`
     FOREIGN KEY (`tryout_idtryout`)
     REFERENCES `tryout` (`idtryout`)
@@ -117,7 +117,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `soal`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `soal` ;
+-- DROP TABLE IF EXISTS `soal` ;
 
 CREATE TABLE IF NOT EXISTS `soal` (
   `no` INT NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `soal` (
   `key` ENUM('A', 'B', 'C', 'D', 'E') NULL,
   `solution` LONGTEXT NULL,
   PRIMARY KEY (`no`, `subtest_idsubtest`, `subtest_tryout_idtryout`),
-  INDEX `fk_soal_subtest1_idx` (`subtest_idsubtest` ASC, `subtest_tryout_idtryout` ASC) VISIBLE,
+  INDEX `fk_soal_subtest1_idx` (`subtest_idsubtest` ASC, `subtest_tryout_idtryout` ASC),
   CONSTRAINT `fk_soal_subtest1`
     FOREIGN KEY (`subtest_idsubtest` , `subtest_tryout_idtryout`)
     REFERENCES `subtest` (`idsubtest` , `tryout_idtryout`)
@@ -144,15 +144,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `siswa_has_tryout`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `siswa_has_tryout` ;
+-- DROP TABLE IF EXISTS `siswa_has_tryout` ;
 
 CREATE TABLE IF NOT EXISTS `siswa_has_tryout` (
   `siswa_iduser` INT(11) NOT NULL,
   `tryout_idtryout` INT NOT NULL,
   `confirm_time` VARCHAR(45) NULL,
   PRIMARY KEY (`siswa_iduser`, `tryout_idtryout`),
-  INDEX `fk_siswa_has_tryout_tryout1_idx` (`tryout_idtryout` ASC) VISIBLE,
-  INDEX `fk_siswa_has_tryout_siswa1_idx` (`siswa_iduser` ASC) VISIBLE,
+  INDEX `fk_siswa_has_tryout_tryout1_idx` (`tryout_idtryout` ASC),
+  INDEX `fk_siswa_has_tryout_siswa1_idx` (`siswa_iduser` ASC),
   CONSTRAINT `fk_siswa_has_tryout_siswa1`
     FOREIGN KEY (`siswa_iduser`)
     REFERENCES `siswa` (`iduser`)
@@ -170,7 +170,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `siswa_has_soal`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `siswa_has_soal` ;
+-- DROP TABLE IF EXISTS `siswa_has_soal` ;
 
 CREATE TABLE IF NOT EXISTS `siswa_has_soal` (
   `siswa_iduser` INT(11) NOT NULL,
@@ -178,8 +178,8 @@ CREATE TABLE IF NOT EXISTS `siswa_has_soal` (
   `soal_subtest_idsubtest` INT NOT NULL,
   `soal_subtest_tryout_idtryout` INT NOT NULL,
   PRIMARY KEY (`siswa_iduser`, `soal_no`, `soal_subtest_idsubtest`, `soal_subtest_tryout_idtryout`),
-  INDEX `fk_siswa_has_soal_soal1_idx` (`soal_no` ASC, `soal_subtest_idsubtest` ASC, `soal_subtest_tryout_idtryout` ASC) VISIBLE,
-  INDEX `fk_siswa_has_soal_siswa1_idx` (`siswa_iduser` ASC) VISIBLE,
+  INDEX `fk_siswa_has_soal_soal1_idx` (`soal_no` ASC, `soal_subtest_idsubtest` ASC, `soal_subtest_tryout_idtryout` ASC),
+  INDEX `fk_siswa_has_soal_siswa1_idx` (`siswa_iduser` ASC),
   CONSTRAINT `fk_siswa_has_soal_siswa1`
     FOREIGN KEY (`siswa_iduser`)
     REFERENCES `siswa` (`iduser`)
