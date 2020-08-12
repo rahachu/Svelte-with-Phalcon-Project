@@ -105,7 +105,7 @@
 <header class="navigation" class:navigation-shadow={isShadow}>
   <div class="logo">
     <a href={$url('/index')}>
-      <img src="./assets/logo.png" alt="logo">
+      <img src="/assets/logo.png" alt="logo">
     </a>
     <div class="nav-links">
       <a href="{$url('/index')}">
