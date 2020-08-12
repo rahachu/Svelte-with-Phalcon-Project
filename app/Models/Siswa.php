@@ -40,10 +40,10 @@ class Siswa extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("siswa");
-        $this->hasMany('iduser', 'Buktipembayaran', 'iduser', ['alias' => 'Buktipembayaran']);
-        $this->hasMany('iduser', 'SiswaHasSoal', 'siswa_iduser', ['alias' => 'SiswaHasSoal']);
-        $this->hasMany('iduser', 'SiswaHasTryout', 'siswa_iduser', ['alias' => 'SiswaHasTryout']);
-        $this->belongsTo('iduser', 'User', 'iduser', ['alias' => 'User']);
+        $this->hasMany('iduser', 'App\Models\Buktipembayaran', 'iduser', ['alias' => 'Buktipembayaran']);
+        $this->hasMany('iduser', 'App\Models\SiswaHasSoal', 'siswa_iduser', ['alias' => 'SiswaHasSoal']);
+        $this->hasMany('iduser', 'App\Models\SiswaHasTryout', 'siswa_iduser', ['alias' => 'SiswaHasTryout']);
+        $this->belongsTo('iduser', 'App\Models\User', 'iduser', ['alias' => 'User']);
     }
 
     /**

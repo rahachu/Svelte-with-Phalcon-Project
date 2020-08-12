@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+
 class Buktipembayaran extends \Phalcon\Mvc\Model
 {
 
@@ -17,27 +18,15 @@ class Buktipembayaran extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $idproduct;
+    public $productname;
 
     /**
      *
      * @var string
      */
     public $buy_time;
-
-    /**
-     *
-     * @var string
-     */
-    public $pyment_method;
-
-    /**
-     *
-     * @var string
-     */
-    public $data;
 
     /**
      *
@@ -52,14 +41,21 @@ class Buktipembayaran extends \Phalcon\Mvc\Model
     public $idadmin;
 
     /**
+     *
+     * @var string
+     */
+    public $payment_method;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("pateron");
         $this->setSource("buktipembayaran");
-        $this->belongsTo('iduser', 'App\\Models\\Siswa', 'iduser', ['reuseable' => true,
-        'alias' => 'Siswa']);
+        $this->hasMany('idsiswa_buy_product', 'App\Models\Imagedata', 'buktipembayaran_idsiswa_buy_product', ['alias' => 'imagedata']);
+        $this->belongsTo('payment_method', 'App\Models\PaymentMethod', 'type_payment_method', ['alias' => 'PaymentMethod']);
+        $this->belongsTo('iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
     }
 
     /**

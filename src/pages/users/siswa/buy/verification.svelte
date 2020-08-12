@@ -1,5 +1,10 @@
 <script>
     import BuktiBeli from '../../../../components/BuktiBeli.svelte';
+    let bukti;
+
+    function send(){
+        console.log(JSON.stringify(bukti));
+    }
 </script>
 
 <div class="container">
@@ -18,10 +23,10 @@
                             <p>blabla</p>
                             <p>upload screenshoot bukti dibawah ini</p>
                         </div>
-                        <div class="column is-2 justdesktop" style="text-align: right;"><button class="button is-primary">Kirim Bukti</button></div>
+                        <div class="column is-2 justdesktop" style="text-align: right;"><button class="button is-primary" on:click={send}>Kirim Bukti</button></div>
                     </div>
-                    <BuktiBeli/>
-                    <div class="justmobile" style="text-align: right;"><button class="button is-primary">Kirim Bukti</button></div>
+                    <BuktiBeli bind:value={bukti}/>
+                    <div class="justmobile" style="text-align: right;"><button class="button is-primary" on:click={send}>Kirim Bukti</button></div>
                 </div>
             </div>
         </div>

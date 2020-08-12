@@ -9,7 +9,7 @@ use App\Models\Tryout;
 use App\Models\Subtest;
 use App\Models\soal;
 
-class TryoutEditorController extends ControllerAdmin
+class TryoutEditorController extends Controller
 {
     public function createTryoutAction()
     {

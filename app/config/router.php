@@ -30,6 +30,7 @@ $router->addGet('/dashboard/{idproduct}',['controller'=>"siswaPayment", 'action'
 //Admin Payment API
 $router->addGet('/admin/validation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListValidated']);
 $router->addGet('/admin/unvalidation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListUnvalidated']);
+$router->addGet('/admin/data/image/{idimage}',['controller' => 'adminPayment','action' => 'Imagedata']);
 $router->addPost('/admin/unvalidation/:idpembayaran',['controller' => 'adminPayment','action'=> 'postValidation']);
 
 //Default route pass to svelte
