@@ -48,18 +48,24 @@ const store = () => {
               soal_subtest_tryout_idtryout: soal.subtest_tryout_idtryout,
             };
           });
-          // Kirim jawaban ke API
-          const reqApi = await fetch(`http://${window.location.host}/tryout/siswa/answer`, {
-            method:"POST",
-            headers: {'Content-Type':'application/json'},
-            body:JSON.stringify(jawab)
-          }); 
-          const resApi = await reqApi
-          console.log(resApi)
+          this.reqJawaban(jawab);
         });
       } catch (err) {
         console.log(err);
       }
+    },
+    async reqJawaban(data) {
+      // Kirim jawaban ke API
+      const reqApi = await fetch(
+        `http://${window.location.host}/tryout/siswa/answer`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
+      const resApi = await reqApi;
+      console.log(resApi);
     },
   };
 
