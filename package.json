@@ -17,5 +17,8 @@
     "rollup-plugin-terser": "^5.1.2",
     "svelte": "^3.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "js-cookie": "^2.2.1"
+  }
 }

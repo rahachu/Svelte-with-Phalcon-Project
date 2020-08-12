@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 class SiswaHasSoal extends \Phalcon\Mvc\Model

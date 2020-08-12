@@ -1,33 +1,20 @@
 <?php
-
 namespace App\Models;
 
-class Tryout extends \Phalcon\Mvc\Model
+class Timestamps extends \Phalcon\Mvc\Model
 {
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $idtryout;
+    public $create_time;
 
     /**
      *
      * @var string
      */
-    public $name;
-
-    /**
-     *
-     * @var integer
-     */
-    public $tryout_price;
-
-    /**
-     *
-     * @var string
-     */
-    public $publish_time;
+    public $update_time;
 
     /**
      * Initialize method for model.
@@ -35,10 +22,7 @@ class Tryout extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("tryout");
-
-        $this->hasMany('idtryout', Subtest::class, 'tryout_idtryout', ['alias' => 'subtest']);
-        
+        $this->setSource("timestamps");
     }
 
     /**
@@ -48,14 +32,14 @@ class Tryout extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'tryout';
+        return 'timestamps';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tryout[]|Tryout|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Timestamps[]|Timestamps|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -66,7 +50,7 @@ class Tryout extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tryout|\Phalcon\Mvc\Model\ResultInterface
+     * @return Timestamps|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

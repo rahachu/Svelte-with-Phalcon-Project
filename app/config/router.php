@@ -13,10 +13,18 @@ $router->add('/confirm/{code}/{username}',['controller'=>'user','action'=>'confi
 $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'reset']);
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
+
 $router->add('/tryout/data','tryout::getAll');
 $router->add('/tryout/data/{idtryout}','tryout::getbyid');
-$router->addPost('/tryout/siswa/answer', 'tryout::saveSiswaAnswer');
-$router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtryout}/{soal_subtest_idsubtest}', 'tryout::getSiswaAnswer');
+
+$router->addPost('/tryout/create',['controller'=>'tryoutEditor','action'=>'createTryout']);
+$router->addDelete('/tryout/create',['controller'=>'tryoutEditor','action'=>'deleteTryout']);
+$router->addPost('/tryout/save',['controller'=>'tryoutEditor','action'=>'saveQuestion']);
+$router->add('/tryout/datalist',['controller'=>'tryoutEditor','action'=>'tryoutList']);
+$router->add('/tryout/fulldata/{idtryout}',['controller'=>'tryoutEditor','action'=>'fulldata']);
+$router->addPost('/tryout/publish/{idtryout}',['controller'=>'tryoutEditor','action'=>'publish']);
+$router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','action'=>'unpublish']);
+
 $router->notFound(
     [
         'controller' => 'index',
