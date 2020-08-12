@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Models;
 class Siswa extends \Phalcon\Mvc\Model
 {
 

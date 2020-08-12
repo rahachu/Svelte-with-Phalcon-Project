@@ -6,11 +6,12 @@ namespace App\Controllers;
 use Phalcon\Mvc\Controller;
 use App\Models\Tryout;
 use App\Models\SiswaHasTryout;
+use App\Models\Siswa;
 
 class DashboardSiswaController extends ControllerSiswa
 {
 
-    public function getListProductAction()
+    private function getListProduct()
     {
         $idsiswa = 1;//$this->auth->getUser()['iduser'] || 1;
         $siswaTryout = array_map(function($v) {
@@ -24,15 +25,30 @@ class DashboardSiswaController extends ControllerSiswa
             'bind' => ['strSiswaTryout'=>$strSiswaTryout],
         ]);
 
-        $this->response->setJsonContent(json_encode($tryout));
-        $this->response->setStatusCode(200,"OK");
+        return $tryout;
+    }
+
+    private function getProfileSiswa()
+    {
+        $idsiswa = 1;//$this->auth->getUser()['iduser'] || 1;
+        $dataSiswa = Siswa::find(['conditions' => 'iduser = :idsiswa:',
+                                'bind'=>['idsiswa'=>$idsiswa]]);
+        return $dataSiswa;
+    }
+    private function getDataNiai()
+    {
+        return null;
+    }
+    public function dashboardSiswaAction()
+    {
+        $dataDashboard = [
+            'product' => $this->getListProduct(),
+        ];
+        $this->response->setStatusCode(200,'OK');
+        $this->response->setJsonContent($dataDashboard);
         return $this->response->send();
     }
 
-    public function getProfieSiswa(){
-        $idsiswa = $this->auth->getUser()['iduser'];
-        
-    }
 
 }
 

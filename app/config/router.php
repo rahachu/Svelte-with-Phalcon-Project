@@ -15,7 +15,7 @@ $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
 
 // API Dashboard siswa
-$router->addGet('/dashboard/{idsiswa}',['controller' => 'dashboardSiswa', 'action'=>'getListProduct']);
+$router->addGet('/dashboard',['controller' => 'dashboardSiswa', 'action'=>'dashboardSiswa']);
 
 $router->notFound(
     [
