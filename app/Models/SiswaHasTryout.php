@@ -1,37 +1,25 @@
 <?php
-
-class Siswa extends \Phalcon\Mvc\Model
+namespace App\Models;
+class SiswaHasTryout extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var integer
      */
-    public $iduser;
+    public $siswa_iduser;
+
+    /**
+     *
+     * @var integer
+     */
+    public $tryout_idtryout;
 
     /**
      *
      * @var string
      */
-    public $fullname;
-
-    /**
-     *
-     * @var string
-     */
-    public $school;
-
-    /**
-     *
-     * @var string
-     */
-    public $city;
-
-    /**
-     *
-     * @var string
-     */
-    public $phone;
+    public $confirm_time;
 
     /**
      * Initialize method for model.
@@ -39,11 +27,9 @@ class Siswa extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("siswa");
-        $this->hasMany('iduser', 'Buktipembayaran', 'iduser', ['alias' => 'Buktipembayaran']);
-        $this->hasMany('iduser', 'SiswaHasSoal', 'siswa_iduser', ['alias' => 'SiswaHasSoal']);
-        $this->hasMany('iduser', 'SiswaHasTryout', 'siswa_iduser', ['alias' => 'SiswaHasTryout']);
-        $this->belongsTo('iduser', 'User', 'iduser', ['alias' => 'User']);
+        $this->setSource("siswa_has_tryout");
+        $this->belongsTo('siswa_iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
+        $this->belongsTo('tryout_idtryout', 'Tryout', 'idtryout', ['alias' => 'Tryout']);
     }
 
     /**
@@ -53,14 +39,14 @@ class Siswa extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'siswa';
+        return 'siswa_has_tryout';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Siswa[]|Siswa|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return SiswaHasTryout[]|SiswaHasTryout|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -71,7 +57,7 @@ class Siswa extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Siswa|\Phalcon\Mvc\Model\ResultInterface
+     * @return SiswaHasTryout|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

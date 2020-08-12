@@ -1,7 +1,13 @@
 <?php
 
-class Siswa extends \Phalcon\Mvc\Model
+class Buktipembayaran extends \Phalcon\Mvc\Model
 {
+
+    /**
+     *
+     * @var integer
+     */
+    public $idsiswa_buy_product;
 
     /**
      *
@@ -11,27 +17,39 @@ class Siswa extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var string
+     * @var integer
      */
-    public $fullname;
+    public $idproduct;
 
     /**
      *
      * @var string
      */
-    public $school;
+    public $buy_time;
 
     /**
      *
      * @var string
      */
-    public $city;
+    public $pyment_method;
 
     /**
      *
      * @var string
      */
-    public $phone;
+    public $data;
+
+    /**
+     *
+     * @var integer
+     */
+    public $validation;
+
+    /**
+     *
+     * @var integer
+     */
+    public $idadmin;
 
     /**
      * Initialize method for model.
@@ -39,11 +57,8 @@ class Siswa extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("siswa");
-        $this->hasMany('iduser', 'Buktipembayaran', 'iduser', ['alias' => 'Buktipembayaran']);
-        $this->hasMany('iduser', 'SiswaHasSoal', 'siswa_iduser', ['alias' => 'SiswaHasSoal']);
-        $this->hasMany('iduser', 'SiswaHasTryout', 'siswa_iduser', ['alias' => 'SiswaHasTryout']);
-        $this->belongsTo('iduser', 'User', 'iduser', ['alias' => 'User']);
+        $this->setSource("buktipembayaran");
+        $this->belongsTo('iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
     }
 
     /**
@@ -53,14 +68,14 @@ class Siswa extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'siswa';
+        return 'buktipembayaran';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Siswa[]|Siswa|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Buktipembayaran[]|Buktipembayaran|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -71,7 +86,7 @@ class Siswa extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Siswa|\Phalcon\Mvc\Model\ResultInterface
+     * @return Buktipembayaran|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

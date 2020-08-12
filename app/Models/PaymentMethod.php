@@ -1,37 +1,19 @@
 <?php
 
-class Siswa extends \Phalcon\Mvc\Model
+class PaymentMethod extends \Phalcon\Mvc\Model
 {
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $iduser;
+    public $type_payment_method;
 
     /**
      *
      * @var string
      */
-    public $fullname;
-
-    /**
-     *
-     * @var string
-     */
-    public $school;
-
-    /**
-     *
-     * @var string
-     */
-    public $city;
-
-    /**
-     *
-     * @var string
-     */
-    public $phone;
+    public $description;
 
     /**
      * Initialize method for model.
@@ -39,11 +21,7 @@ class Siswa extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("siswa");
-        $this->hasMany('iduser', 'Buktipembayaran', 'iduser', ['alias' => 'Buktipembayaran']);
-        $this->hasMany('iduser', 'SiswaHasSoal', 'siswa_iduser', ['alias' => 'SiswaHasSoal']);
-        $this->hasMany('iduser', 'SiswaHasTryout', 'siswa_iduser', ['alias' => 'SiswaHasTryout']);
-        $this->belongsTo('iduser', 'User', 'iduser', ['alias' => 'User']);
+        $this->setSource("payment_method");
     }
 
     /**
@@ -53,14 +31,14 @@ class Siswa extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'siswa';
+        return 'payment_method';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Siswa[]|Siswa|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return PaymentMethod[]|PaymentMethod|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -71,7 +49,7 @@ class Siswa extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Siswa|\Phalcon\Mvc\Model\ResultInterface
+     * @return PaymentMethod|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

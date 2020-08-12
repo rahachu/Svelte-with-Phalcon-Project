@@ -13,6 +13,10 @@ $router->add('/confirm/{code}/{username}',['controller'=>'user','action'=>'confi
 $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'reset']);
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
+
+// API Dashboard siswa
+$router->addGet('/dashboard/{idsiswa}',['controller' => 'dashboardSiswa', 'action'=>'getListProduct']);
+
 $router->notFound(
     [
         'controller' => 'index',
