@@ -1,4 +1,6 @@
 <script>
+  import Nav from "../components/landing-page/Nav.svelte";
+  import Footer from "../components/landing-page/Footer.svelte";
   import Banner from "../components/landing-page/Banner.svelte"
   import ProgramContent from "../components/landing-page/ProgramContent.svelte"
   import Feature from "../components/landing-page/Feature.svelte"
@@ -9,7 +11,7 @@
 </script>
 
 <!-- components -->
-
+<Nav/>
 <!-- Header Banner -->
   <Banner/>
 <!-- ============ -->
@@ -38,3 +40,5 @@
 <!-- Program Component -->
   <Faq/>
 <!-- ============ -->
+
+<Footer/>

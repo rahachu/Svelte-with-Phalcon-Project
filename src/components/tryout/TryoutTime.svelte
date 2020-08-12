@@ -1,6 +1,15 @@
 <script>
 	import Cookies from 'js-cookie';
+	import { onMount } from "svelte"
 	import { goto } from '@sveltech/routify'
+	import { setDecryptCookie } from "../../library/SetCryptoCookie"
+
+	onMount(() => {
+		let checkTryoutTime = Cookies.get("TRYOUTTIME") || false
+		if(checkTryoutTime === false){
+			$goto('/tryout');
+		}
+	})
 
 	$:data 	= '';
 
@@ -25,9 +34,7 @@
 
 		
 	function getCookie(name){
-		let resultCookie = Cookies.get(name)
-		let decryptCookie = atob(resultCookie);
-
+		let decryptCookie = setDecryptCookie(name, "number")
 		return decryptCookie;
 	} 
 </script>

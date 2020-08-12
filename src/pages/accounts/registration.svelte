@@ -22,7 +22,7 @@ function handleSubmit(e){
 }
 
 async function registrationProcess(){
-  const fetchRegistration = await post('/register', JSON.stringify(userRegistration));
+  const fetchRegistration = await post('/register', userRegistration);
   console.log(fetchRegistration);
   // try {
   //   const response = await fetchRegistration.json();

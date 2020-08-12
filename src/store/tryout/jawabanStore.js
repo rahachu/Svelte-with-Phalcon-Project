@@ -35,6 +35,16 @@ const store = () => {
       // Cookies.set("TRYOUTANSWER", JSON.stringify(state));
       setEncryptCookie("TRYOUTANSWER", state);
     },
+    async kirimJawaban(data) {
+      try {
+        data.forEach((jawaban) => {
+          console.log("berhasil");
+        });
+        return true;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   };
 
   return {

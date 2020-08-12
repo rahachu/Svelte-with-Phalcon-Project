@@ -1,13 +1,14 @@
 <script>
   import Cookies from 'js-cookie'
   import CryptoJS from 'crypto-js'
+	import { goto } from '@sveltech/routify'
   import TryoutTime from '../../components/tryout/TryoutTime.svelte'
   import { onMount } from 'svelte' 
   import { soalStore } from '../../store/tryout/soalStore.js'
   import { jawabanStore } from '../../store/tryout/jawabanStore.js'
   // Library
   import { setEncryptCookie, setDecryptCookie } from "../../library/SetCryptoCookie";
-
+  
   //  data tryout soal dan jawaban
   let timeInMinute = '';
   let dataSoal = [];
@@ -16,7 +17,6 @@
   let title = ''
 
   let subtestId = setDecryptCookie("SUBTEST", "number");
-  console.log(subtestId)
   let listNumber = []
 
   // soal state
@@ -32,6 +32,10 @@
 
   $:activateOption ="";
   onMount(()=> {
+    let getSelesai = Cookies.get("SELESAI") || false
+    if(getSelesai){
+      $goto("/tryout/selesai-tryout")
+    }
     soalStore.subtestId.subscribe(id => subtestId = id)
     soalStore.getListNumber();
     getOptionValue()
@@ -39,7 +43,6 @@
     getMarkedQuestion(soalNo)
   })
   setupDataSoal();
-
 
   // disable tombol sebelumnya
   // disable tombol selanjutnya
@@ -212,13 +215,36 @@
   // submit tombol tryout
   function submitTryOut(){
     isLoading = true
-    subtestId = parseInt(subtestId)
-    soalStore.subtestId.update(id => subtestId += 1)
-    soalStore.subtestId.subscribe(id => {
-      subtestId = id 
-      setEncryptCookie("SUBTEST", parseInt(subtestId))
-    })
 
+    let getSoalData = setDecryptCookie("SOALDATA", "object");
+    let totalSubtest = getSoalData.subtest.length;
+    
+    // Kirim Jawaban per Subtest
+    let kirimJawaban = jawabanStore.kirimJawaban(dataJawaban);
+    if(kirimJawaban){
+      console.log("Kirim Jawaban berhasil")
+    }else{
+      console.log("Problem")
+    }
+
+    if(subtestId == totalSubtest-1){
+      setTimeout(() => {
+        setEncryptCookie("SELESAI", true);
+        Cookies.get("MARKQUESTION") ? Cookies.remove("MARKQUESTION") : false
+        Cookies.remove("SOALDATA")
+        Cookies.remove("SUBTEST")
+        Cookies.remove("TRYOUTANSWER")
+        localStorage.removeItem("no_soal");
+        $goto("/tryout/selesai-tryout")
+      }, 1000);
+    }else{
+      subtestId = parseInt(subtestId)
+      soalStore.subtestId.update(id => subtestId += 1)
+      soalStore.subtestId.subscribe(id => {
+        subtestId = id 
+        setEncryptCookie("SUBTEST", parseInt(subtestId))
+      })
+    }
     // setup Data Soal
     setupDataSoal();
 

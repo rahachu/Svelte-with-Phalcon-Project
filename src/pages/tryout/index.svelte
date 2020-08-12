@@ -11,15 +11,25 @@
   let subtestId = ''
   let isLoading = true;
   onMount(() => {
+    let getSelesai = Cookies.get("SELESAI") || false
+    if(getSelesai){
+      $goto("/tryout/selesai-tryout")
+    }
     setupSoalState()
+    // coba()
   })
+
+  // async function coba(){
+  //   const req = await fetch("/auth");
+  //   const res = await req.json()
+  //   console.log(res)
+  // }
 
   soalStore.subtestId.subscribe( id => {
     subtestId = id;
     setEncryptCookie("SUBTEST", parseInt(subtestId))
   })
 
-  let a = setDecryptCookie("SUBTEST", "number");
   async function setupSoalState(){
     await soalStore.getSoalApi();
     await soalStore.dataSoal.subscribe(tryout => {

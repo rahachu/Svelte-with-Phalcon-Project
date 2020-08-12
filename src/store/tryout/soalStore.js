@@ -59,9 +59,7 @@ const store = () => {
       }
 
       let countDown = `${bulan} ${tanggal}, ${tahun} ${setJam}:${menit}:${setDetik}`;
-      // setEncryptCookie("TRYOUTTIME", countDown);
-      let encrypt = btoa(countDown);
-      Cookies.set("TRYOUTTIME", encrypt, { path: "/tryout" });
+      setEncryptCookie("TRYOUTTIME", countDown);
       localStorage.setItem("no_soal", 1);
     },
     tandaiSoal(data) {
