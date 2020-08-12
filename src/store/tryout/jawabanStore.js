@@ -35,12 +35,28 @@ const store = () => {
       // Cookies.set("TRYOUTANSWER", JSON.stringify(state));
       setEncryptCookie("TRYOUTANSWER", state);
     },
-    async kirimJawaban(data) {
+    kirimJawaban(dataJawaban, dataSoal) {
       try {
-        data.forEach((jawaban) => {
-          console.log("berhasil");
+        dataJawaban.forEach((jawaban) => {
+          let jawab = "";
+          dataSoal.forEach((soal) => {
+            jawab = {
+              siswa_iduser: 1,
+              soal_no: jawaban.soal_no,
+              answer: jawaban.option,
+              soal_subtest_idsubtest: soal.subtest_idsubtest,
+              soal_subtest_tryout_idtryout: soal.subtest_tryout_idtryout,
+            };
+          });
+          // Kirim jawaban ke API
+          const reqApi = await fetch(`http://${window.location.host}/tryout/siswa/answer`, {
+            method:"POST",
+            headers: {'Content-Type':'application/json'},
+            body:JSON.stringify(jawab)
+          }); 
+          const resApi = await reqApi
+          console.log(resApi)
         });
-        return true;
       } catch (err) {
         console.log(err);
       }

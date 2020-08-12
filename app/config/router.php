@@ -25,6 +25,9 @@ $router->add('/tryout/fulldata/{idtryout}',['controller'=>'tryoutEditor','action
 $router->addPost('/tryout/publish/{idtryout}',['controller'=>'tryoutEditor','action'=>'publish']);
 $router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','action'=>'unpublish']);
 
+
+$router->addPost('/tryout/siswa/answer', 'tryout::saveSiswaAnswer');
+$router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtryout}/{soal_subtest_idsubtest}', 'tryout::getSiswaAnswer');
 $router->notFound(
     [
         'controller' => 'index',

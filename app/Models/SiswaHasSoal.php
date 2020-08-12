@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Models;
+
 class SiswaHasSoal extends \Phalcon\Mvc\Model
 {
 
@@ -14,6 +16,12 @@ class SiswaHasSoal extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $soal_no;
+
+    /**
+     *
+     * @var string
+     */
+    public $answer;
 
     /**
      *

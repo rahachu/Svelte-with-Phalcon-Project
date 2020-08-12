@@ -11,6 +11,7 @@
   
   //  data tryout soal dan jawaban
   let timeInMinute = '';
+  let dataTryout = ''
   let dataSoal = [];
   let dataJawaban = [];
   let tandaiSoal = []
@@ -57,11 +58,15 @@
   function setupDataSoal(){
     // get data soal dari soal store
     soalStore.dataSoal.subscribe(val => {
+      dataTryout = {
+        idtryout:val.idtryout,
+        name:val.name
+      }
       dataSoal  = val.subtest[subtestId].soal;
       title     = val.subtest[subtestId].judul;
       totalSoal = val.subtest[subtestId].soal.length;
       timeInMinute = val.subtest[subtestId].time_in_minute / 60
-    });  
+    });
     
     // get data jawaban dari jawaban store
     jawabanStore.subscribe(val => dataJawaban = val)
@@ -220,12 +225,13 @@
     let totalSubtest = getSoalData.subtest.length;
     
     // Kirim Jawaban per Subtest
-    let kirimJawaban = jawabanStore.kirimJawaban(dataJawaban);
-    if(kirimJawaban){
-      console.log("Kirim Jawaban berhasil")
-    }else{
-      console.log("Problem")
-    }
+    // let kirimJawaban = 
+    jawabanStore.kirimJawaban(dataJawaban, dataSoal);
+    // if(kirimJawaban){
+    //   console.log("Kirim Jawaban berhasil")
+    // }else{
+    //   console.log("Problem")
+    // }
 
     if(subtestId == totalSubtest-1){
       setTimeout(() => {
@@ -356,14 +362,18 @@
     justify-content: space-between;
     padding: 20px;
     background-color: var(--blue-color);
+    color: #fff;
   }
 
   .action-soal .time{
     background-color: orange;
     padding: 10px;
-    color: #fff;
     box-sizing: border-box;
     border-radius: 5px;
+  }
+
+  .action-soal h4{
+    color: #fff;
   }
 
   .soal{
@@ -454,7 +464,7 @@
         <div class="tryout-navigation">
           <div class="title">
             <h3 class="title has-text-centered is-3">
-              TRYOUT
+              SUBTEST
               <p class="title is-5">{title}</p>
             </h3>
           </div>
@@ -480,7 +490,9 @@
               <div class="time">
                 <TryoutTime/>
               </div>
-              <div></div>
+              <div>
+                <h4 class="title is-4">TRYOUT {dataTryout.name}</h4>
+              </div>
             </div>
             <div class="soal">
               <div class="no-soal">
