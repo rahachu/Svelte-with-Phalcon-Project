@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Models;
+
 class Tryout extends \Phalcon\Mvc\Model
 {
 
@@ -34,8 +36,8 @@ class Tryout extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("tryout");
-        $this->hasMany('idtryout', 'SiswaHasTryout', 'tryout_idtryout', ['alias' => 'SiswaHasTryout']);
-        $this->hasMany('idtryout', 'Subtest', 'tryout_idtryout', ['alias' => 'Subtest']);
+        $this->hasMany('idtryout', SiswaHasTryout::class, 'tryout_idtryout', ['alias' => 'SiswaHasTryout']);
+        $this->hasMany('idtryout', Subtest::class, 'tryout_idtryout', ['alias' => 'subtest']);
     }
 
     /**

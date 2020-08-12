@@ -1,4 +1,5 @@
 <?php
+namespace App\Models;
 
 class PaymentMethod extends \Phalcon\Mvc\Model
 {
@@ -22,6 +23,7 @@ class PaymentMethod extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("payment_method");
+        $this->hasMany('type_payment_method', 'App\Models\Buktipembayaran', 'payment_method', ['alias' => 'Buktipembayaran']);
     }
 
     /**

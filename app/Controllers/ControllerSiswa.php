@@ -13,7 +13,7 @@ class ControllerSiswa extends Controller
     public function initialize()
     {
         $user = $this->auth->getUser();
-        if (!$user->siswa) {
+        if (!$user['login'] || !$user->siswa) {
             $this->response->redirect('/dashboard');
         }
     }

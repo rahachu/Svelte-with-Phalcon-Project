@@ -16,7 +16,7 @@
 </script>
 
 {#await userInfo}
-<p>loading...</p>
+<div class="select is-loading"></div>
 {:then res}
 <h1>Hello {res.username}!</h1>
 <p>Visit the <a href="/accounts/login">Login</a> to learn how to build Svelte apps. <a href="/" on:click={handleClick}>logout</a></p>
