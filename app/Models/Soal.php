@@ -1,8 +1,5 @@
 <?php
-
 namespace App\Models;
-
-use Phalcon\Mvc\Model;
 
 class Soal extends \Phalcon\Mvc\Model
 {
@@ -80,7 +77,12 @@ class Soal extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("soal");
-        $this->belongsTo('subtest_idsubtest', 'Subtest', 'idsubtest', ['alias' => 'Subtest']);
+
+        // $this->belongsTo('subtest_idsubtest', 'Subtest', 'idsubtest', ['alias' => 'Subtest']);
+        
+        $this->hasMany('no', SiswaHasSoal::class , 'soal_no', ['alias' => 'SiswaHasSoal']);
+        $this->belongsTo('subtest_idsubtest', Subtest::class, 'idsubtest', ['alias' => 'Subtest']);
+        $this->belongsTo('subtest_tryout_idtryout', Tryout::class, 'idtryout', ['alias' => 'tryout']);
     }
 
     /**

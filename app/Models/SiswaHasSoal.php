@@ -1,33 +1,31 @@
 <?php
-
 namespace App\Models;
-
-class Tryout extends \Phalcon\Mvc\Model
+class SiswaHasSoal extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var integer
      */
-    public $idtryout;
-
-    /**
-     *
-     * @var string
-     */
-    public $name;
+    public $siswa_iduser;
 
     /**
      *
      * @var integer
      */
-    public $tryout_price;
+    public $soal_no;
 
     /**
      *
-     * @var string
+     * @var integer
      */
-    public $publish_time;
+    public $soal_subtest_idsubtest;
+
+    /**
+     *
+     * @var integer
+     */
+    public $soal_subtest_tryout_idtryout;
 
     /**
      * Initialize method for model.
@@ -35,10 +33,9 @@ class Tryout extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("tryout");
-
-        $this->hasMany('idtryout', Subtest::class, 'tryout_idtryout', ['alias' => 'subtest']);
-        
+        $this->setSource("siswa_has_soal");
+        $this->belongsTo('siswa_iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
+        $this->belongsTo('soal_no', 'Soal', 'no', ['alias' => 'Soal']);
     }
 
     /**
@@ -48,14 +45,14 @@ class Tryout extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'tryout';
+        return 'siswa_has_soal';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tryout[]|Tryout|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return SiswaHasSoal[]|SiswaHasSoal|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -66,7 +63,7 @@ class Tryout extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tryout|\Phalcon\Mvc\Model\ResultInterface
+     * @return SiswaHasSoal|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

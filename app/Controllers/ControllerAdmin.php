@@ -16,5 +16,8 @@ class ControllerAdmin extends Controller
         if ($user->siswa or $user->mentor) {
             $this->response->redirect('/dashboard');
         }
+        else{
+            $this->response->redirect('/404');
+        }
     }
 }

@@ -1,33 +1,25 @@
 <?php
-
 namespace App\Models;
-
-class Tryout extends \Phalcon\Mvc\Model
+class SiswaHasTryout extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var integer
      */
-    public $idtryout;
-
-    /**
-     *
-     * @var string
-     */
-    public $name;
+    public $siswa_iduser;
 
     /**
      *
      * @var integer
      */
-    public $tryout_price;
+    public $tryout_idtryout;
 
     /**
      *
      * @var string
      */
-    public $publish_time;
+    public $confirm_time;
 
     /**
      * Initialize method for model.
@@ -35,10 +27,9 @@ class Tryout extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("tryout");
-
-        $this->hasMany('idtryout', Subtest::class, 'tryout_idtryout', ['alias' => 'subtest']);
-        
+        $this->setSource("siswa_has_tryout");
+        $this->belongsTo('siswa_iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
+        $this->belongsTo('tryout_idtryout', 'Tryout', 'idtryout', ['alias' => 'Tryout']);
     }
 
     /**
@@ -48,14 +39,14 @@ class Tryout extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'tryout';
+        return 'siswa_has_tryout';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tryout[]|Tryout|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return SiswaHasTryout[]|SiswaHasTryout|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -66,7 +57,7 @@ class Tryout extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Tryout|\Phalcon\Mvc\Model\ResultInterface
+     * @return SiswaHasTryout|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

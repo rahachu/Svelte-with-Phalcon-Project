@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Table `user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `user` ;
+-- DROP TABLE IF EXISTS `user` ;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `iduser` INT(11) NOT NULL,
@@ -31,7 +31,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `mentor`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mentor` ;
+-- DROP TABLE IF EXISTS `mentor` ;
 
 CREATE TABLE IF NOT EXISTS `mentor` (
   `iduser` INT(11) NOT NULL,
@@ -52,7 +52,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `siswa`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `siswa` ;
+-- DROP TABLE IF EXISTS `siswa` ;
 
 CREATE TABLE IF NOT EXISTS `siswa` (
   `iduser` INT(11) NOT NULL,
@@ -73,7 +73,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `tryout`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `tryout` ;
+-- DROP TABLE IF EXISTS `tryout` ;
 
 CREATE TABLE IF NOT EXISTS `tryout` (
   `idtryout` INT NOT NULL AUTO_INCREMENT,
@@ -87,7 +87,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `timestamps`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `timestamps` ;
+-- DROP TABLE IF EXISTS `timestamps` ;
 
 CREATE TABLE IF NOT EXISTS `timestamps` (
   `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `timestamps` (
 -- -----------------------------------------------------
 -- Table `subtest`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `subtest` ;
+-- DROP TABLE IF EXISTS `subtest` ;
 
 CREATE TABLE IF NOT EXISTS `subtest` (
   `idsubtest` INT NOT NULL,
@@ -117,7 +117,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `soal`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `soal` ;
+-- DROP TABLE IF EXISTS `soal` ;
 
 CREATE TABLE IF NOT EXISTS `soal` (
   `no` INT NOT NULL,
@@ -144,7 +144,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `siswa_has_tryout`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `siswa_has_tryout` ;
+-- DROP TABLE IF EXISTS `siswa_has_tryout` ;
 
 CREATE TABLE IF NOT EXISTS `siswa_has_tryout` (
   `siswa_iduser` INT(11) NOT NULL,
@@ -170,7 +170,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 -- Table `siswa_has_soal`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `siswa_has_soal` ;
+-- DROP TABLE IF EXISTS `siswa_has_soal` ;
 
 CREATE TABLE IF NOT EXISTS `siswa_has_soal` (
   `siswa_iduser` INT(11) NOT NULL,
