@@ -1,6 +1,6 @@
 <script>
 	import {get,post} from "../../library/csrfFetch.js"
-	import { goto } from "@sveltech/routify"
+	import { goto } from "@sveltech/routify";
 
 	// let userInfo = get("/auth").then(res=>res.json())
 	// .then(data=>{

@@ -1,4 +1,8 @@
 <script>
+	import { fly } from 'svelte/transition';
+	import { cubicInOut } from 'svelte/easing';
+
+  let visible = true;
   const testimonials = [
     ['In one of the testimonials which accompanied his application to the trustees of Rugby, the writer stated it as his conviction that "if Mr Arnold were elected, he would change the face of education all through the public schools of England."','https://image.flaticon.com/icons/svg/3203/3203725.svg', 'Diana'],
     ['Horsford, in a number of monographs (unfortunately of no historical or scientific value), fixed upon the vicinity of Boston, where now stand a Leif Ericsson statue and Horsford" Norumbega Tower as testimonials to the Norse explorers.','https://image.flaticon.com/icons/svg/3144/3144735.svg', 'Marcel'],
@@ -28,7 +32,10 @@
     current += 1;
     peoples[peoples.length] = peoples[0]
     peoples.shift();
-    console.log(current)
+    visible = false;
+    setTimeout(() => {
+      visible = true
+    }, 300);
   }
 
   function prev(){
@@ -36,11 +43,26 @@
     peoples.splice(0,0, peoples[peoples.length-1])
     peoples.pop()
     peoples = peoples;
-    console.log(current)
+    visible = !false;
   }
 </script>
 
 <style>
+  .title-feature {
+    font-weight: 600;
+    color: var(--blue-color);
+  }
+
+  .subtitle {
+    font-weight: 600;
+    margin-bottom: 50px;
+    font-size: 16px;
+  }
+  
+  .testimoni{
+    padding: 20px;
+  }
+  
   .comment{
     display: flex;
     justify-content: center;
@@ -54,7 +76,6 @@
     width: 800px;
     padding: 50px;
     border: 8px solid skyblue;
-    border-radius: 20px;
     background-color: #fafafa;
   }
 
@@ -145,6 +166,11 @@
 
   /* mobile */
   @media only screen and (max-width: 768px) {
+    .subtitle {
+      font-size: 14px;
+      text-align: left;
+    }
+
     .comment .bubble-text{
       width: 400px;
     }
@@ -173,13 +199,19 @@
 
 </style>
 
-<div>
+<div class="testimoni">
+  <h3 class="title has-text-centered title-feature is-size-4-mobile is-size-3-tablet is-size-3-desktop mt-6">Testimoni</h3>
+  <p class="subtitle has-text-centered">
+    Apa kata mereka tentang Pateron
+  </p>
   <div class="comment">
-    <div class="bubble-text">
+  {#if visible}
+    <div transition:fly="{{delay: 200, y:100, duration: 300, easing: cubicInOut }}" class="bubble-text">
       <p class="has-text-centered">
         {testimonials[current][0]}
       </p>
     </div>
+  {/if}
     <div class="user-testimonial is-gapless columns is-mobile">
       {#each peoples as [image, name]}
       <div class="column">
