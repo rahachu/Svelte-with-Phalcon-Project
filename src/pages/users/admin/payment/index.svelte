@@ -1,20 +1,55 @@
 <script>
+    import { params,url,isChangingPage } from '@sveltech/routify'
     let el = {};
     let page=1;
-    
-    let dataRequest = fetch(`http://${window.location.host}/admin/unvalidation/?page=${page}`).then(res=>res.json());
+    if ($params.page) {
+        page = $params.page;
+    }
+    let dataRequest = req(page);
+    let img = {};
+
+    async function req(page) {
+        let a = await fetch(`http://${window.location.host}/admin/unvalidation/?page=${page}`);
+        let b = await a.json();
+        b.items.forEach(item => {
+            item.bukti.forEach(id => {
+                getImage(id).then(res=>img[id]=res);
+            });
+        });
+        if (a.ok) {
+            return b;
+        }
+        else{
+            throw new Error(b);
+        }
+    }
 
     let getImage = async (id)=>{
                                 let req = await fetch(`http://${window.location.host}/admin/data/image/${id}`);
-                                let image = await req.text();
-                                return image;
+                                let img = req.text();
+                                if (req.ok) {
+                                    return img;
+                                }
+                                else{
+                                    throw new Error(img);
+                                }
                             }
+
+    function confirm(id) {
+        fetch(`http://${window.location.host}/admin/confirm/${id}`,{
+        method: 'POST'
+        }).then(()=>{refresh()})
+    }
 
     function showModal(element) {
         element.classList.add('is-active')
     }
     function closeModal(element) {
         element.classList.remove('is-active')
+    }
+    function refresh() {
+        dataRequest = req(page);
+        img = {};
     }
 </script>
 
@@ -39,29 +74,25 @@
                 <td>
                     <div class="columns is-multiline">
                         {#each item.bukti as id}
-                        {#await getImage(id)}
-                            O
-                        {:then image}
-                        <div class="column is-2" on:click={()=>{showModal(el[id])}}>
-                            <img class="image-button" src="{image}" alt="">
+                        <div class="column is-2" style="margin-left: 15px" on:click={()=>{showModal(el[id])}}>
+                            <img class="image-button" src="{img[id]}" alt="">
                         </div>
                             <div class="modal" bind:this={el[id]}>
                                 <div class="modal-background" on:click={()=>{closeModal(el[id])}}></div>
                                 <div class="modal-content">
-                                    <img src="{image}" alt="">
+                                    <img src="{img[id]}" alt="">
                                 </div>
                                 <button class="modal-close is-large" aria-label="close" on:click={()=>{closeModal(el[id])}}></button>
                             </div>
-                        {/await}
                         {/each}
                     </div>
                 </td>
-                <td><button class="button is-primary is-small">validasi</button></td>
+                <td><button class="button is-primary is-small" on:click={()=>{confirm(item.id)}}>validasi</button></td>
             </tr>
             {/each}
         </tbody>
     </table>
-    <p class="title is-6">Halaman: <input on:change={()=>{dataRequest = fetch(`http://${window.location.host}/admin/unvalidation/?page=${page}`).then(res=>res.json())}} type=number bind:value={page} min=1 max={data.last}></p>
+    <p class="title is-6">Halaman: <input type=number bind:value={page} min=1 max={data.last}><button class="button" on:click={refresh}>go</button></p>
 </div>
 {:catch error}
 <p style="color: red">{error.message}</p>

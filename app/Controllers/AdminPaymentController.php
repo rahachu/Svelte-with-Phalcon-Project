@@ -66,7 +66,7 @@ class AdminPaymentController extends ControllerAdmin
                         array_push($dataID,$img->idimage);
                     }
                     $dataVal[$i] = [
-                        'no'=>$i + 1,
+                        'id'=>$cont->idsiswa_buy_product,
                         'namasiswa' => $cont->siswa->fullname,
                         'produk'=>$cont->productname,
                         'bukti'=>$dataID
@@ -110,7 +110,8 @@ class AdminPaymentController extends ControllerAdmin
         $bukti->idadmin = 1; //
         $bukti->save();
         $this->response->setContent('kontol');
-        return $this->response->send();
+        $this->response->setStatusCode(201,"Created");
+        return !$this->response->isSent() && $this->response->send();
     }
 }
 

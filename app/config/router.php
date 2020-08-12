@@ -25,13 +25,14 @@ $router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','a
 
 //Siswa Payment API 
 $router->addPost('/dashboard/{idproduct}/{payment_method}',['controller' => 'siswaPayment', 'action'=>'postPayment']);
-$router->addGet('/dashboard/{idproduct}',['controller'=>"siswaPayment", 'action'=>'getPaymentMethod']);
+$router->addGet('/dashboard/payment/list',['controller'=>"siswaPayment", 'action'=>'getPaymentMethod']);
+$router->addGet('/dashboard/product/data/{idproduct}',['controller'=>'siswaPayment','action'=>'product']);
 
 //Admin Payment API
 $router->addGet('/admin/validation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListValidated']);
 $router->addGet('/admin/unvalidation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListUnvalidated']);
 $router->addGet('/admin/data/image/{idimage}',['controller' => 'adminPayment','action' => 'Imagedata']);
-$router->addPost('/admin/unvalidation/:idpembayaran',['controller' => 'adminPayment','action'=> 'postValidation']);
+$router->addPost('/admin/confirm/{idpembayaran}',['controller' => 'adminPayment','action'=> 'postValidation']);
 
 //Default route pass to svelte
 $router->notFound(
