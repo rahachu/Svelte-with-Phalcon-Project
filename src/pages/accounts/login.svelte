@@ -1,6 +1,7 @@
 <script>
-	import {get,post} from "../../library/csrfFetch.js"
+	import {get,post} from "../../library/csrfFetch.js";
 	import { goto } from "@sveltech/routify";
+	import { auth } from "../../store/auth.js";
 
 	// let userInfo = get("/auth").then(res=>res.json())
 	// .then(data=>{
@@ -29,12 +30,15 @@
 			isLoading = false;
 			
 			if(fetchLogin.status === 200){
+				auth.refresh();
 				$goto('/users/siswa/dashboard');	
 			}else{
+				auth.refresh();
 				isError.status = true;
 				isError.message = response.error;
 			}
 		} catch (error) {
+			auth.refresh();
 			isError.status = true;
 			isError.message = error;
 		}

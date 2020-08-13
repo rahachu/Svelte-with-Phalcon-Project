@@ -25,7 +25,7 @@
                 <div class="select is-loading"></div>
             {:then data}
                 <p class="title">{data.name}</p>
-                <p class="subtitle has-text-danger">{data.price}</p>
+                <p class="subtitle has-text-danger">{data.price.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
                 <p class="content">Tryout mantap murah hemat dan berkualitas yang dibuat pateron dengan sepenuh hati bagaikan anak sendiri.</p>
                             {:catch error}
                             <p style="color: red">{error.message}</p>

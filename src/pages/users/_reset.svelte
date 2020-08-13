@@ -1,5 +1,6 @@
 <script>
   import Nav from "../../components/landing-page/Nav.svelte";
+  import { auth } from "../../store/auth.js"
 </script>
 
 <Nav/>
@@ -9,8 +10,17 @@
     Menu
   </p>
   <ul class="menu-list">
-    <li><a href="#">Dashboard</a></li>
-    <li><a href="#">Tryout Saya</a></li>
+    {#if $auth.login=="wait"}
+    <div class="select is-loading"></div>
+    {:else if $auth.siswa.length !==0}
+    <li><a href="/users/siswa/dashboard">Dashboard</a></li>
+    <li><a href="/users/siswa/tryout">Tryout Saya</a></li>
+    <li><a href="/users/disclaimer">Disclaimer</a></li>
+    {:else}
+    <li><a href="/users/admin/dashboard">Dashboard</a></li>
+    <li><a href="/users/admin/payment">Pembelian</a></li>
+    <li><a href="/users/admin/payment/validated">Pembelian tervalidasi</a></li>
+    {/if}
   </ul>
 </aside>
 <main><slot/></main>

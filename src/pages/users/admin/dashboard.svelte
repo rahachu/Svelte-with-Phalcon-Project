@@ -57,7 +57,7 @@
                     <tr>
                         <td>{to.name}</td>
                         <td>{to.tryout_price.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</td>
-                        <td><button class="button is-info is-small" on:click={()=>{$goto('../edit',{idtryout:to.idtryout})}}>Edit</button></td>
+                        <td><button class="button is-info is-small" on:click={()=>{$goto('./tryout/edit',{idtryout:to.idtryout})}}>Edit</button></td>
                         {#if to.publish_time==null}
                         <td><button class="button is-link is-small" on:click={()=>{publishTO(to.idtryout)}}>Publish</button></td>
                         {:else}
@@ -71,13 +71,6 @@
             {:catch error}
                 <p style="color: red">{error.message}</p>
             {/await}
-            <tr>
-                <td>Tryout 2</td>
-                <td>20.000</td>
-                <td><button class="button is-info is-small">Edit</button></td>
-                <td><button class="button is-link is-small" disabled>Publish</button></td>
-                <td><button class="button is-danger is-small">Hapus</button></td>
-            </tr>
         </tbody>
         <tfoot>
             <td><input class="input" type="text" placeholder="Judul Tryout" bind:value={formNewTO.name}></td>
