@@ -14,7 +14,9 @@ class ControllerSiswa extends Controller
     {
         $user = $this->auth->getUser();
         if (!$user['login'] || !$user->siswa) {
-            $this->response->redirect('/dashboard');
+            $this->response->setStatusCode(500,"Internal server error");
+            $this->response->setContent(["error"=>"Something wrong"]);
+            $this->response->send();
         }
     }
 }

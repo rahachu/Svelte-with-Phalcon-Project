@@ -6,6 +6,7 @@ namespace App\Controllers;
 Use App\Models\Tryout;
 Use App\Models\Subtest;
 Use App\Models\Soal;
+use App\Models\SiswaHasTryou;
 Use App\Models\SiswaHasSoal;
 Use App\Library\Exception;
 use Phalcon\Mvc\Controller;
@@ -67,6 +68,17 @@ class TryoutController extends Controller
 
     public function getbyidAction($idtryout)
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
+        $sht = SiswaHasTryout::find([
+            'conditions' => 'tryout_idtryout=:idtryout: AND siswa_iduser=:user:',
+            'bind' => ['idtryout'=>$idtryout,'user'=>$this->auth->getUser()['id']],
+        ]);
+        if (count($sht)==0) {
+            $this->response->serJsonContent("Tryout tidak tersedia");
+            return $this->response->setStatusCode(404,"Not found");
+        }
         $conditions = ['idtryout'=>$idtryout];
 
         //Mengambil data tryout berdasarkan idtryout dari model Tryout.php
@@ -124,9 +136,12 @@ class TryoutController extends Controller
     }
     
     public function saveSiswaAnswerAction (){
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         $postData = json_decode($this->request->getRawBody());
         $answer = new SiswaHasSoal();
-        $answer->siswa_iduser = $postData->siswa_iduser;
+        $answer->siswa_iduser = $this->auth->getUser()['id'];
         $answer->soal_no = $postData->soal_no;
         $answer->answer = $postData->answer;
         $answer->soal_subtest_idsubtest = $postData->soal_subtest_idsubtest;
@@ -142,6 +157,9 @@ class TryoutController extends Controller
     }
 
     public function getSiswaAnswerAction ($siswa_iduser, $soal_subtest_tryout_idtryout,$soal_subtest_idsubtest) {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         $conditions = ['siswa_iduser'=>$siswa_iduser, 'soal_subtest_idsubtest' => $soal_subtest_idsubtest, 'soal_subtest_tryout_idtryout'=>$soal_subtest_tryout_idtryout];
 
         $soal = SiswaHasSoal::find(

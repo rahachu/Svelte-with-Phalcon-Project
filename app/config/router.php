@@ -14,7 +14,7 @@ $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'re
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
 
-$router->add('/tryout/data','tryout::getAll');
+//$router->add('/tryout/data','tryout::getAll'); //untuk keamanan dimatikan yaa
 $router->add('/tryout/data/{idtryout}','tryout::getbyid');
 $router->addPost('/tryout/siswa/answer', 'tryout::saveSiswaAnswer');
 $router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtryout}/{soal_subtest_idsubtest}', 'tryout::getSiswaAnswer');

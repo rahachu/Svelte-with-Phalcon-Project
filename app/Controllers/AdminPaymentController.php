@@ -15,6 +15,9 @@ class AdminPaymentController extends ControllerAdmin
 
     public function getListValidatedAction()
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         //menampilkan siswa yang butuh divalidasi pembayarannya
         if($this->request->hasQuery('page')){
             $currentPage = $this->request->getQuery('page');
@@ -53,6 +56,9 @@ class AdminPaymentController extends ControllerAdmin
     }
     public function getListUnvalidatedAction()
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
                //menampilkan siswa yang butuh divalidasi pembayarannya
                if($this->request->hasQuery('page')){
                 $currentPage = $this->request->getQuery('page');
@@ -91,6 +97,9 @@ class AdminPaymentController extends ControllerAdmin
     }
     public function ImagedataAction($idimage)
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         $image = Imagedata::findFirst($idimage);
         if ($image) {
             $this->response->setStatusCode(202,"Ok");
@@ -104,6 +113,9 @@ class AdminPaymentController extends ControllerAdmin
     }
     public function postValidationAction($idpembayaran)
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         //mengupdate tabel siswa_buy_product validation = true, admin = idadmin
         $bukti = Buktipembayaran::findFirst($idpembayaran);
         $bukti->validation = 1;
