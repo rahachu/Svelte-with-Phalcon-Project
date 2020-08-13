@@ -12,6 +12,7 @@ function createAuth() {
 
     return {
         subscribe,
+        set,
         refresh: () => {
             getAuthInfo().then((auth)=>{
                 set(auth);

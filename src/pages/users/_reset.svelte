@@ -1,6 +1,7 @@
 <script>
   import Nav from "../../components/landing-page/Nav.svelte";
   import { auth } from "../../store/auth.js"
+  auth.refresh();
 </script>
 
 <Nav/>

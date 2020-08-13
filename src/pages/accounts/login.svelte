@@ -26,12 +26,11 @@
 		try {
 			let fetchLogin = await post("/login", userLogin);
 			let response = await fetchLogin.json();
-			console.log(response)
 			isLoading = false;
 			
 			if(fetchLogin.status === 200){
-				auth.refresh();
-				$goto('/users/siswa/dashboard');	
+				auth.set(response.userData);
+				$goto(`/users/${response.userData.siswa.length==0?"admin":"siswa"}/dashboard`);	
 			}else{
 				auth.refresh();
 				isError.status = true;

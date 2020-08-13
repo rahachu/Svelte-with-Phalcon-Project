@@ -45,6 +45,7 @@ class Auth extends Injectable
                         'id'      => $user->iduser,
                         'name'    => $user->username,
                     ]);
+                    $contentResponse['userData']=$this->getUser();
                 }
                 else {
                     $contentResponse['error']="Email belum terkonfirmasi";
