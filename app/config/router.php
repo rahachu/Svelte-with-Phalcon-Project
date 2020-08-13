@@ -16,7 +16,13 @@ $router->add('/auth','user::auth');
 
 $router->add('/tryout/data','tryout::getAll');
 $router->add('/tryout/data/{idtryout}','tryout::getbyid');
+$router->addPost('/tryout/siswa/answer', 'tryout::saveSiswaAnswer');
+$router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtryout}/{soal_subtest_idsubtest}', 'tryout::getSiswaAnswer');
 
+// API Dashboard siswa
+$router->addGet('/dashboard/list',['controller' => 'dashboardSiswa', 'action'=>'dashboardSiswa']);
+
+//Tryout editor API
 $router->addPost('/tryout/create',['controller'=>'tryoutEditor','action'=>'createTryout']);
 $router->addDelete('/tryout/create',['controller'=>'tryoutEditor','action'=>'deleteTryout']);
 $router->addPost('/tryout/save',['controller'=>'tryoutEditor','action'=>'saveQuestion']);
@@ -26,8 +32,18 @@ $router->addPost('/tryout/publish/{idtryout}',['controller'=>'tryoutEditor','act
 $router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','action'=>'unpublish']);
 
 
-$router->addPost('/tryout/siswa/answer', 'tryout::saveSiswaAnswer');
-$router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtryout}/{soal_subtest_idsubtest}', 'tryout::getSiswaAnswer');
+//Siswa Payment API 
+$router->addPost('/dashboard/{idproduct}/{payment_method}',['controller' => 'siswaPayment', 'action'=>'postPayment']);
+$router->addGet('/dashboard/payment/list',['controller'=>"siswaPayment", 'action'=>'getPaymentMethod']);
+$router->addGet('/dashboard/product/data/{idproduct}',['controller'=>'siswaPayment','action'=>'product']);
+
+//Admin Payment API
+$router->addGet('/admin/validation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListValidated']);
+$router->addGet('/admin/unvalidation/\?page=([a-zA-Z0-9\_\-]+)',['controller' => 'adminPayment','action'=> 'getListUnvalidated']);
+$router->addGet('/admin/data/image/{idimage}',['controller' => 'adminPayment','action' => 'Imagedata']);
+$router->addPost('/admin/confirm/{idpembayaran}',['controller' => 'adminPayment','action'=> 'postValidation']);
+
+//Default route pass to svelte
 $router->notFound(
     [
         'controller' => 'index',
