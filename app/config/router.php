@@ -16,6 +16,7 @@ $router->add('/auth','user::auth');
 
 // API Dashboard siswa
 $router->addGet('/dashboard/list',['controller' => 'dashboardSiswa', 'action'=>'dashboardSiswa']);
+$router->addGet('/dashboard/tryoutsaya',['controller'=>'dashboardSiswa','action'=>'getSiswaHasTryout']);
 
 //Tryout editor API
 $router->addPost('/tryout/create',['controller'=>'tryoutEditor','action'=>'createTryout']);
