@@ -15,7 +15,7 @@ class ControllerAdmin extends Controller
         $user = $this->auth->getUser();
         if (!$user['login'] || !$this->auth->isAdmin()) {
             $this->response->setStatusCode(404,"Halaman tidak ditemukan");
-            $this->response->send();
+            return $this->response->send();
         }
     }
 }

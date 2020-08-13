@@ -49,7 +49,7 @@ class AdminPaymentController extends ControllerAdmin
             $this->response->setStatusCode(409,"Conflict");
             $this->response->setContent("gak onok query");
         }
-        return !$this->response->isSent() && $this->response->send();
+        return $this->response->send();
     }
     public function getListUnvalidatedAction()
     {
@@ -87,7 +87,7 @@ class AdminPaymentController extends ControllerAdmin
                 $this->response->setStatusCode(409,"Conflict");
                 $this->response->setContent("gak onok query");
             }
-            return !$this->response->isSent() && $this->response->send();
+            return $this->response->send();
     }
     public function ImagedataAction($idimage)
     {
@@ -107,11 +107,11 @@ class AdminPaymentController extends ControllerAdmin
         //mengupdate tabel siswa_buy_product validation = true, admin = idadmin
         $bukti = Buktipembayaran::findFirst($idpembayaran);
         $bukti->validation = 1;
-        $bukti->idadmin = 1; //
+        $bukti->idadmin = $this->auth->getUser()['id'];
         $bukti->save();
         $this->response->setContent('kontol');
         $this->response->setStatusCode(201,"Created");
-        return !$this->response->isSent() && $this->response->send();
+        return $this->response->send();
     }
 }
 
