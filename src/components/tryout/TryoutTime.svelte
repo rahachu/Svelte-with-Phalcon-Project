@@ -1,15 +1,17 @@
 <script>
 	import Cookies from 'js-cookie';
-  import { goto } from '@sveltech/routify'
+	import { onMount } from "svelte"
+	import { goto } from '@sveltech/routify'
+	import { setDecryptCookie } from "../../library/SetCryptoCookie"
+
+	onMount(() => {
+		let checkTryoutTime = Cookies.get("TRYOUTTIME") || false
+		if(checkTryoutTime === false){
+			$goto('/tryout');
+		}
+	})
 
 	$:data 	= '';
-	// let today = new Date();
-	// 	let bulan 	= today.toLocaleString('default', { month: 'short' });
-	// 	let tanggal = today.getDate()
-	// 	let tahun 	= today.getFullYear()
-	// 	let jam 		= today.getHours()+2
-	// 	let menit 	= today.getMinutes()
-	// 	let detik 	= today.getSeconds()
 
 	let countDown = new Date(`${getCookie("TRYOUTTIME")}`);
 	
@@ -32,9 +34,7 @@
 
 		
 	function getCookie(name){
-		let resultCookie = Cookies.get(name)
-		let decryptCookie = atob(resultCookie);
-
+		let decryptCookie = setDecryptCookie(name, "number")
 		return decryptCookie;
 	} 
 </script>

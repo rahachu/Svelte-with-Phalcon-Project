@@ -1,39 +1,53 @@
 <script>
-  import { goto } from '@sveltech/routify'
   import Cookies from 'js-cookie'
+  import CryptoJS from 'crypto-js'
+  import { onMount } from 'svelte'
+  import { goto } from '@sveltech/routify'
+  import { soalStore } from '../../store/tryout/soalStore.js'
+  // Library
+  import { setEncryptCookie, setDecryptCookie } from "../../library/SetCryptoCookie";
+
+  let timeInMinute = ''
+  let subtestId = ''
+  let isLoading = true;
+  onMount(() => {
+    let getSelesai = Cookies.get("SELESAI") || false
+    if(getSelesai){
+      $goto("/tryout/selesai-tryout")
+    }
+    setupSoalState()
+    // coba()
+  })
+
+  // async function coba(){
+  //   const req = await fetch("/auth");
+  //   const res = await req.json()
+  //   console.log(res)
+  // }
+
+  soalStore.subtestId.subscribe( id => {
+    subtestId = id;
+    setEncryptCookie("SUBTEST", parseInt(subtestId))
+  })
+
+  async function setupSoalState(){
+    await soalStore.getSoalApi();
+    await soalStore.dataSoal.subscribe(tryout => {
+      // setting jam sesuai response API (time in minute)
+      timeInMinute = tryout.subtest[subtestId].time_in_minute / 60
+    })
+    isLoading = false;
+  }
 
   function handleKerjakan(){
-    let today = new Date();
-    let current = ''
-    let setJam = ''
-    let setDetik = ''
-    
-      let bulan 	= today.toLocaleString('default', { month: 'short' });
-      let tanggal = today.getDate()
-      let tahun 	= today.getFullYear()
-      let jam 		= today.getHours()
-      let menit 	= today.getMinutes()
-      let detik 	= today.getSeconds()
-
-    // set time
-    setJam = jam + 2;
-    setDetik = detik +2
-
-    if(setJam > 24){
-      current = setJam-24;
-      setJam = 0+current;
-      tanggal += 1
-    }
-
-    let countDown = `${bulan} ${tanggal}, ${tahun} ${setJam}:${menit}:${setDetik}`
-    let encrypt = btoa(countDown);
-    Cookies.set('TRYOUTTIME', encrypt, { path: '/tryout' })
-    localStorage.setItem('no_soal', 1);
-    // Cookies.remove('TRYOUTANSWER', { path: '/start-tryout' }) || false
+    soalStore.startTryOut(timeInMinute);
     $goto('/tryout/start-tryout');
   }
 </script>
-  <button on:click={handleKerjakan}>Kerjakan</button>
 <div>
-
+  {#if isLoading}
+    <h5>Loading</h5>
+  {:else}
+    <button on:click={handleKerjakan}>Kerjakan</button>
+  {/if}
 </div>

@@ -14,6 +14,11 @@ $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'re
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
 
+$router->add('/tryout/data','tryout::getAll');
+$router->add('/tryout/data/{idtryout}','tryout::getbyid');
+$router->addPost('/tryout/siswa/answer', 'tryout::saveSiswaAnswer');
+$router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtryout}/{soal_subtest_idsubtest}', 'tryout::getSiswaAnswer');
+
 // API Dashboard siswa
 $router->addGet('/dashboard/list',['controller' => 'dashboardSiswa', 'action'=>'dashboardSiswa']);
 
@@ -25,6 +30,7 @@ $router->add('/tryout/datalist',['controller'=>'tryoutEditor','action'=>'tryoutL
 $router->add('/tryout/fulldata/{idtryout}',['controller'=>'tryoutEditor','action'=>'fulldata']);
 $router->addPost('/tryout/publish/{idtryout}',['controller'=>'tryoutEditor','action'=>'publish']);
 $router->addPost('/tryout/unpublish/{idtryout}',['controller'=>'tryoutEditor','action'=>'unpublish']);
+
 
 //Siswa Payment API 
 $router->addPost('/dashboard/{idproduct}/{payment_method}',['controller' => 'siswaPayment', 'action'=>'postPayment']);
