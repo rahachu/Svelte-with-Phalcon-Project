@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+
 class SiswaHasSoal extends \Phalcon\Mvc\Model
 {
 
@@ -34,8 +34,8 @@ class SiswaHasSoal extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("siswa_has_soal");
-        $this->belongsTo('siswa_iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
-        $this->belongsTo('soal_no', 'Soal', 'no', ['alias' => 'Soal']);
+        $this->belongsTo('siswa_iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
+        $this->belongsTo('soal_no', 'App\Models\Soal', 'no', ['alias' => 'Soal']);
     }
 
     /**

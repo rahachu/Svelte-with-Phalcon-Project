@@ -36,6 +36,7 @@ class Tryout extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("tryout");
+        $this->hasMany('idtryout', SiswaHasTryout::class, 'tryout_idtryout', ['alias' => 'SiswaHasTryout']);
         $this->hasMany('idtryout', Subtest::class, 'tryout_idtryout', ['alias' => 'subtest']);
     }
 

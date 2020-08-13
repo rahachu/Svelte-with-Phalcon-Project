@@ -28,8 +28,8 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("siswa_has_tryout");
-        $this->belongsTo('siswa_iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
-        $this->belongsTo('tryout_idtryout', 'Tryout', 'idtryout', ['alias' => 'Tryout']);
+        $this->belongsTo('siswa_iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
+        $this->belongsTo('tryout_idtryout', 'App\Models\Tryout', 'idtryout', ['alias' => 'Tryout']);
     }
 
     /**
