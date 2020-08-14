@@ -81,7 +81,7 @@
                         {/each}
                     </div>
                 </td>
-                <td>Rahachu</td>
+                <td>{item.admin}</td>
             </tr>
             {/each}
         </tbody>

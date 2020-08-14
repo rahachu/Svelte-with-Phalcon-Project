@@ -8,6 +8,8 @@ use App\Models\Siswa;
 use App\Models\PaymentMethod;
 use App\Models\Buktipembayaran;
 use App\Models\Imagedata;
+use App\Models\SiswaHasTryout;
+use App\Models\Tryout;
 use Phalcon\Paginator\Adapter\NativeArray;
 
 class AdminPaymentController extends ControllerAdmin
@@ -34,7 +36,8 @@ class AdminPaymentController extends ControllerAdmin
                     'no'=>$i + 1,
                     'namasiswa' => $cont->siswa->fullname,
                     'produk'=>$cont->productname,
-                    'bukti'=>$dataID
+                    'bukti'=>$dataID,
+                    'admin'=>$cont->admin,
                 ];
                 $i +=1;
             }
@@ -75,7 +78,7 @@ class AdminPaymentController extends ControllerAdmin
                         'id'=>$cont->idsiswa_buy_product,
                         'namasiswa' => $cont->siswa->fullname,
                         'produk'=>$cont->productname,
-                        'bukti'=>$dataID
+                        'bukti'=>$dataID,
                     ];
                     $i +=1;
                 }
@@ -118,8 +121,16 @@ class AdminPaymentController extends ControllerAdmin
         }
         //mengupdate tabel siswa_buy_product validation = true, admin = idadmin
         $bukti = Buktipembayaran::findFirst($idpembayaran);
-        $bukti->validation = 1;
-        $bukti->idadmin = $this->auth->getUser()['id'];
+        $siswahastryout = new SiswaHasTryout();
+        $siswahastryout->siswa_iduser = $bukti->iduser;
+        $siswahastryout->tryout = Tryout::find([
+            "condition"=>'name=:nama:',
+            "bind"=>['nama'=>$bukti->productname]
+        ])[0];
+        if ($siswahastryout->save()) {
+            $bukti->validation = 1;
+            $bukti->admin = $this->auth->getUser()['username'];
+        }
         $bukti->save();
         $this->response->setContent('kontol');
         $this->response->setStatusCode(201,"Created");

@@ -36,9 +36,9 @@ class Buktipembayaran extends \Phalcon\Mvc\Model
 
     /**
      *
-     * @var integer
+     * @var string
      */
-    public $idadmin;
+    public $admin;
 
     /**
      *

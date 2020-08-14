@@ -19,9 +19,10 @@ class SiswaPaymentController extends ControllerSiswa
     public function postPaymentAction($idproduct,$payment_method)
     {
         $dataBukti = new Buktipembayaran();
-        $dataBukti->idproduct =$idproduct;
+        $productname = Tryout::findFirst($idproduct);
+        $dataBukti->productname =$productname->name;
         $dataBukti->payment_method = $payment_method;
-        $dataBukti->iduser = 1; //$this->auth->getUser()['iduser'];
+        $dataBukti->iduser = $this->auth->getUser()['id'];
         $dataBukti->buy_time = new \Phalcon\Db\RawValue('CURRENT_TIMESTAMP()');
         $dataBukti->validation = 0;
         $imgs = $this->request->getPost('data');

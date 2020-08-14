@@ -1,6 +1,6 @@
 <script>
 	import { goto,url } from '@sveltech/routify';
-	let prodReq = fetch(`http://${window.location.host}/dashboard/list`).then(res=>res.json());
+	let prodReq = fetch(`http://${window.location.host}/dashboard/tryoutsaya`).then(res=>res.json());
 </script>
 
 {#await prodReq}
@@ -8,16 +8,15 @@
 {:then data}
 <div class=""></div>
 <div class="flex-box">
-	{#each data.product as prod}
+	{#each data as prod}
 	<div class="card flex-item">
 		<div class="card-content">
 			<p class="title is-4">{prod.name}</p>
-			<p class="subtitle">{prod.tryout_price.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
-			<div class="button-container"><button class="button is-primary" on:click={()=>{$goto($url('../buy',{product: prod.idtryout}))}}>Beli</button></div>
+			<div class="button-container"><button class="button is-warning" on:click={()=>{$goto($url('../buy',{product: prod.idtryout}))}}>Kerjakan</button></div>
 		</div>
 	</div>
 	{:else}
-	<p>Belum ada product</p>
+	<p>Belum ada tryout</p>
 	{/each}
 </div>
 {:catch error}
@@ -40,5 +39,8 @@
     margin: 10px;
     padding: 10px;
     width: 80%;
+}
+.card-content{
+	min-height: 140px;
 }
 </style>

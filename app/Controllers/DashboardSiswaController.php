@@ -52,7 +52,10 @@ class DashboardSiswaController extends ControllerSiswa
         return $this->response->send();
     }
     public function getSiswaHasTryoutAction(){
-        $idsiswa =1;//$this->auth->getUser();
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
+        $idsiswa =$this->auth->getUser()['id'];
         $tryoutSiswa = SiswaHasTryout::find([
             'conditions' => 'siswa_iduser = :idsiswa:',
             'bind' =>[
