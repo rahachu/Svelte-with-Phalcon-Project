@@ -51,7 +51,22 @@ class DashboardSiswaController extends ControllerSiswa
         $this->response->setJsonContent($dataDashboard);
         return $this->response->send();
     }
-
+    public function getSiswaHasTryoutAction(){
+        $idsiswa =1;//$this->auth->getUser();
+        $tryoutSiswa = SiswaHasTryout::find([
+            'conditions' => 'siswa_iduser = :idsiswa:',
+            'bind' =>[
+                'idsiswa' => $idsiswa
+            ]
+        ]);
+        $data = array();
+        foreach($tryoutSiswa as $tryouts){
+            array_push($data,$tryouts->tryout);
+        }
+        $this->response->setJsonContent($data);
+        $this->response->setStatusCode(200,'OK');
+        return $this->response->send();
+    }
 
 }
 
