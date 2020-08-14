@@ -21,6 +21,7 @@ $router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtry
 
 // API Dashboard siswa
 $router->addGet('/dashboard/list',['controller' => 'dashboardSiswa', 'action'=>'dashboardSiswa']);
+$router->addGet('/dashboard/tryoutsaya',['controller'=>'dashboardSiswa','action'=>'getSiswaHasTryout']);
 
 //Tryout editor API
 $router->addPost('/tryout/create',['controller'=>'tryoutEditor','action'=>'createTryout']);
