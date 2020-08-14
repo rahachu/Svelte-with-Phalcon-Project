@@ -13,9 +13,9 @@ class ControllerSiswa extends Controller
     public function initialize()
     {
         $user = $this->auth->getUser();
-        if (!$user['login'] || !$user->siswa) {
+        if (!$user['login'] || !$this->auth->isSiswa()) {
             $this->response->setStatusCode(500,"Internal server error");
-            $this->response->setContent(["error"=>"Something wrong"]);
+            $this->response->setJsonContent(["error"=>"Something wrong"]);
             $this->response->send();
         }
     }

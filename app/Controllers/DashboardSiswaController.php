@@ -13,7 +13,7 @@ class DashboardSiswaController extends ControllerSiswa
 
     private function getListProduct()
     {
-        $idsiswa = 1;//$this->auth->getUser()['iduser'] || 1;
+        $idsiswa = $this->auth->getUser()['id'] || 1;
         $siswaTryout = array_map(function($v) {
             return $v['siswa_iduser'];
         }, SiswaHasTryout::find(['conditions' => 'siswa_iduser = :idsiswa:',
@@ -30,7 +30,7 @@ class DashboardSiswaController extends ControllerSiswa
 
     private function getProfileSiswa()
     {
-        $idsiswa = 1;//$this->auth->getUser()['iduser'] || 1;
+        $idsiswa = $this->auth->getUser()['id'] || 1;
         $dataSiswa = Siswa::find(['conditions' => 'iduser = :idsiswa:',
                                 'bind'=>['idsiswa'=>$idsiswa]]);
         return $dataSiswa;
@@ -41,6 +41,9 @@ class DashboardSiswaController extends ControllerSiswa
     }
     public function dashboardSiswaAction()
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         $dataDashboard = [
             'product' => $this->getListProduct(),
         ];
