@@ -224,14 +224,7 @@
     let getSoalData = setDecryptCookie("SOALDATA", "object");
     let totalSubtest = getSoalData.subtest.length;
     
-    // Kirim Jawaban per Subtest
-    // let kirimJawaban = 
     jawabanStore.kirimJawaban(dataJawaban, dataSoal);
-    // if(kirimJawaban){
-    //   console.log("Kirim Jawaban berhasil")
-    // }else{
-    //   console.log("Problem")
-    // }
 
     if(subtestId == totalSubtest-1){
       setTimeout(() => {
@@ -455,6 +448,7 @@
     padding: 30px;
   }
 </style>
+
 <div>
   {#if isLoading}
     <h5>Loading...</h5>
