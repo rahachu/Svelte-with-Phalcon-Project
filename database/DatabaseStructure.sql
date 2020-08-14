@@ -97,6 +97,7 @@ CREATE TABLE `siswa` (
 CREATE TABLE `siswa_has_soal` (
   `siswa_iduser` int(11) NOT NULL,
   `soal_no` int(11) NOT NULL,
+  `answer` enum('A','B','C','D','E') DEFAULT NULL,
   `soal_subtest_idsubtest` int(11) NOT NULL,
   `soal_subtest_tryout_idtryout` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
