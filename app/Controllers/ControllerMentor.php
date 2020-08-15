@@ -13,7 +13,7 @@ class ControllerMentor extends Controller
     public function initialize()
     {
         $user = $this->auth->getUser();
-        if (!$user->mentor) {
+        if (!$user['login'] || !$user->mentor) {
             $this->response->redirect('/dashboard');
         }
     }

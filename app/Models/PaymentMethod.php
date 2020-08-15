@@ -1,25 +1,20 @@
 <?php
 namespace App\Models;
-class SiswaHasTryout extends \Phalcon\Mvc\Model
+
+class PaymentMethod extends \Phalcon\Mvc\Model
 {
-
-    /**
-     *
-     * @var integer
-     */
-    public $siswa_iduser;
-
-    /**
-     *
-     * @var integer
-     */
-    public $tryout_idtryout;
 
     /**
      *
      * @var string
      */
-    public $confirm_time;
+    public $type_payment_method;
+
+    /**
+     *
+     * @var string
+     */
+    public $description;
 
     /**
      * Initialize method for model.
@@ -27,9 +22,8 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("siswa_has_tryout");
-        $this->belongsTo('siswa_iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
-        $this->belongsTo('tryout_idtryout', 'App\Models\Tryout', 'idtryout', ['alias' => 'Tryout']);
+        $this->setSource("payment_method");
+        $this->hasMany('type_payment_method', 'App\Models\Buktipembayaran', 'payment_method', ['alias' => 'Buktipembayaran']);
     }
 
     /**
@@ -39,14 +33,14 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'siswa_has_tryout';
+        return 'payment_method';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaHasTryout[]|SiswaHasTryout|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return PaymentMethod[]|PaymentMethod|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -57,7 +51,7 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaHasTryout|\Phalcon\Mvc\Model\ResultInterface
+     * @return PaymentMethod|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

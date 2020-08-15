@@ -9,10 +9,13 @@ use App\Models\Tryout;
 use App\Models\Subtest;
 use App\Models\soal;
 
-class TryoutEditorController extends Controller
+class TryoutEditorController extends ControllerAdmin
 {
     public function createTryoutAction()
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         # Membuat tryout baru kosong
         $postData = json_decode($this->request->getRawBody());
         $tryout = new Tryout();
@@ -31,6 +34,9 @@ class TryoutEditorController extends Controller
 
     public function deleteTryoutAction()
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         # Menghapus suatu tryout
         $idtryout = json_decode($this->request->getRawBody())->idtryout;
         $tryout = Tryout::findFirst($idtryout);
@@ -46,6 +52,9 @@ class TryoutEditorController extends Controller
 
     public function saveQuestionAction()
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         $dataSoal = json_decode($this->request->getRawBody());
         #Save tryout
         $tryout = new Tryout();
@@ -113,6 +122,9 @@ class TryoutEditorController extends Controller
 
     public function tryoutListAction()
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         # memberikan daftar tryout
         $tryouts = Tryout::find();
         $this->response->setJsonContent($tryouts);
@@ -121,6 +133,9 @@ class TryoutEditorController extends Controller
 
     public function fulldataAction($idtryout)
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         # kembalikan data full tryout
         $tryout = Tryout::findFirst($idtryout);
         $subtest = $tryout->subtest;
@@ -139,6 +154,9 @@ class TryoutEditorController extends Controller
 
     public function publishAction($idtryout)
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         # mempublish tryout
         $tryout = Tryout::findFirst($idtryout);
         $tryout->publish_time = new \Phalcon\Db\RawValue('CURRENT_TIMESTAMP()');
@@ -147,6 +165,9 @@ class TryoutEditorController extends Controller
 
     public function unpublishAction($idtryout)
     {
+        if ($this->response->isSent()) {
+            return $this->response;
+        }
         # mempublish tryout
         $tryout = Tryout::findFirst($idtryout);
         $tryout->publish_time = null;

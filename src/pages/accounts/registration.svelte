@@ -1,6 +1,7 @@
 <script>
 import {get,post} from "../../library/csrfFetch.js"
 import { goto } from "@sveltech/routify"
+import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
 
 let userRegistration = {
   fullname:'',
@@ -21,17 +22,22 @@ function handleSubmit(e){
   registrationProcess();
 }
 
-async function registrationProcess(){
-  const fetchRegistration = await post('/register', userRegistration);
-  console.log(fetchRegistration);
-  // try {
-  //   const response = await fetchRegistration.json();
-  //   console.log(fetchRegistration);
-  //   console.log(response);
-  //   isLoading = false;
-  // } catch (error) {
-  //   console.log(error);
-  // }
+function registrationProcess(){
+    post('/register', userRegistration)
+    .then(res=>res.json())
+    .then((res)=>{
+      isLoading = false;
+      if (res.error) {
+        let i = 0;
+        res.error.forEach(msg => {
+          setTimeout(()=>notifier.danger(msg),i*250);
+          i++;
+        });
+      }
+      if (res.message) {
+        notifier.success(res.message);
+      }
+    })
 }
 
 </script>
@@ -47,6 +53,8 @@ async function registrationProcess(){
     text-align: left;
   }
 </style>
+
+<NotificationDisplay />
 
 <div class="registration">
 
@@ -68,7 +76,7 @@ async function registrationProcess(){
 
     <div class="form-group">
       <label for="phone">Phone</label>
-      <input bind:value={userRegistration.phone} type="number" autocomplete="off" name="phone" id="phone">
+      <input bind:value={userRegistration.phone} type="tel" autocomplete="off" name="phone" id="phone">
     </div>
 
     <div class="form-group">

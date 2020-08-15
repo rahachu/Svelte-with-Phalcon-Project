@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Models;
-
 class Siswa extends \Phalcon\Mvc\Model
 {
 
@@ -42,7 +40,20 @@ class Siswa extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("siswa");
+        $this->hasMany('iduser', 'App\Models\Buktipembayaran', 'iduser', ['alias' => 'Buktipembayaran']);
+        $this->hasMany('iduser', 'App\Models\SiswaHasSoal', 'siswa_iduser', ['alias' => 'SiswaHasSoal']);
+        $this->hasMany('iduser', 'App\Models\SiswaHasTryout', 'siswa_iduser', ['alias' => 'SiswaHasTryout']);
         $this->belongsTo('iduser', 'App\Models\User', 'iduser', ['alias' => 'User']);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'siswa';
     }
 
     /**
@@ -51,7 +62,7 @@ class Siswa extends \Phalcon\Mvc\Model
      * @param mixed $parameters
      * @return Siswa[]|Siswa|\Phalcon\Mvc\Model\ResultSetInterface
      */
-    public static function find($parameters = null): \Phalcon\Mvc\Model\ResultsetInterface
+    public static function find($parameters = null)
     {
         return parent::find($parameters);
     }

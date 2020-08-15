@@ -53,15 +53,23 @@ class UserController extends Controller
                 $user->siswa = $siswa;
                 if ($user->save()) {
                     $this->response->setStatusCode(201,'Berhasil daftar');
-                    $this->response->setContent("Jangan lupa verifikasi email");
+                    $this->response->setJsonContent([
+                        'csrfKey'=>$this->security->getTokenKey(),
+                        'csrfToken'=>$this->security->getToken(),
+                        'message'=>"Jangan lupa verifikasi yaa..."
+                    ]);
                     return $this->response->send();
                 }
                 else {
+                    $error = [];
+                    foreach ($user->getMessages() as $messages) {
+                        $error[] = $messages->getMessage();
+                    }
                     $this->response->setStatusCode(403,"Forbidden");
                     $this->response->setJsonContent([
                         'csrfKey'=>$this->security->getTokenKey(),
                         'csrfToken'=>$this->security->getToken(),
-                        'error'=>$user->getMessages()
+                        'error'=>$error
                     ]);
                     return $this->response->send(); 
                 }

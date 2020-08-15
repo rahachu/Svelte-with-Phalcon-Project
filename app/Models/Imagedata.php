@@ -1,25 +1,26 @@
 <?php
 namespace App\Models;
-class SiswaHasTryout extends \Phalcon\Mvc\Model
+
+class Imagedata extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var integer
      */
-    public $siswa_iduser;
-
-    /**
-     *
-     * @var integer
-     */
-    public $tryout_idtryout;
+    public $idimage;
 
     /**
      *
      * @var string
      */
-    public $confirm_time;
+    public $data;
+
+    /**
+     *
+     * @var integer
+     */
+    public $buktipembayaran_idsiswa_buy_product;
 
     /**
      * Initialize method for model.
@@ -27,9 +28,8 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("siswa_has_tryout");
-        $this->belongsTo('siswa_iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
-        $this->belongsTo('tryout_idtryout', 'App\Models\Tryout', 'idtryout', ['alias' => 'Tryout']);
+        $this->setSource("imagedata");
+        $this->belongsTo('buktipembayaran_idsiswa_buy_product', 'App\Models\Buktipembayaran', 'idsiswa_buy_product', ['alias' => 'Buktipembayaran']);
     }
 
     /**
@@ -39,14 +39,14 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'siswa_has_tryout';
+        return 'imagedata';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaHasTryout[]|SiswaHasTryout|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return Imagedata[]|Imagedata|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -57,7 +57,7 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaHasTryout|\Phalcon\Mvc\Model\ResultInterface
+     * @return Imagedata|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
