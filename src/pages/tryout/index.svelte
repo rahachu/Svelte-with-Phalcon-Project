@@ -4,6 +4,7 @@
   import { onMount } from 'svelte'
   import { goto } from '@sveltech/routify'
   import { soalStore } from '../../store/tryout/soalStore.js'
+  import { auth } from '../../store/auth.js'
   // Library
   import { setEncryptCookie, setDecryptCookie } from "../../library/SetCryptoCookie";
 
@@ -15,20 +16,15 @@
     if(getSelesai){
       $goto("/tryout/selesai-tryout")
     }
+
+    soalStore.subtestId.subscribe( id => {
+      subtestId = id;
+      setEncryptCookie("SUBTEST", parseInt(subtestId))
+    })
+
     setupSoalState()
-    // coba()
   })
-
-  // async function coba(){
-  //   const req = await fetch("/auth");
-  //   const res = await req.json()
-  //   console.log(res)
-  // }
-
-  soalStore.subtestId.subscribe( id => {
-    subtestId = id;
-    setEncryptCookie("SUBTEST", parseInt(subtestId))
-  })
+  
 
   async function setupSoalState(){
     await soalStore.getSoalApi();

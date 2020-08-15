@@ -1,14 +1,18 @@
 <script>
   import Cookies from 'js-cookie'
   import CryptoJS from 'crypto-js'
-	import { goto } from '@sveltech/routify'
   import TryoutTime from '../../components/tryout/TryoutTime.svelte'
   import { onMount } from 'svelte' 
+  import { goto } from '@sveltech/routify'
+  import { auth } from "../../store/auth.js"
   import { soalStore } from '../../store/tryout/soalStore.js'
   import { jawabanStore } from '../../store/tryout/jawabanStore.js'
   // Library
   import { setEncryptCookie, setDecryptCookie } from "../../library/SetCryptoCookie";
   
+  // auth
+  let userId = '';
+
   //  data tryout soal dan jawaban
   let timeInMinute = '';
   let dataTryout = ''
@@ -40,7 +44,6 @@
     soalStore.subtestId.subscribe(id => subtestId = id)
     soalStore.getListNumber();
     getOptionValue()
-    getOptionAnswered()
     getMarkedQuestion(soalNo)
   })
   setupDataSoal();
@@ -56,6 +59,11 @@
   }
 
   function setupDataSoal(){
+    // get auth
+    auth.subscribe(user => {
+      userId = user.id
+    })
+
     // get data soal dari soal store
     soalStore.dataSoal.subscribe(val => {
       dataTryout = {
@@ -156,10 +164,6 @@
     });
   }
 
-  // get soal terjawab
-  function getOptionAnswered(){
-  }
-
   // get soal ditandai
 
   // handle button tombol sebelumnya
@@ -224,15 +228,16 @@
     let getSoalData = setDecryptCookie("SOALDATA", "object");
     let totalSubtest = getSoalData.subtest.length;
     
-    jawabanStore.kirimJawaban(dataJawaban, dataSoal);
+    jawabanStore.kirimJawaban(userId, dataJawaban, dataSoal);
 
+    Cookies.get("MARKQUESTION") ? Cookies.remove("MARKQUESTION") : false
+    Cookies.remove("TRYOUTANSWER")
     if(subtestId == totalSubtest-1){
       setTimeout(() => {
         setEncryptCookie("SELESAI", true);
-        Cookies.get("MARKQUESTION") ? Cookies.remove("MARKQUESTION") : false
         Cookies.remove("SOALDATA")
         Cookies.remove("SUBTEST")
-        Cookies.remove("TRYOUTANSWER")
+        Cookies.remove("TRYOUTTIME")
         localStorage.removeItem("no_soal");
         $goto("/tryout/selesai-tryout")
       }, 1000);

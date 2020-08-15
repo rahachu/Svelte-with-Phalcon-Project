@@ -1,13 +1,17 @@
 <script>
   import Cookies from 'js-cookie'
   import { onMount } from "svelte"
+  import { goto } from '@sveltech/routify'
 
   onMount(() => {
-    Cookies.get("MARKQUESTION") ? Cookies.remove("MARKQUESTION") : false
-    Cookies.remove("SOALDATA")
-    Cookies.remove("SUBTEST")
-    Cookies.remove("TRYOUTANSWER")
-    Cookies.remove("TRYOUTTIME")
+    checkTryOut()
   })
+
+  function checkTryOut(){
+    let soalData = Cookies.get("SOALDATA") || false
+    if(soalData){
+      $goto("start-tryout")
+    }
+  }
 </script>
 <h5>Selesai TRYOUT</h5>

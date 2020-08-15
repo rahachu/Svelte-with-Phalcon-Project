@@ -7,8 +7,6 @@ import {
 } from "../../library/SetCryptoCookie";
 
 const store = () => {
-  // let SECRET_KEY = "U2FsdGVkX196hp4EfKBtbvKnMpzlHZ5cyWeyYiS0P64Pateron2020";
-
   // LIST NUMBER STATE ===============================================
   let decryptSubtestId = setDecryptCookie("SUBTEST", "number");
   decryptSubtestId.length == 0 ? (decryptSubtestId = 0) : decryptSubtestId;
@@ -25,11 +23,6 @@ const store = () => {
   // =================================================================
 
   // MARKED SOAL STATE ===============================================
-  // get marked question from cookies
-  // let checkMarkedQuestion = Cookies.get("MARKEDQUESTION") || false;
-  // checkMarkedQuestion
-  //   ? (checkMarkedQuestion = JSON.parse(Cookies.get("MARKEDQUESTION")))
-  //   : false;
   let checkMarkedQuestionState = setDecryptCookie("MARKEDQUESTION", "object");
   let markQuestion = writable(checkMarkedQuestionState);
   // =================================================================
@@ -65,27 +58,16 @@ const store = () => {
     tandaiSoal(data) {
       checkMarkedQuestionState = [...checkMarkedQuestionState, data];
       setEncryptCookie("MARKEDQUESTION", checkMarkedQuestionState);
-      // Cookies.set("MARKEDQUESTION", JSON.stringify(checkMarkedQuestionState));
-      localStorage.setItem(
-        "MARKEDQUESTION",
-        JSON.stringify(checkMarkedQuestionState)
-      );
     },
     hapusTandaiSoal(data) {
       checkMarkedQuestionState = checkMarkedQuestionState.filter((marked) => {
         return marked.soal_no != data.soal_no;
       });
       setEncryptCookie("MARKEDQUESTION", checkMarkedQuestionState);
-      localStorage.setItem(
-        "MARKEDQUESTION",
-        JSON.stringify(checkMarkedQuestionState)
-      );
     },
     getListNumber() {
       dataSoal.subscribe((val) => {
         // get from Cookies
-        // let getTandaiSoal = Cookies.get("MARKEDQUESTION") || false;
-        // let getJawabanSoal = Cookies.get("TRYOUTANSWER") || false;
         let getTandaiSoal =
           setDecryptCookie("MARKEDQUESTION", "object") || false;
         let getJawabanSoal =
@@ -125,9 +107,11 @@ const store = () => {
       });
     },
     async getSoalApi() {
-      const reqSoal = await fetch(`http://${window.location.host}/tryout/data`);
+      const reqSoal = await fetch(
+        `http://${window.location.host}/tryout/data/1`
+      );
       const resSoal = await reqSoal.json();
-      const tryout = resSoal[0];
+      const tryout = resSoal;
       dataSoal.update((soal) => (soal = tryout));
       setEncryptCookie("SOALDATA", tryout);
     },

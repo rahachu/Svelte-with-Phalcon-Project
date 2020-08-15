@@ -6,7 +6,7 @@ namespace App\Controllers;
 Use App\Models\Tryout;
 Use App\Models\Subtest;
 Use App\Models\Soal;
-use App\Models\SiswaHasTryou;
+use App\Models\SiswaHasTryout;
 Use App\Models\SiswaHasSoal;
 Use App\Library\Exception;
 use Phalcon\Mvc\Controller;
@@ -72,8 +72,8 @@ class TryoutController extends Controller
             return $this->response;
         }
         $sht = SiswaHasTryout::find([
-            'conditions' => 'tryout_idtryout=:idtryout: AND siswa_iduser=:user:',
-            'bind' => ['idtryout'=>$idtryout,'user'=>$this->auth->getUser()['id']],
+            'conditions' => 'tryout_idtryout=:idtryout:',
+            'bind' => ['idtryout'=>$idtryout],
         ]);
         if (count($sht)==0) {
             $this->response->serJsonContent("Tryout tidak tersedia");

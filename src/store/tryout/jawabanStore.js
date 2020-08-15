@@ -23,25 +23,21 @@ const store = () => {
         });
         update((n) => (state = [...n, data]));
       }
-      localStorage.setItem("A", JSON.stringify(state));
-      // Cookies.set("TRYOUTANSWER", JSON.stringify(state));
       setEncryptCookie("TRYOUTANSWER", state);
     },
     hapusJawaban(no) {
       let a = state.filter((data) => data.soal_no != no);
       state = a;
       update((curState) => (curState = state));
-      localStorage.setItem("A", JSON.stringify(state));
-      // Cookies.set("TRYOUTANSWER", JSON.stringify(state));
       setEncryptCookie("TRYOUTANSWER", state);
     },
-    kirimJawaban(dataJawaban, dataSoal) {
+    kirimJawaban(userId, dataJawaban, dataSoal) {
       try {
         dataJawaban.forEach((jawaban) => {
           let jawab = "";
           dataSoal.forEach((soal) => {
             jawab = {
-              siswa_iduser: 1,
+              siswa_iduser: userId,
               soal_no: jawaban.soal_no,
               answer: jawaban.option,
               soal_subtest_idsubtest: soal.subtest_idsubtest,
@@ -51,7 +47,7 @@ const store = () => {
           this.reqJawaban(jawab);
         });
       } catch (err) {
-        console.log(err);
+        alert("Error, Please Try Again");
       }
     },
     async reqJawaban(data) {
@@ -64,8 +60,6 @@ const store = () => {
           body: JSON.stringify(data),
         }
       );
-      const resApi = await reqApi;
-      console.log(resApi);
     },
   };
 
