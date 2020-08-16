@@ -13,8 +13,10 @@ class ControllerAdmin extends Controller
     public function initialize()
     {
         $user = $this->auth->getUser();
-        if ($user->siswa or $user->mentor) {
-            $this->response->redirect('/dashboard');
+        if (!$user['login'] || !$this->auth->isAdmin()) {
+            $this->response->setStatusCode(404,"Halaman tidak ditemukan");
+            $this->response->setJsonContent(["error"=>"Something wrong"]);
+            $this->response->send();
         }
     }
 }

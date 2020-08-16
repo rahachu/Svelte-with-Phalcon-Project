@@ -7,9 +7,8 @@ use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use Phalcon\Session\Adapter\Stream as SessionAdapter;
-use Phalcon\Session\Manager as SessionManager;
-use Phalcon\Url as UrlResolver;
+use Phalcon\Session\Adapter\Files as SessionFiles;
+use Phalcon\Mvc\Url as UrlResolver;
 Use App\Library\Mail;
 Use App\Library\Auth;
 use Phalcon\Mvc\Dispatcher;
@@ -121,11 +120,7 @@ $di->set('flash', function () {
  * Start the session the first time some component request the session service
  */
 $di->setShared('session', function () {
-    $session = new SessionManager();
-    $files = new SessionAdapter([
-        'savePath' => sys_get_temp_dir(),
-    ]);
-    $session->setAdapter($files);
+    $session = new SessionFiles();
     $session->start();
 
     return $session;

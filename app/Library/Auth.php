@@ -45,11 +45,13 @@ class Auth extends Injectable
                         'id'      => $user->iduser,
                         'name'    => $user->username,
                     ]);
+                    $contentResponse['userData']=$this->getUser();
+                    $this->response->setStatusCode(200,"login berhasil");
                 }
                 else {
                     $contentResponse['error']="Email belum terkonfirmasi";
+                    $this->response->setStatusCode(403,"Forbidden");
                 }
-                $this->response->setStatusCode(200,"login berhasil");
                 $this->response->setJsonContent($contentResponse);
                 return $this->response->send();
             }
@@ -90,17 +92,37 @@ class Auth extends Injectable
 
     public function isSiswa():bool
     {
-        $user = getUser();
-        return count($user->siswa)!==0;
+        $identity = $this->session->get('auth-identity');
+
+        if ($identity!=null) {
+            $user = User::findFirst($identity["id"]);
+            $siswa = $user->siswa;
+            return count($siswa)!==0;
+        }
+        return false;
     }
 
     public function isMentor():bool
     {
-        $user = getUser();
-        return count($user->mentor)!==0;
+        $identity = $this->session->get('auth-identity');
+
+        if ($identity!=null) {
+            $user = User::findFirst($identity["id"]);
+            $mentor = $user->mentor;
+            return count($mentor)!==0;
+        }
+        return false;
     }
 
     public function isAdmin():bool{
-        return !isSiswa() && !isMentor();
+        $identity = $this->session->get('auth-identity');
+
+        if ($identity!=null) {
+            $user = User::findFirst($identity["id"]);
+            $siswa = $user->siswa;
+            $mentor = $user->mentor;
+            return count($siswa)===count($mentor);
+        }
+        return false;
     }
 }
