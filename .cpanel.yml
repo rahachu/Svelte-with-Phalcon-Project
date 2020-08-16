@@ -1,0 +1,13 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/u6621605/public_html/
+    - npm ci
+    - npm run build
+    - composer install
+    - /public $DEPLOYPATH
+    - /app $DEPLOYPATH
+    - /vendor $DEPLOYPATH
+    - .htaccess $DEPLOYPATH
+    - .htrouter.php $DEPLOYPATH
+    - index.html $DEPLOYPATH
