@@ -2,9 +2,6 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/u6621605/public_html/
-    - npm ci
-    - npm run build
-    - composer install
     - /bin/cp -R public $DEPLOYPATH
     - /bin/cp -R app $DEPLOYPATH
     - /bin/cp -R vendor $DEPLOYPATH
