@@ -12,7 +12,7 @@
 	<div class="card flex-item">
 		<div class="card-content">
 			<p class="title is-4">{prod.name}</p>
-			<div class="button-container"><button class="button is-warning" on:click={()=>{$goto($url('../buy',{product: prod.idtryout}))}}>Kerjakan</button></div>
+			<div class="button-container"><button class="button is-warning" on:click={()=>{$goto($url('../../../tryout',{id: prod.idtryout}))}}>Kerjakan</button></div>
 		</div>
 	</div>
 	{:else}

@@ -46,11 +46,12 @@ class Auth extends Injectable
                         'name'    => $user->username,
                     ]);
                     $contentResponse['userData']=$this->getUser();
+                    $this->response->setStatusCode(200,"login berhasil");
                 }
                 else {
                     $contentResponse['error']="Email belum terkonfirmasi";
+                    $this->response->setStatusCode(403,"Forbidden");
                 }
-                $this->response->setStatusCode(200,"login berhasil");
                 $this->response->setJsonContent($contentResponse);
                 return $this->response->send();
             }

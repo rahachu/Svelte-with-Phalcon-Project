@@ -112,7 +112,7 @@ class AdminPaymentController extends ControllerAdmin
             $this->response->setStatusCode(404,"Not Found");
             $this->response->setContent("Data gambar tidak ditemukan");
         }
-        return !$this->response->isSent() && $this->response->send();
+        return $this->response->send();
     }
     public function postValidationAction($idpembayaran)
     {

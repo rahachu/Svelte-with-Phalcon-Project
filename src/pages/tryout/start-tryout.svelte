@@ -225,7 +225,10 @@
   function submitTryOut(){
     isLoading = true
 
-    let getSoalData = setDecryptCookie("SOALDATA", "object");
+    let getSoalData;
+    soalStore.dataSoal.subscribe(dadat=>{
+      getSoalData = dadat;
+    });
     let totalSubtest = getSoalData.subtest.length;
     
     jawabanStore.kirimJawaban(userId, dataJawaban, dataSoal);
@@ -235,7 +238,7 @@
     if(subtestId == totalSubtest-1){
       setTimeout(() => {
         setEncryptCookie("SELESAI", true);
-        Cookies.remove("SOALDATA")
+        Cookies.remove("IDTRYOUT")
         Cookies.remove("SUBTEST")
         Cookies.remove("TRYOUTTIME")
         localStorage.removeItem("no_soal");

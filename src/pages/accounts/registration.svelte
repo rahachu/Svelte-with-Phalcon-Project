@@ -36,6 +36,7 @@ function registrationProcess(){
       }
       if (res.message) {
         notifier.success(res.message);
+        setTimeout(()=>$goto('/accounts/login'),3000);
       }
     })
 }

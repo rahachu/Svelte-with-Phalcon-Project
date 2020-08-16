@@ -13,7 +13,7 @@ class DashboardSiswaController extends ControllerSiswa
 
     private function getListProduct()
     {
-        $idsiswa = $this->auth->getUser()['id'] || 1;
+        $idsiswa = $this->auth->getUser()['id'];
         $siswaTryout = array_map(function($v) {
             return $v['siswa_iduser'];
         }, SiswaHasTryout::find(['conditions' => 'siswa_iduser = :idsiswa:',

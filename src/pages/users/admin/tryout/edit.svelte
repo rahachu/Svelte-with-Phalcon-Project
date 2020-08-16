@@ -73,7 +73,7 @@
         body: JSON.stringify(saveData)
         })
         .then(()=>{
-            $goto('../list');
+            $goto('../../dashboard');
         })
         .catch(e=>console.log(e.message))
     }

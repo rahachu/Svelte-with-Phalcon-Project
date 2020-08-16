@@ -97,7 +97,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        $this->response->redirect('/dashboard');
+        $this->response->redirect('/accounts/login');
 
     }
 

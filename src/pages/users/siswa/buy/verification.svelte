@@ -1,6 +1,6 @@
 <script>
     import BuktiBeli from '../../../../components/BuktiBeli.svelte';
-    import { params } from "@sveltech/routify";
+    import { params,goto } from "@sveltech/routify";
     let produk = fetch(`http://${window.location.host}/dashboard/product/data/${$params.product}`).then(res=>res.json());
     let payMethod = fetch(`http://${window.location.host}/dashboard/payment/list`).then(res=>res.json());
     let bukti;
@@ -14,7 +14,7 @@
         fetch(`http://${window.location.host}/dashboard/${$params.product}/${selectedPayment.type_payment_method}`,{
             method: 'POST',
             body: formdata
-        }).then(res=>res.text()).then(a=>console.log(a))
+        }).then(res=>res.text()).then(a=>$goto('/users/siswa/dashboard'))
     }
 </script>
 

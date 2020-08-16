@@ -57,7 +57,7 @@
                     <tr>
                         <td>{to.name}</td>
                         <td>{to.tryout_price.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</td>
-                        <td><button class="button is-info is-small" on:click={()=>{$goto('./tryout/edit',{idtryout:to.idtryout})}}>Edit</button></td>
+                        <td><button class="button is-info is-small" on:click={()=>{$goto('../tryout/edit',{idtryout:to.idtryout})}}>Edit</button></td>
                         {#if to.publish_time==null}
                         <td><button class="button is-link is-small" on:click={()=>{publishTO(to.idtryout)}}>Publish</button></td>
                         {:else}

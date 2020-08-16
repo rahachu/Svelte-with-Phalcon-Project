@@ -26,11 +26,13 @@ class SiswaPaymentController extends ControllerSiswa
         $dataBukti->buy_time = new \Phalcon\Db\RawValue('CURRENT_TIMESTAMP()');
         $dataBukti->validation = 0;
         $imgs = $this->request->getPost('data');
-        foreach ($imgs as $img) {
-            $image = new Imagedata(['data'=>$img]);
-            $dataBukti->imagedata = $image;
-        }
         if($dataBukti->save()){
+            foreach ($imgs as $img) {
+                $image = new Imagedata(['data'=>$img]);
+                // $dataBukti->imagedata = $image;
+                $image->buktipembayaran = $dataBukti;
+                $image->save();
+            }
             $this->response->setStatusCode(202,"Created");
             $this->response->setContent("Successfull Saving");
         }else{

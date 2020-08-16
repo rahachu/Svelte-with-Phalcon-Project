@@ -14,8 +14,16 @@ const store = () => {
   // =================================================================
 
   // SOAL STATE =====================================================
-  let state = setDecryptCookie("SOALDATA", "object");
-  const dataSoal = writable(state);
+  let idtryout = setDecryptCookie("IDTRYOUT", "number");
+  const dataSoal = writable(null);
+  if (idtryout!==[]) {
+    fetch(
+      `http://${window.location.host}/tryout/data/${idtryout}`
+    ).then(res=>res.json())
+    .then(res=>{
+      dataSoal.set(res)
+    })
+  }
   // =================================================================
 
   // LIST NUMBER STATE ===============================================
@@ -44,14 +52,15 @@ const store = () => {
       let setDetik = "";
 
       setDetik = detik + 2;
-      setJam = jam + timeInMinute;
+      setJam = Math.floor(jam + timeInMinute/60);
       if (setJam > 24) {
         current = setJam - 24;
         setJam = 0 + current;
         tanggal += 1;
       }
 
-      let countDown = `${bulan} ${tanggal}, ${tahun} ${setJam}:${menit}:${setDetik}`;
+      let countDown = `${bulan} ${tanggal}, ${tahun} ${setJam}:${menit+(timeInMinute%60)}:${setDetik}`;
+      
       setEncryptCookie("TRYOUTTIME", countDown);
       localStorage.setItem("no_soal", 1);
     },
@@ -106,14 +115,14 @@ const store = () => {
         listNumber.set(dataJawaban);
       });
     },
-    async getSoalApi() {
+    async getSoalApi(idtryout) {
       const reqSoal = await fetch(
-        `http://${window.location.host}/tryout/data/1`
+        `http://${window.location.host}/tryout/data/${idtryout}`
       );
       const resSoal = await reqSoal.json();
       const tryout = resSoal;
       dataSoal.update((soal) => (soal = tryout));
-      setEncryptCookie("SOALDATA", tryout);
+      setEncryptCookie("IDTRYOUT", idtryout);
     },
   };
 

@@ -29,7 +29,7 @@ class Imagedata extends \Phalcon\Mvc\Model
     {
         $this->setSchema("pateron");
         $this->setSource("imagedata");
-        $this->belongsTo('buktipembayaran_idsiswa_buy_product', 'App\Models\Buktipembayaran', 'idsiswa_buy_product', ['alias' => 'Buktipembayaran']);
+        $this->belongsTo('buktipembayaran_idsiswa_buy_product', 'App\Models\Buktipembayaran', 'idsiswa_buy_product', ['alias' => 'buktipembayaran']);
     }
 
     /**

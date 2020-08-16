@@ -2,7 +2,7 @@
   import Cookies from 'js-cookie'
   import CryptoJS from 'crypto-js'
   import { onMount } from 'svelte'
-  import { goto } from '@sveltech/routify'
+  import { goto,params } from '@sveltech/routify'
   import { soalStore } from '../../store/tryout/soalStore.js'
   import { auth } from '../../store/auth.js'
   // Library
@@ -27,10 +27,10 @@
   
 
   async function setupSoalState(){
-    await soalStore.getSoalApi();
+    await soalStore.getSoalApi($params.id);
     await soalStore.dataSoal.subscribe(tryout => {
       // setting jam sesuai response API (time in minute)
-      timeInMinute = tryout.subtest[subtestId].time_in_minute / 60
+      timeInMinute = tryout.subtest[subtestId].time_in_minute
     })
     isLoading = false;
   }
