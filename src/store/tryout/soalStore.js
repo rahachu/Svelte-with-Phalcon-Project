@@ -18,7 +18,7 @@ const store = () => {
   const dataSoal = writable(null);
   if (idtryout!==[]) {
     fetch(
-      `http://${window.location.host}/tryout/data/${idtryout}`
+      `/tryout/data/${idtryout}`
     ).then(res=>res.json())
     .then(res=>{
       dataSoal.set(res)
@@ -117,7 +117,7 @@ const store = () => {
     },
     async getSoalApi(idtryout) {
       const reqSoal = await fetch(
-        `http://${window.location.host}/tryout/data/${idtryout}`
+        `/tryout/data/${idtryout}`
       );
       const resSoal = await reqSoal.json();
       const tryout = resSoal;

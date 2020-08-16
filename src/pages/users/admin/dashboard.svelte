@@ -2,12 +2,12 @@
     import { goto } from "@sveltech/routify";
 
     let formNewTO = {name:'',tryout_price:''}
-    let listTO = fetch(`http://${window.location.host}/tryout/datalist`).then(res=>res.json());
+    let listTO = fetch(`/tryout/datalist`).then(res=>res.json());
     let addTO = null;
     let delTO = null;
 
     let addTOclick = () => {
-        addTO = fetch(`http://${window.location.host}/tryout/create`,{
+        addTO = fetch(`/tryout/create`,{
         method: 'POST',
         body: JSON.stringify(formNewTO)
         }).then(res=>res.json());
@@ -16,7 +16,7 @@
     }
 
     let delTOclick = (id) => {
-        delTO = fetch(`http://${window.location.host}/tryout/create`,{
+        delTO = fetch(`/tryout/create`,{
             method: 'DELETE',
             body: JSON.stringify({"idtryout":id})
         });
@@ -24,16 +24,16 @@
     }
 
     let refreshList = () => {
-        listTO = fetch(`http://${window.location.host}/tryout/datalist`).then(res=>res.json());
+        listTO = fetch(`/tryout/datalist`).then(res=>res.json());
     }
 
     let publishTO = (id) => {
-        fetch(`http://${window.location.host}/tryout/publish/${id}`,{method: 'POST'})
+        fetch(`/tryout/publish/${id}`,{method: 'POST'})
         .then(()=>refreshList())
     }
 
     let unpublishTO = (id) => {
-        fetch(`http://${window.location.host}/tryout/unpublish/${id}`,{method: 'POST'})
+        fetch(`/tryout/unpublish/${id}`,{method: 'POST'})
         .then(()=>refreshList())
     }
 </script>

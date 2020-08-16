@@ -53,7 +53,7 @@ const store = () => {
     async reqJawaban(data) {
       // Kirim jawaban ke API
       const reqApi = await fetch(
-        `http://${window.location.host}/tryout/siswa/answer`,
+        `/tryout/siswa/answer`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
