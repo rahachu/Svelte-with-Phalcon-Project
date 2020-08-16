@@ -5,9 +5,9 @@ deployment:
     - npm ci
     - npm run build
     - composer install
-    - /public $DEPLOYPATH
-    - /app $DEPLOYPATH
-    - /vendor $DEPLOYPATH
-    - .htaccess $DEPLOYPATH
-    - .htrouter.php $DEPLOYPATH
-    - index.html $DEPLOYPATH
+    - /bin/cp -R public $DEPLOYPATH
+    - /bin/cp -R app $DEPLOYPATH
+    - /bin/cp -R vendor $DEPLOYPATH
+    - /bin/cp -R .htaccess $DEPLOYPATH
+    - /bin/cp -R .htrouter.php $DEPLOYPATH
+    - /bin/cp index.html $DEPLOYPATH
