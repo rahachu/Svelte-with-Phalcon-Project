@@ -51,7 +51,7 @@ class Buktipembayaran extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("pateron");
+        $this->setSchema($this->config->database->dbname);
         $this->setSource("buktipembayaran");
         $this->hasMany('idsiswa_buy_product', 'App\Models\Imagedata', 'buktipembayaran_idsiswa_buy_product', ['alias' => 'imagedata']);
         $this->belongsTo('payment_method', 'App\Models\PaymentMethod', 'type_payment_method', ['alias' => 'PaymentMethod']);

@@ -26,7 +26,7 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("pateron");
+        $this->setSchema($this->config->database->dbname);
         $this->setSource("siswa_has_tryout");
         $this->belongsTo('siswa_iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
         $this->belongsTo('tryout_idtryout', 'App\Models\Tryout', 'idtryout', ['alias' => 'Tryout']);
