@@ -9,7 +9,7 @@
     let img = {};
 
     async function req(page) {
-        let a = await fetch(`http://${window.location.host}/admin/validation/?page=${page}`);
+        let a = await fetch(`/admin/validation/?page=${page}`);
         let b = await a.json();
         b.items.forEach(item => {
             item.bukti.forEach(id => {
@@ -25,7 +25,7 @@
     }
 
     let getImage = async (id)=>{
-                                let req = await fetch(`http://${window.location.host}/admin/data/image/${id}`);
+                                let req = await fetch(`/admin/data/image/${id}`);
                                 let img = req.text();
                                 if (req.ok) {
                                     return img;

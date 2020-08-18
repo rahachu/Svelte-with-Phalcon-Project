@@ -12,7 +12,7 @@
   }
 
   function logout() {
-    fetch(`http://${window.location.host}/logout`);
+    fetch(`/logout`);
     auth.refresh();
   }
 

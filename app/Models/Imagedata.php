@@ -27,7 +27,7 @@ class Imagedata extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("pateron");
+        $this->setSchema($this->config->database->dbname);
         $this->setSource("imagedata");
         $this->belongsTo('buktipembayaran_idsiswa_buy_product', 'App\Models\Buktipembayaran', 'idsiswa_buy_product', ['alias' => 'buktipembayaran']);
     }

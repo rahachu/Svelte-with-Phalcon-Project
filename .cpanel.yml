@@ -1,0 +1,11 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/u6621605/public_html/
+    - /bin/cp -R public $DEPLOYPATH
+    - /bin/cp -R app $DEPLOYPATH
+    - /bin/cp .htaccess $DEPLOYPATH
+    - /bin/cp .htrouter.php $DEPLOYPATH
+    - /bin/cp composer.json $DEPLOYPATH
+    - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp composer.lock $DEPLOYPATH

@@ -38,7 +38,7 @@ class Siswa extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("pateron");
+        $this->setSchema($this->config->database->dbname);
         $this->setSource("siswa");
         $this->hasMany('iduser', 'App\Models\Buktipembayaran', 'iduser', ['alias' => 'Buktipembayaran']);
         $this->hasMany('iduser', 'App\Models\SiswaHasSoal', 'siswa_iduser', ['alias' => 'SiswaHasSoal']);

@@ -21,7 +21,7 @@
     let loadFullData = null;
 
     if ($dataTO===null) {
-        loadFullData = fetch(`http://${window.location.host}/tryout/fulldata/${$params.idtryout}`)
+        loadFullData = fetch(`/tryout/fulldata/${$params.idtryout}`)
         .then(res=>res.json()).then((json)=>{
             dataTO.update(n => json);
             name = json.name;
@@ -68,7 +68,7 @@
     function saveTO() {
         let saveData = $dataTO;
         saveData.name = name;
-        fetch(`http://${window.location.host}/tryout/save`,{
+        fetch(`/tryout/save`,{
         method: 'POST',
         body: JSON.stringify(saveData)
         })

@@ -21,7 +21,7 @@ class PaymentMethod extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("pateron");
+        $this->setSchema($this->config->database->dbname);
         $this->setSource("payment_method");
         $this->hasMany('type_payment_method', 'App\Models\Buktipembayaran', 'payment_method', ['alias' => 'Buktipembayaran']);
     }

@@ -1,6 +1,6 @@
 <script>
 	import { goto,url } from '@sveltech/routify';
-	let prodReq = fetch(`http://${window.location.host}/dashboard/tryoutsaya`).then(res=>res.json());
+	let prodReq = fetch(`/dashboard/tryoutsaya`).then(res=>res.json());
 </script>
 
 {#await prodReq}

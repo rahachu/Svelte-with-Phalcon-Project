@@ -40,7 +40,7 @@ class Mentor extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("pateron");
+        $this->setSchema($this->config->database->dbname);
         $this->setSource("mentor");
         $this->belongsTo('iduser', 'App\Models\User', 'iduser', ['alias' => 'User']);
     }

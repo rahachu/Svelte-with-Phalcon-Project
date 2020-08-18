@@ -21,7 +21,7 @@ class Timestamps extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema("pateron");
+        $this->setSchema($this->config->database->dbname);
         $this->setSource("timestamps");
     }
 

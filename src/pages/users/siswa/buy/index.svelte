@@ -1,6 +1,6 @@
 <script>
     import { params,goto,url } from "@sveltech/routify";
-    let produk = fetch(`http://${window.location.host}/dashboard/product/data/${$params.product}`).then(res=>res.json());
+    let produk = fetch(`/dashboard/product/data/${$params.product}`).then(res=>res.json());
 </script>
 
 <div class="container">

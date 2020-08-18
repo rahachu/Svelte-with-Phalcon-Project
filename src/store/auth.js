@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
 function getAuthInfo() {
-    return fetch(`http://${window.location.host}/auth`).then(res=>res.json())
+    return fetch("/auth").then(res=>res.json())
 }
 
 function createAuth() {

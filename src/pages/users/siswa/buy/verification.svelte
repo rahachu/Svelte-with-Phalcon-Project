@@ -1,8 +1,8 @@
 <script>
     import BuktiBeli from '../../../../components/BuktiBeli.svelte';
     import { params,goto } from "@sveltech/routify";
-    let produk = fetch(`http://${window.location.host}/dashboard/product/data/${$params.product}`).then(res=>res.json());
-    let payMethod = fetch(`http://${window.location.host}/dashboard/payment/list`).then(res=>res.json());
+    let produk = fetch(`/dashboard/product/data/${$params.product}`).then(res=>res.json());
+    let payMethod = fetch(`/dashboard/payment/list`).then(res=>res.json());
     let bukti;
     let selectedPayment;
 
@@ -11,7 +11,7 @@
         bukti.forEach(img => {
             formdata.append("data[]",img);
         });
-        fetch(`http://${window.location.host}/dashboard/${$params.product}/${selectedPayment.type_payment_method}`,{
+        fetch(`/dashboard/${$params.product}/${selectedPayment.type_payment_method}`,{
             method: 'POST',
             body: formdata
         }).then(res=>res.text()).then(a=>$goto('/users/siswa/dashboard'))
