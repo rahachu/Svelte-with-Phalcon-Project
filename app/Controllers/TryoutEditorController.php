@@ -7,7 +7,7 @@ use Phalcon\Mvc\Controller;
 use Phalcon\Http\Response\Cookies;
 use App\Models\Tryout;
 use App\Models\Subtest;
-use App\Models\soal;
+use App\Models\Soal;
 
 class TryoutEditorController extends ControllerAdmin
 {
