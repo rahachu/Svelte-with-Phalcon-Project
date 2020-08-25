@@ -28,7 +28,7 @@
 		if (distance < 0) {
 			clearInterval(startTime);
 			data = "WAKTU HABIS"
-			$goto('/tryout');
+			$goto('/users/siswa/tryout');
 		}
 	}, 1000)
 
