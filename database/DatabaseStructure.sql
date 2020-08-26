@@ -131,7 +131,8 @@ CREATE TABLE `soal` (
   `option_d` mediumtext DEFAULT NULL,
   `option_e` mediumtext DEFAULT NULL,
   `key` enum('A','B','C','D','E') DEFAULT NULL,
-  `solution` longtext DEFAULT NULL
+  `solution` longtext DEFAULT NULL,
+  `response_value` INT(45) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -348,6 +349,20 @@ ALTER TABLE `soal`
 ALTER TABLE `subtest`
   ADD CONSTRAINT `fk_subtest_tryout1` FOREIGN KEY (`tryout_idtryout`) REFERENCES `tryout` (`idtryout`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
+
+CREATE TABLE IF NOT EXISTS `pateron`.`siswa_has_subtest` (
+  `idsiswa_has_tryout` INT(45) NOT NULL,
+  `idsubtest` INT(45) NOT NULL,
+  `idsiswa` INT(45) NULL,
+  `result` JSON NULL,
+  INDEX `idsiswa_has_tryout_idx` (`idsiswa_has_tryout` ASC),
+  PRIMARY KEY (`idsiswa_has_tryout`, `idsubtest`),
+  CONSTRAINT `idsiswa_has_tryout`
+    FOREIGN KEY (`idsiswa_has_tryout`)
+    REFERENCES `pateron`.`siswa_has_tryout` (`tryout_idtryout`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
