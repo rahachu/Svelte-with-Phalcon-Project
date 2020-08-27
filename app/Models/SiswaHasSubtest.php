@@ -1,25 +1,31 @@
 <?php
 namespace App\Models;
-class SiswaHasTryout extends \Phalcon\Mvc\Model
+class SiswaHasSubtest extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var integer
      */
-    public $siswa_iduser;
+    public $idsiswa_has_tryout;
 
     /**
      *
      * @var integer
      */
-    public $tryout_idtryout;
+    public $idsubtest;
+
+    /**
+     *
+     * @var integer
+     */
+    public $idsiswa;
 
     /**
      *
      * @var string
      */
-    public $confirm_time;
+    public $result;
 
     /**
      * Initialize method for model.
@@ -27,10 +33,8 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("pateron");
-        $this->setSource("siswa_has_tryout");
-        $this->hasMany('tryout_idtryout', 'SiswaHasSubtest', 'idsiswa_has_tryout', ['alias' => 'SiswaHasSubtest']);
-        $this->belongsTo('siswa_iduser', 'Siswa', 'iduser', ['alias' => 'Siswa']);
-        $this->belongsTo('tryout_idtryout', 'Tryout', 'idtryout', ['alias' => 'Tryout']);
+        $this->setSource("siswa_has_subtest");
+        $this->belongsTo('idsiswa_has_tryout', 'SiswaHasTryout', 'tryout_idtryout', ['alias' => 'SiswaHasTryout']);
     }
 
     /**
@@ -40,14 +44,14 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      */
     public function getSource()
     {
-        return 'siswa_has_tryout';
+        return 'siswa_has_subtest';
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaHasTryout[]|SiswaHasTryout|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return SiswaHasSubtest[]|SiswaHasSubtest|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -58,7 +62,7 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return SiswaHasTryout|\Phalcon\Mvc\Model\ResultInterface
+     * @return SiswaHasSubtest|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {

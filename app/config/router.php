@@ -43,6 +43,8 @@ $router->addGet('/admin/unvalidation/\?page=([a-zA-Z0-9\_\-]+)',['controller' =>
 $router->addGet('/admin/data/image/{idimage}',['controller' => 'adminPayment','action' => 'Imagedata']);
 $router->addPost('/admin/confirm/{idpembayaran}',['controller' => 'adminPayment','action'=> 'postValidation']);
 
+//Assesment API
+$router->addGet('/siswa/mytryout/{idtryout}',['controller'=>'assesment','action'=>'getScore']);
 //Default route pass to svelte
 $router->notFound(
     [
