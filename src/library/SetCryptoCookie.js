@@ -38,4 +38,37 @@ const setDecryptCookie = (cookieName, type) => {
   return result;
 };
 
-export { setEncryptCookie, setDecryptCookie };
+const setEncryptLocalStorage = (name, data) => {
+  let encryptdata = CryptoJS.AES.encrypt(
+    JSON.stringify(data).toString(),
+    SECRET_KEY
+  ).toString();
+  return localStorage.setItem(name, encryptdata);
+};
+
+const setDecryptLocalStorage = (name, type) => {
+  let checkData = localStorage.getItem(name) || false;
+
+  let result = "";
+
+  if (checkData !== false) {
+    checkData = localStorage.getItem(name);
+    if (type === "object") {
+      let decryptData = CryptoJS.AES.decrypt(checkData, SECRET_KEY);
+      result = JSON.parse(decryptData.toString(CryptoJS.enc.Utf8));
+    } else {
+      let decryptData = CryptoJS.AES.decrypt(checkData, SECRET_KEY);
+      result = decryptData.toString(CryptoJS.enc.Utf8);
+    }
+  } else {
+    result = [];
+  }
+  return result;
+};
+
+export {
+  setEncryptCookie,
+  setDecryptCookie,
+  setEncryptLocalStorage,
+  setDecryptLocalStorage,
+};
