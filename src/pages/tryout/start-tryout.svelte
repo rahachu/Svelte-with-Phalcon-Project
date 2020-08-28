@@ -256,7 +256,7 @@
         Cookies.remove("IDTRYOUT")
         Cookies.remove("SUBTEST")
         Cookies.remove("TRYOUTTIME")
-        localStorage.removeItem("DATASOAL");
+        localStorage.removeItem("SOALDATA");
         localStorage.removeItem("no_soal");
         $goto("/tryout/selesai-tryout")
       }, 1000);
@@ -267,23 +267,24 @@
         subtestId = id 
         setEncryptCookie("SUBTEST", parseInt(subtestId))
       })
+
+      // setup Data Soal
+      setupDataSoal();
+
+      // setup timer
+      soalStore.startTryOut(timeInMinute)
+
+      // setup nomor
+      soalNo = 1;
+      activateSubmitButton = false;
+      disabledButtonPrev = true;
+      localStorage.setItem('no_soal', soalNo)
+      soalStore.getListNumber();
+
+      setTimeout(() => {
+        isLoading = false
+      }, 2000);
     }
-    // setup Data Soal
-    setupDataSoal();
-
-    // setup timer
-    soalStore.startTryOut(timeInMinute)
-
-    // setup nomor
-    soalNo = 1;
-    activateSubmitButton = false;
-    disabledButtonPrev = true;
-    localStorage.setItem('no_soal', soalNo)
-    soalStore.getListNumber();
-
-    setTimeout(() => {
-      isLoading = false
-    }, 2000);
   }
 
 </script>

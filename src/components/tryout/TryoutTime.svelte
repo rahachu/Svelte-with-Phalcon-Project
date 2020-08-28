@@ -2,7 +2,7 @@
 	import Cookies from 'js-cookie';
 	import { onMount } from "svelte"
 	import { goto } from '@sveltech/routify'
-	import { setDecryptCookie } from "../../library/SetCryptoCookie"
+	import { setEncryptCookie, setDecryptCookie } from "../../library/SetCryptoCookie"
 
 	onMount(() => {
 		let checkTryoutTime = Cookies.get("TRYOUTTIME") || false
@@ -28,7 +28,13 @@
 		if (distance < 0) {
 			clearInterval(startTime);
 			data = "WAKTU HABIS"
-			$goto('/users/siswa/tryout');
+			setEncryptCookie("SELESAI", true);
+			Cookies.remove("IDTRYOUT")
+			Cookies.remove("SUBTEST")
+			Cookies.remove("TRYOUTTIME")
+			localStorage.removeItem("DATASOAL");
+			localStorage.removeItem("no_soal");
+			$goto('/tryout/selesai-tryout');
 		}
 	}, 1000)
 
