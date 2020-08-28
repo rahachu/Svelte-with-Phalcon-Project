@@ -87,8 +87,10 @@ class DashboardSiswaController extends ControllerSiswa
     //scoring
     private function countScore($result){
         $score = 0;
-        foreach($result as $rslt){
-            $score += $rslt;
+        foreach($result as $key=>$rslt){
+            if ($key!=='benar' && $key!=='salah' && $key!=='jumlahSoal') {
+                $score += $rslt;
+            }
         }
         return $score;
     }
@@ -98,7 +100,7 @@ class DashboardSiswaController extends ControllerSiswa
             'bind'=>[
                 'idtryout' => $idtryout,
                 'idsubtest'=>$idsubtest,
-                'idsiswa'=>1 #$this->getUser()['id']
+                'idsiswa'=>$this->auth->getUser()['id']
             ]
         ]);
         if($exsist){ //berarti udah ada di db
@@ -116,13 +118,15 @@ class DashboardSiswaController extends ControllerSiswa
             $answer = SiswaHasSoal::find([
                 'conditions' => 'siswa_iduser = :idsiswa: AND soal_subtest_idsubtest = :idsubtest: AND soal_subtest_tryout_idtryout = :idtryout:',
                 'bind'=>[
-                    'idsiswa' => 1,#$this->getUser()['id]
+                    'idsiswa' => $this->auth->getUser()['id'],
                     'idsubtest'=>$idsubtest,
                     'idtryout'=>$idtryout
                 ],
                 'columns' => 'soal_no,answer'
             ]);
             $result = array();
+            $benar = 0;
+            $salah = 0;
             foreach ($answer as $ans){
                 foreach($answerKey as $key){
                     if($ans->soal_no == $key->no){
@@ -131,16 +135,21 @@ class DashboardSiswaController extends ControllerSiswa
                         }else{
                             if($ans->answer == $key->key){
                                 $result[$ans->soal_no]=4;
+                                $benar++;
                             }else{
                                 $result[$ans->soal_no]=-1;
+                                $salah++;
                             }
                         }
                     }
                 }
             }
+            $result['benar']=$benar;
+            $result['salah']=$salah;
+            $result['jumlahSoal']=count($answerKey);
             $saveResult = new SiswaHasSubtest();
             $saveResult->idsiswa_has_tryout = $idtryout;
-            $saveResult->idsiswa = 1; #$this->getUser()['id'];
+            $saveResult->idsiswa = $this->auth->getUser()['id'];
             $saveResult->idsubtest = $idsubtest;
             $saveResult->result = json_encode($result);
             if($saveResult->save()){
@@ -164,9 +173,13 @@ class DashboardSiswaController extends ControllerSiswa
         ]);
         $result = array();
         foreach($subtests as $subtest){
+            $score = $this->formalScore($idtryout,$subtest->idsubtest);
             array_push($result,array(
                 'judul' => $subtest->judul,
-                'score' => $this->countScore($this->formalScore($idtryout,$subtest->idsubtest))
+                'score' => $this->countScore($score),
+                'benar' => $score->benar,
+                'salah' => $score->salah,
+                'jumlahSoal' => $score->jumlahSoal
             ));
         }
         $this->response->setJsonContent($result);
