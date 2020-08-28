@@ -33,6 +33,15 @@
 	flex-basis: 25%;
 	margin: 10px;
 }
+@media only screen and (max-width: 769px) {
+  .flex-box{
+	  margin: 0 20px;
+  }
+  .flex-item {
+    flex-basis: 100%;
+	margin: 10px;
+  }
+}
 .button-container{
 	text-align: right;
     position: absolute;
