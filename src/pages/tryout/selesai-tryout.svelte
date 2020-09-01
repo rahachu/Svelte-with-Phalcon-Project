@@ -61,7 +61,7 @@
         </div>
         <div class="buttons">
           <a class="button is-info  is-outlined" href={$url('../../users/siswa/dashboard')}>Kembali ke dashboard</a>
-          <a class="button is-info" href={$url("nilai-tryout")}>Lihat Nilai</a>
+          <a class="button is-info" href={$url('../../users/siswa/tryout')}>Tryout Saya</a>
         </div>
       </div>
     </div>

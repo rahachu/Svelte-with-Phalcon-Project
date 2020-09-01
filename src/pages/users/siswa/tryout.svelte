@@ -12,7 +12,11 @@
 	<div class="card flex-item">
 		<div class="card-content">
 			<p class="title is-4">{prod.name}</p>
+			{#if prod.worked}
+			<div class="button-container"><button class="button is-primary" on:click={()=>{$goto($url('../nilai',{id: prod.idtryout}))}}>Lihat nilai</button></div>
+			{:else}
 			<div class="button-container"><button class="button is-warning" on:click={()=>{$goto($url('../../../tryout',{id: prod.idtryout}))}}>Kerjakan</button></div>
+			{/if}
 		</div>
 	</div>
 	{:else}
@@ -31,6 +35,15 @@
 .flex-item{
 	flex-basis: 25%;
 	margin: 10px;
+}
+@media only screen and (max-width: 769px) {
+  .flex-box{
+	  margin: 0 20px;
+  }
+  .flex-item {
+    flex-basis: 100%;
+	margin: 10px;
+  }
 }
 .button-container{
 	text-align: right;
