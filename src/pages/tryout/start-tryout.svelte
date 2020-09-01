@@ -31,11 +31,12 @@
   // active state
   let totalSoal = '';
   let isLoading = false;
+  let isLoadingSoal = false;
   let activeSoal = false;
   let activeAnswered = false;
   let activeTandaiSoal = false;
 
-  $:activateOption ="";
+  let activateOption ="";
   onMount(()=> {
     let getSelesai = Cookies.get("SELESAI") || false
     if(getSelesai){
@@ -87,6 +88,7 @@
 
   // handle navigation soal
   function handleSoalClick(e){
+    isLoadingSoal = true
     soalNo = e.toElement.title
     getOptionValue()
     localStorage.setItem('no_soal', soalNo);
@@ -101,6 +103,9 @@
     }
 
     getMarkedQuestion(soalNo)
+    setTimeout(() => {
+      isLoadingSoal = false
+    }, 1000);
   }
 
   if(soalNo == totalSoal){
@@ -168,6 +173,7 @@
 
   // handle button tombol sebelumnya
   function handlePrev(){
+    isLoadingSoal = true
     currentSoal-=1;
     activateSubmitButton = false
     disabledButtonPrev = false;
@@ -177,10 +183,14 @@
     getOptionValueButton()
     getMarkedQuestion(soalNo)
     localStorage.setItem('no_soal', soalNo);
+    setTimeout(() => {
+      isLoadingSoal = false
+    }, 1000);
   }
 
   // handle button tombol selanjutnya
   function handleNext(){
+    isLoadingSoal = true;
     currentSoal+=1;
     disabledButtonPrev = false;
     if(currentSoal == totalSoal-1){
@@ -189,6 +199,9 @@
     getOptionValueButton()
     getMarkedQuestion(soalNo)
     localStorage.setItem('no_soal', soalNo);
+    setTimeout(() => {
+      isLoadingSoal = false
+    }, 1000);
   }
 
   // tandai soal
@@ -232,6 +245,8 @@
     let totalSubtest = getSoalData.subtest.length;
     
     jawabanStore.kirimJawaban(userId, dataJawaban, dataSoal);
+    jawabanStore.set([])
+    activateOption = []
 
     Cookies.get("MARKQUESTION") ? Cookies.remove("MARKQUESTION") : false
     Cookies.remove("TRYOUTANSWER")
@@ -241,6 +256,7 @@
         Cookies.remove("IDTRYOUT")
         Cookies.remove("SUBTEST")
         Cookies.remove("TRYOUTTIME")
+        localStorage.removeItem("SOALDATA");
         localStorage.removeItem("no_soal");
         $goto("/tryout/selesai-tryout")
       }, 1000);
@@ -251,25 +267,35 @@
         subtestId = id 
         setEncryptCookie("SUBTEST", parseInt(subtestId))
       })
+
+      // setup Data Soal
+      setupDataSoal();
+
+      // setup timer
+      soalStore.startTryOut(timeInMinute)
+
+      // setup nomor
+      soalNo = 1;
+      activateSubmitButton = false;
+      disabledButtonPrev = true;
+      localStorage.setItem('no_soal', soalNo)
+      soalStore.getListNumber();
+
+      setTimeout(() => {
+        isLoading = false
+      }, 2000);
     }
-    // setup Data Soal
-    setupDataSoal();
-
-    // setup timer
-    soalStore.startTryOut(timeInMinute)
-
-    // setup nomor
-    soalNo = 1;
-    localStorage.setItem('no_soal', soalNo)
-    soalStore.getListNumber();
-
-    setTimeout(() => {
-      isLoading = false
-    }, 2000);
   }
 
 </script>
 <style>
+  .loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    padding: 30px;
+  }
 
   .tryout-navigation{
     display:flex;
@@ -459,7 +485,8 @@
 
 <div>
   {#if isLoading}
-    <h5>Loading...</h5>
+    <div class="select is-loading"></div>
+    Loading...
   {:else}
     <div class="columns">
       <div class="column left-bar is-one-quarter">
@@ -485,79 +512,85 @@
           </div>
         </div>
       </div>
-      <div class="column right-bar">
-        <div class="tryout-content">
-          <div class="soal-data">
-            <div class="action-soal">
-              <div class="time">
-                <TryoutTime/>
-              </div>
-              <div>
-                <h4 class="title is-4">TRYOUT {dataTryout.name}</h4>
-              </div>
-            </div>
-            <div class="soal">
-              <div class="no-soal">
-                <h3 class="subtitle is-5">Soal Ke <b>{dataSoal[currentSoal].no}/{totalSoal}</b></h3><hr>
-              </div>
-              <div class="soal-text">
-                {@html dataSoal[currentSoal].question}
-              </div>
-            </div>
-            <div class="jawaban">
-              <div class="jawaban-items">
-                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "A"} class="option" on:click={() => handlePilihOption('A')}>A</div>
-                <div class="option-value">
-                  {@html dataSoal[currentSoal].option_a}
+        <div class="column right-bar">
+          <div class="tryout-content">
+            <div class="soal-data">
+              <div class="action-soal">
+                <div class="time">
+                  <TryoutTime/>
+                </div>
+                <div>
+                  <h4 class="title is-4">TRYOUT {dataTryout.name}</h4>
                 </div>
               </div>
-              <div class="jawaban-items">
-                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "B"} class="option" on:click={() => handlePilihOption('B')}>B</div>
-                <div class="option-value">
-                  {@html dataSoal[currentSoal].option_b}
+              {#if isLoadingSoal}
+                <div class="loading">
+                  <div class="select is-loading"></div>
                 </div>
-              </div>
-              <div class="jawaban-items">
-                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "C"} class="option" on:click={() => handlePilihOption('C')}>C</div>
-                <div class="option-value">
-                  {@html dataSoal[currentSoal].option_c}
-                </div>
-              </div>
-              <div class="jawaban-items">
-                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "D"} class="option" on:click={() => handlePilihOption('D')}>D</div>
-                <div class="option-value">
-                  {@html dataSoal[currentSoal].option_d}
-                </div>
-              </div>
-              <div class="jawaban-items">
-                <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "E"} class="option" on:click={() => handlePilihOption('E')}>E</div>
-                <div class="option-value">
-                  {@html dataSoal[currentSoal].option_e}
-                </div>
-              </div>
-              <div class="jawaban-items">
-                <label class="checkbox">
-                  <input type="checkbox" on:change={handleTandaiSoal} bind:checked={activeTandaiSoal}>
-                    Tandai Soal
-                </label>
-                <button on:click={hapusJawaban} class="is-danger button">Hapus Pilihan</button>
-              </div>
-            </div>
-            <div class="button-navigation-soal">
-              <button disabled={disabledButtonPrev} on:click={handlePrev} class="button is-link is-outlined">
-                <span>Sebelumnya</span>
-              </button>
-              {#if activateSubmitButton}
-                <button on:click={submitTryOut} class="button is-primary">Submit</button>
               {:else}
-                <button disabled={disabledButtonNext} on:click={handleNext} class="button is-link is-outlined">
-                  <span>Selanjutnya</span>
-                </button>
+                <div class="soal">
+                  <div class="no-soal">
+                    <h3 class="subtitle is-5">Soal Ke <b>{dataSoal[currentSoal].no}/{totalSoal}</b></h3><hr>
+                  </div>
+                  <div class="soal-text">
+                    {@html dataSoal[currentSoal].question}
+                  </div>
+                </div>
+                <div class="jawaban">
+                  <div class="jawaban-items">
+                    <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "A"} class="option" on:click={() => handlePilihOption('A')}>A</div>
+                    <div class="option-value">
+                      {@html dataSoal[currentSoal].option_a}
+                    </div>
+                  </div>
+                  <div class="jawaban-items">
+                    <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "B"} class="option" on:click={() => handlePilihOption('B')}>B</div>
+                    <div class="option-value">
+                      {@html dataSoal[currentSoal].option_b}
+                    </div>
+                  </div>
+                  <div class="jawaban-items">
+                    <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "C"} class="option" on:click={() => handlePilihOption('C')}>C</div>
+                    <div class="option-value">
+                      {@html dataSoal[currentSoal].option_c}
+                    </div>
+                  </div>
+                  <div class="jawaban-items">
+                    <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "D"} class="option" on:click={() => handlePilihOption('D')}>D</div>
+                    <div class="option-value">
+                      {@html dataSoal[currentSoal].option_d}
+                    </div>
+                  </div>
+                  <div class="jawaban-items">
+                    <div class:option-active={soalNo == activateOption.soal_no && activateOption.option == "E"} class="option" on:click={() => handlePilihOption('E')}>E</div>
+                    <div class="option-value">
+                      {@html dataSoal[currentSoal].option_e}
+                    </div>
+                  </div>
+                  <div class="jawaban-items">
+                    <label class="checkbox">
+                      <input type="checkbox" on:change={handleTandaiSoal} bind:checked={activeTandaiSoal}>
+                        Tandai Soal
+                    </label>
+                    <button on:click={hapusJawaban} class="is-danger button">Hapus Pilihan</button>
+                  </div>
+                </div>
+                <div class="button-navigation-soal">
+                  <button disabled={disabledButtonPrev} on:click={handlePrev} class="button is-link is-outlined">
+                    <span>Sebelumnya</span>
+                  </button>
+                  {#if activateSubmitButton}
+                    <button on:click={submitTryOut} class="button is-primary">Submit</button>
+                  {:else}
+                    <button disabled={disabledButtonNext} on:click={handleNext} class="button is-link is-outlined">
+                      <span>Selanjutnya</span>
+                    </button>
+                  {/if}
+                </div>
               {/if}
             </div>
           </div>
         </div>
-      </div>
     </div>
   {/if}
 </div>

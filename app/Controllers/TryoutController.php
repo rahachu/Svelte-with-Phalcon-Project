@@ -76,10 +76,20 @@ class TryoutController extends Controller
             'bind' => ['idtryout'=>$idtryout],
         ]);
         if (count($sht)==0) {
-            $this->response->serJsonContent("Tryout tidak tersedia");
+            $this->response->setJsonContent("Tryout tidak tersedia");
             return $this->response->setStatusCode(404,"Not found");
         }
         $conditions = ['idtryout'=>$idtryout];
+
+        //memeriksa apakah siswa telah mengerjakan tryout
+        $sha = SiswaHasSoal::find([
+            'conditions' => 'soal_subtest_tryout_idtryout=:idtryout: AND siswa_iduser=:iduser:',
+            'bind' => ['idtryout'=>$idtryout,'iduser'=>$this->auth->getUser()['id']],
+        ]);
+        if (count($sha)!==0){
+            $this->response->setJsonContent("Tryout sudah dikerjakan");
+            return $this->response->setStatusCode(404,"Not found");
+        }
 
         //Mengambil data tryout berdasarkan idtryout dari model Tryout.php
         $tryout = Tryout::findFirst([

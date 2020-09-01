@@ -135,7 +135,7 @@
     <div class="dropdown is-right is-hoverable">
       <div class="dropdown-trigger">
         <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-          <span>Haloo
+          <span class="is-hidden-touch">Haloo
             {#if $auth.siswa.length !==0}
               {$auth.siswa[0].fullname}
             {:else}

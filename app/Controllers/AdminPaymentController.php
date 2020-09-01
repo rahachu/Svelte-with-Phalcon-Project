@@ -124,7 +124,7 @@ class AdminPaymentController extends ControllerAdmin
         $siswahastryout = new SiswaHasTryout();
         $siswahastryout->siswa_iduser = $bukti->iduser;
         $siswahastryout->tryout = Tryout::find([
-            "condition"=>'name=:nama:',
+            "conditions"=>'name=:nama:',
             "bind"=>['nama'=>$bukti->productname]
         ])[0];
         if ($siswahastryout->save()) {
