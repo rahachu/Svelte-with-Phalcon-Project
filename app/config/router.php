@@ -13,6 +13,7 @@ $router->add('/confirm/{code}/{username}',['controller'=>'user','action'=>'confi
 $router->addPost('/reset/{token}/{username}',['controller'=>'user','action'=>'reset']);
 $router->add('/logout',"user::logout");
 $router->add('/auth','user::auth');
+$router->add('/resetpassword/{id}','user::resetPassword'); 
 
 $router->add('/tryout/data','tryout::getAll'); //untuk keamanan dimatikan yaa
 $router->add('/tryout/data/{idtryout}','tryout::getbyid');
