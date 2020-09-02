@@ -1,96 +1,98 @@
 <script>
+
 </script>
 
 <style>
-  a:hover{
+  a:hover {
     color: #fff;
   }
 
-  button a{
+  button a {
     color: #fff;
   }
-  .faq-content{
+  .faq-content {
     padding: 50px;
   }
 
-  .ads-space{
-    background-color: grey;
-    height: 150px;
+  .btn-faq {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
   }
 
-  .ads-space p{
-    line-height: 150px;
-  }
-
-  .faq-text{
+  .column img {
     margin-top: -100px;
   }
 
-  .btn-faq{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .btn-pertanyaan-lanjut {
-    margin-top: 50px;
-    width: 300px; 
-  }
-
-  .btn-pertanyaan-lanjut a{
+  .btn-pertanyaan-lanjut a {
     color: var(--blue-color);
   }
 
-  .btn-pertanyaan-lanjut:hover{
+  .btn-pertanyaan-lanjut:hover {
     color: #fff;
     background-color: var(--blue-color);
   }
 
-  .btn-pertanyaan-lanjut:hover a{
+  .btn-pertanyaan-lanjut:hover a {
     color: #fff;
   }
 
-  .btn-daftar-segera{
-    margin-top: 20px;
-    width: 300px;
+  .btn-daftar-segera {
     background-color: var(--blue-color);
     color: #fff;
   }
 
   /* tablet */
-  @media only screen and (max-width:1023px){
-   
-    .faq-text{
+  @media only screen and (max-width: 1023px) {
+    .faq-text {
       margin-top: 0;
     }
+  }
 
+  /* mobile */
+  @media only screen and (max-width: 768px) {
+    .btn-faq {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .btn-faq button {
+      width: 100%;
+    }
+
+    .btn-faq button:first-child {
+      margin-bottom: 20px;
+    }
+
+    .column img {
+      margin-top: 10px;
+    }
   }
 </style>
 
 <div class="faq-content">
-  <div class="columns is-variable is-8-desktop">
-    <div class="column">
-      <div class="ads-space">
-        <p class="has-text-centered">
-          ADS SPACE
-        </p>
-      </div>
-    </div>
-    <div class="column">
+  <div class="columns is-variable">
+    <div class="column is-4 is-offset-2">
       <div class="simple-faq">
         <p class="has-text-centered faq-text">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum aliquid, at nulla error, fugit atque nam totam facere placeat hic ab. Soluta ipsam vitae alias dolor nisi qui consequatur labore?
+          Pateron Indonesia solusi untuk mu yang ingin belajar dengan efektif,
+          efisien dan terjadwal bersama dengan fasilitator terpilih dan terbaik
         </p>
         <div class="btn-faq">
-          <button class="button btn-pertanyaan-lanjut is-info is-rounded is-outlined">
-            <a href="#">Pertanyaan Lebih Lanjut</a>
+          <button
+            class="button btn-pertanyaan-lanjut is-info is-rounded is-outlined">
+            <a href="/">Pertanyaan Lebih Lanjut</a>
           </button>
           <button class="button btn-daftar-segera is-info is-rounded">
-            <a href="#">Daftar Segera</a>
+            <a href="/">Daftar Segera</a>
           </button>
         </div>
       </div>
+    </div>
+    <div class="column is-4">
+      <img src="./assets/cowo1.png" alt="cowo1" height="300px" />
     </div>
   </div>
 </div>

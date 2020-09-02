@@ -5,7 +5,7 @@
     "build": "rollup -c",
     "dev": "routify -c my-server",
     "my-server": "rollup -c -w",
-    "start": "php -S localhost:8000 -t public .htrouter.php"
+    "start": "php -S 192.168.43.207:8000 -t public .htrouter.php"
   },
   "devDependencies": {
     "@beyonk/svelte-notifications": "^3.0.0",
