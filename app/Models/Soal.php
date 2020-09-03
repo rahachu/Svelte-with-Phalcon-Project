@@ -81,7 +81,7 @@ class Soal extends \Phalcon\Mvc\Model
         $this->belongsTo('subtest_idsubtest', 'Subtest', 'idsubtest', ['alias' => 'Subtest']);
         $this->belongsTo('subtest_tryout_idtryout', Tryout::class, 'idtryout', ['alias' => 'tryout']);
         
-        $this->hasMany('no', 'SiswaHasSoal', 'soal_no', ['alias' => 'SiswaHasSoal']);
+        $this->hasMany('no', 'App\Models\SiswaHasSoal', 'soal_no', ['alias' => 'SiswaHasSoal']);
         $this->belongsTo('subtest_idsubtest', 'Subtest', 'idsubtest', ['alias' => 'Subtest']);
     }
 

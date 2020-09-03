@@ -45,6 +45,8 @@ $router->addPost('/admin/confirm/{idpembayaran}',['controller' => 'adminPayment'
 
 //Assesment API
 $router->addGet('/siswa/mytryout/{idtryout}',['controller'=>'assesment','action'=>'getScore']);
+$router->addPost('/admin/tryout/{idtryout}',['controller'=>'adminAssesment','action'=>'postResponseValue']);
+$router->add('/admin/tryout/{idtryout}/{idsubtest}',['controller'=>'adminAssesment','action'=>'countResponseValue']);
 //Default route pass to svelte
 $router->notFound(
     [
