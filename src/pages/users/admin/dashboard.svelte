@@ -1,10 +1,12 @@
 <script>
     import { goto } from "@sveltech/routify";
+    import { dataTO } from "./tryout/_store.js";
 
     let formNewTO = {name:'',tryout_price:''}
     let listTO = fetch(`/tryout/datalist`).then(res=>res.json());
     let addTO = null;
     let delTO = null;
+    dataTO.set(null);
 
     let addTOclick = () => {
         addTO = fetch(`/tryout/create`,{

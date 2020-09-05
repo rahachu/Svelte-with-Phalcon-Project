@@ -5,6 +5,7 @@
     let judul = '';
     let name = '';
     let time = 0;
+    let loading = false;
     const templateSoal = {
         question : 'Masukan disini!',
         option_a : 'Masukan disini!',
@@ -66,6 +67,7 @@
     }
 
     function saveTO() {
+        loading = true;
         let saveData = $dataTO;
         saveData.name = name;
         fetch(`/tryout/save`,{
@@ -78,6 +80,15 @@
         .catch(e=>console.log(e.message))
     }
 </script>
+
+{#if loading}
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <p class="has-text-white">menyimpan data tryout...</p>
+  </div>
+</div>
+{/if}
 
 {#await loadFullData}
 loading boss...

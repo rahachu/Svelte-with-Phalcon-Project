@@ -23,10 +23,9 @@ class DashboardSiswaController extends ControllerSiswa
         }, SiswaHasTryout::find(['conditions' => 'siswa_iduser = :idsiswa:',
             'bind' => ['idsiswa'=>$idsiswa],
             "hydration" => \Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS])->toArray());
-        $strSiswaTryout = implode(',',$siswaTryout);
+        $strSiswaTryout = implode(', ',$siswaTryout);
         $tryout = Tryout::find([
-            'conditions' => 'idtryout NOT IN (:strSiswaTryout:) AND publish_time IS NOT NULL',
-            'bind' => ['strSiswaTryout'=>$strSiswaTryout],
+            'conditions' => 'idtryout NOT IN ('.$strSiswaTryout.') AND publish_time IS NOT NULL',
         ]);
 
         return $tryout;

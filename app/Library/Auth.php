@@ -15,9 +15,10 @@ Use App\Models\User;
 class Auth extends Injectable
 {
     public function check($dataLogin){
-        if ($this->session->get('auth-identity')) {
-            return $this->response->redirect('/dashboard')->send();
-        }
+        // redirect bakal dimatikan soalnya pake spa
+        // if ($this->session->get('auth-identity')) {
+        //     return $this->response->redirect('/dashboard')->send();
+        // }
         
         $user = User::findFirst(
             [
