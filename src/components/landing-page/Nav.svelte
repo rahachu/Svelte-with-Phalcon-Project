@@ -101,6 +101,7 @@
     border: 2px solid #013183;
   }
 
+  .menu,
   .menu-icon {
     display: none;
   }
