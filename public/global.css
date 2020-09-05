@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -84,4 +85,10 @@ button:hover {
 .title-feature {
   font-weight: 600;
   color: var(--blue-color);
+}
+
+@media only screen and (max-width: 1000px){
+  body{
+    overflow-x: hidden;
+  }
 }

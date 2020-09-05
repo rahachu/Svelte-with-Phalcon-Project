@@ -7,6 +7,8 @@ Use App\Models\User;
 Use App\Models\Siswa;
 Use App\Library\Exception;
 use Phalcon\Mvc\Controller;
+use Phalcon\Http\Request;
+use Phalcon\Security;
 
 class UserController extends Controller
 {
@@ -97,7 +99,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        $this->response->redirect('/accounts/login');
+        $this->response->redirect('/dashboard');
 
     }
 
@@ -119,5 +121,35 @@ class UserController extends Controller
             }
         }
     }
+
+    public function resetPasswordAction($id) {
+        $postData = new Request();
+        $security = new Security();
+
+        $user = User::findFirst([
+            'conditions' => 'iduser=:id:',
+            'bind' => ['id'=>$id],
+        ]);
+
+        $oldPassword = $postData->oldPassword; 
+        $hashed = $user->password;
+
+        if ($security->checkHash($oldPassword, $hashed) == true){
+            if($postData->newPassword == $postData->confirmPassword){
+                $newPassword = $postData->getPut('newPassword');
+                $user->password = $this->security->hash($newPassword);
+            };
+        };
+    
+
+        if ($user->save()) {
+            $this->response->setStatusCode(201,"Saved");
+        } else{
+            $this->response->setStatusCode(409,"Conflict");
+        }
+
+        return $this->response->send();
+    }    
+
 }
 
