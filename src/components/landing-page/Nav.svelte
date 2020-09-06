@@ -1,10 +1,13 @@
 <script>
   import { url } from "@sveltech/routify";
   import { auth } from "../../store/auth.js";
+  import { quintOut } from "svelte/easing";
+  import { fly, slide } from "svelte/transition";
 
   let y = "";
 
   let isShadow = false;
+  let isEnabled = false;
   $: if (y > 0) {
     isShadow = true;
   } else if (y === 0) {
@@ -98,6 +101,11 @@
     border: 2px solid #013183;
   }
 
+  .menu,
+  .menu-icon {
+    display: none;
+  }
+
   /* mobile */
   @media only screen and (max-width: 842px) {
     .nav-links {
@@ -110,12 +118,61 @@
       width: 50%;
     }
 
+    .accounts,
     .nav-links {
       display: none;
     }
 
-    .accounts {
-      display: none;
+    .menu-icon {
+      display: block;
+    }
+
+    .menu {
+      width: 100%;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+    }
+
+    .list-menu {
+      text-align: left;
+      font-weight: normal;
+      font-size: 18px;
+      list-style: none;
+    }
+
+    .menu-item {
+      margin-bottom: 50px;
+      cursor: pointer;
+    }
+
+    .menu-item a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--blue-color);
+    }
+
+    .close-menu {
+      font-size: 14px;
+      text-align: center;
+      font-weight: normal;
+      cursor: pointer;
+      color: rgb(202, 12, 12);
+    }
+
+    .button {
+      width: 100%;
+    }
+
+    .menu-daftar {
+      color: #fff !important;
+      margin-top: -10px !important;
     }
   }
 </style>
@@ -170,4 +227,71 @@
       </div>
     {/if}
   </div>
+  <div class="menu-icon">
+    <img
+      src="./assets/menu.svg"
+      alt="menu"
+      on:click={() => (isEnabled = true)} />
+  </div>
+  {#if isEnabled}
+    <div transition:slide={{ duration: 1500, easing: quintOut }} class="menu">
+      <ul class="list-menu">
+        <li
+          transition:fly={{ delay: 800, duration: 500, x: 50, easing: quintOut }}
+          class="menu-item">
+          <a
+            href="/"
+            on:click={() => {
+              isEnabled = false;
+            }}>
+            Paket Kelas
+          </a>
+        </li>
+        <li
+          transition:fly={{ delay: 1000, duration: 500, x: 50, easing: quintOut }}
+          class="menu-item">
+          <a
+            href="/"
+            on:click={() => {
+              isEnabled = false;
+            }}>
+            Paket TryOut
+          </a>
+        </li>
+        <li
+          transition:fly={{ delay: 1200, duration: 500, x: 50, easing: quintOut }}
+          class="menu-item">
+          <a
+            href="/"
+            on:click={() => {
+              isEnabled = false;
+            }}>
+            Pateron Blog
+          </a>
+        </li>
+        <li
+          transition:fly={{ delay: 1400, duration: 500, x: 50, easing: quintOut }}
+          class="menu-item">
+          <a href={$url('/accounts/login')} class="button is-link is-outlined">
+            Masuk
+          </a>
+        </li>
+        <li
+          transition:fly={{ delay: 1600, duration: 500, x: 50, easing: quintOut }}
+          class="menu-item">
+          <a
+            href={$url('/accounts/registration')}
+            class="button menu-daftar is-info">
+            Daftar
+          </a>
+        </li>
+        <div
+          transition:fly={{ delay: 1600, duration: 500, y: -50, easing: quintOut }}
+          class="close-menu"
+          on:click={() => (isEnabled = false)}>
+          close
+        </div>
+      </ul>
+    </div>
+  {/if}
 </header>
