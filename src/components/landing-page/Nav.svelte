@@ -229,7 +229,7 @@
   </div>
   <div class="menu-icon">
     <img
-      src="./assets/menu.svg"
+      src="/assets/menu.svg"
       alt="menu"
       on:click={() => (isEnabled = true)} />
   </div>
@@ -269,22 +269,61 @@
             Pateron Blog
           </a>
         </li>
-        <li
-          transition:fly={{ delay: 1400, duration: 500, x: 50, easing: quintOut }}
-          class="menu-item">
-          <a href={$url('/accounts/login')} class="button is-link is-outlined">
-            Masuk
-          </a>
-        </li>
-        <li
-          transition:fly={{ delay: 1600, duration: 500, x: 50, easing: quintOut }}
-          class="menu-item">
-          <a
-            href={$url('/accounts/registration')}
-            class="button menu-daftar is-info">
-            Daftar
-          </a>
-        </li>
+        {#if $auth.login == 'wait'}
+          <div class="select is-loading" />
+        {:else if !$auth.login}
+          <ul>
+            <li
+              transition:fly={{ delay: 1400, duration: 500, x: 50, easing: quintOut }}
+              class="menu-item">
+              <a
+                href={$url('/accounts/login')}
+                class="button is-link is-outlined">
+                Masuk
+              </a>
+            </li>
+            <li
+              transition:fly={{ delay: 1600, duration: 500, x: 50, easing: quintOut }}
+              class="menu-item">
+              <a
+                href={$url('/accounts/registration')}
+                class="button menu-daftar is-info">
+                Daftar
+              </a>
+            </li>
+          </ul>
+        {:else}
+          <div
+            class="dropdown is-right is-hoverable"
+            transition:fly={{ delay: 1400, duration: 500, x: 50, easing: quintOut }}>
+            <div class="dropdown-trigger">
+              <button
+                class="button"
+                aria-haspopup="true"
+                aria-controls="dropdown-menu">
+                Haloo
+                {#if $auth.siswa.length !== 0}
+                  {$auth.siswa[0].fullname}
+                {:else}admin{/if}
+                <span class="is-hidden-touch" />
+                <span class="icon is-small">
+                  <i class="fas fa-user" aria-hidden="true" />
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a
+                  href="/users/{$auth.siswa.length !== 0 ? 'siswa' : 'admin'}/dashboard"
+                  class="dropdown-item">
+                  Dashboard
+                </a>
+                <hr class="dropdown-divider" />
+                <a href="/" on:click={logout} class="dropdown-item">logout</a>
+              </div>
+            </div>
+          </div>
+        {/if}
         <div
           transition:fly={{ delay: 1600, duration: 500, y: -50, easing: quintOut }}
           class="close-menu"
