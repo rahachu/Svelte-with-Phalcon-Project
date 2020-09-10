@@ -27,6 +27,9 @@
 
   // get data soal dari soal store
   soalStore.dataSoal.subscribe(val => {
+    if (val.length === 0) {
+      return $goto("/tryout/selesai-tryout");
+    }
     dataSoal = val.subtest[subtestId].soal;
   });
 
@@ -56,7 +59,6 @@
       jawabanStore.set([]);
 
       data = "WAKTU HABIS";
-      setEncryptCookie("SELESAI", true);
       Cookies.remove("IDTRYOUT");
       Cookies.remove("SUBTEST");
       Cookies.remove("TRYOUTTIME");
