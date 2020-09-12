@@ -355,6 +355,8 @@ CREATE TABLE IF NOT EXISTS `pateron`.`siswa_has_subtest` (
   `idsubtest` INT(45) NOT NULL,
   `idsiswa` INT(45) NULL,
   `result` JSON NULL,
+  `formalscore` INT(45) NULL,
+  `irtscore` INT(45) NULL,
   INDEX `idsiswa_has_tryout_idx` (`idsiswa_has_tryout` ASC),
   PRIMARY KEY (`idsiswa_has_tryout`, `idsubtest`),
   CONSTRAINT `idsiswa_has_tryout`
