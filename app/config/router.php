@@ -44,6 +44,9 @@ $router->addGet('/admin/unvalidation/\?page=([a-zA-Z0-9\_\-]+)',['controller' =>
 $router->addGet('/admin/data/image/{idimage}',['controller' => 'adminPayment','action' => 'Imagedata']);
 $router->addPost('/admin/confirm/{idpembayaran}',['controller' => 'adminPayment','action'=> 'postValidation']);
 
+//Admin Tryout API
+$router->addGet('/admin/daftartryout',['controller'=>'adminTryout','action'=>'getListTryout']);
+
 //Default route pass to svelte
 $router->notFound(
     [
