@@ -34,7 +34,7 @@ class Subtest extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema($this->config->database->dbname);
+        $this->setSchema('pateron');
         $this->setSource("subtest");
         
         $this->hasMany('idsubtest', 'Soal', 'subtest_idsubtest', ['alias' => 'Soal']);

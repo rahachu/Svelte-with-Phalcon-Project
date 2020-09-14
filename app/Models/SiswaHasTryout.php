@@ -17,6 +17,18 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var integer
+     */
+    public $formalscore;
+
+    /**
+     *
+     * @var integer
+     */
+    public $irtscore;
+
+    /**
+     *
      * @var string
      */
     public $confirm_time;
@@ -26,10 +38,11 @@ class SiswaHasTryout extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema($this->config->database->dbname);
+        $this->setSchema("pateron");
         $this->setSource("siswa_has_tryout");
-        $this->belongsTo('siswa_iduser', Siswa::class, 'iduser', ['alias' => 'Siswa']);
-        $this->belongsTo('tryout_idtryout', Tryout::class, 'idtryout', ['alias' => 'Tryout']);
+        $this->hasMany('tryout_idtryout', 'App\Models\SiswaHasSubtest', 'idsiswa_has_tryout', ['alias' => 'SiswaHasSubtest']);
+        $this->belongsTo('siswa_iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
+        $this->belongsTo('tryout_idtryout', 'App\Models\Tryout', 'idtryout', ['alias' => 'Tryout']);
     }
 
     /**

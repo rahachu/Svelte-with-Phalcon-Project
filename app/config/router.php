@@ -46,7 +46,15 @@ $router->addPost('/admin/confirm/{idpembayaran}',['controller' => 'adminPayment'
 
 //Admin Tryout API
 $router->addGet('/admin/daftartryout',['controller'=>'adminTryout','action'=>'getListTryout']);
+$router->addGet('/admin/daftartryout/formal/{idtryout}/\?page=([a-zA-Z0-9\_\-]+)',['controller'=>'adminTryout','action'=>'formalScoreSiswa']);
+$router->addGet('/admin/daftartryout/irt/{idtryout}/\?page=([a-zA-Z0-9\_\-]+)',['controller'=>'adminTryout','action'=>'irtScoreSiswa']);
+$router->addPost('/admin/daftartryout/postscoreformal/{idtryout}',['controller'=>'adminTryout','action'=>'postFormalScore']);
+$router->addPost('/admin/daftartryout/postscoreirt/{idtryout}',['controller'=>'adminTryout','action'=>'postIrtScore']);
+$router->addPost('/admin/tryout/{idtryout}',['controller'=>'adminTryout','action'=>'postResponseValue']);
+$router->add('/admin/tryout/{idtryout}/{idsubtest}',['controller'=>'adminTryout','action'=>'countResponseValue']);
 
+//Assesment API
+$router->addGet('/siswa/mytryout/{idtryout}',['controller'=>'assesment','action'=>'getScore']);
 //Default route pass to svelte
 $router->notFound(
     [

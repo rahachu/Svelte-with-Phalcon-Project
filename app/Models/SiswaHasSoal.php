@@ -40,7 +40,7 @@ class SiswaHasSoal extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema($this->config->database->dbname);
+        $this->setSchema('pateron');
         $this->setSource("siswa_has_soal");
         $this->belongsTo('siswa_iduser', 'App\Models\Siswa', 'iduser', ['alias' => 'Siswa']);
         $this->belongsTo('soal_no', 'App\Models\Soal', 'no', ['alias' => 'Soal']);

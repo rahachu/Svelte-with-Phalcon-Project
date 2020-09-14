@@ -75,13 +75,13 @@ class Soal extends \Phalcon\Mvc\Model
      */
     public function initialize()
     {
-        $this->setSchema($this->config->database->dbname);
+        $this->setSchema('pateron');
         $this->setSource("soal");
 
         $this->belongsTo('subtest_idsubtest', 'Subtest', 'idsubtest', ['alias' => 'Subtest']);
         $this->belongsTo('subtest_tryout_idtryout', Tryout::class, 'idtryout', ['alias' => 'tryout']);
         
-        $this->hasMany('no', 'SiswaHasSoal', 'soal_no', ['alias' => 'SiswaHasSoal']);
+        $this->hasMany('no', 'App\Models\SiswaHasSoal', 'soal_no', ['alias' => 'SiswaHasSoal']);
         $this->belongsTo('subtest_idsubtest', 'Subtest', 'idsubtest', ['alias' => 'Subtest']);
     }
 

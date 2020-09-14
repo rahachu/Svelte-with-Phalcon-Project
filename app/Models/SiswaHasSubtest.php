@@ -1,6 +1,5 @@
 <?php
 namespace App\Models;
-
 class SiswaHasSubtest extends \Phalcon\Mvc\Model
 {
 
@@ -29,13 +28,25 @@ class SiswaHasSubtest extends \Phalcon\Mvc\Model
     public $result;
 
     /**
+     *
+     * @var integer
+     */
+    public $formalscore;
+
+    /**
+     *
+     * @var integer
+     */
+    public $irtscore;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
-        $this->setSchema($this->config->database->dbname);
+        $this->setSchema("pateron");
         $this->setSource("siswa_has_subtest");
-        $this->belongsTo('idsiswa_has_tryout', SiswaHasTryout::class, 'tryout_idtryout', ['alias' => 'SiswaHasTryout']);
+        $this->belongsTo('idsiswa_has_tryout', 'SiswaHasTryout', 'tryout_idtryout', ['alias' => 'SiswaHasTryout']);
     }
 
     /**
@@ -52,7 +63,7 @@ class SiswaHasSubtest extends \Phalcon\Mvc\Model
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Soal[]|Soal|\Phalcon\Mvc\Model\ResultSetInterface
+     * @return SiswaHasSubtest[]|SiswaHasSubtest|\Phalcon\Mvc\Model\ResultSetInterface
      */
     public static function find($parameters = null)
     {
@@ -63,7 +74,7 @@ class SiswaHasSubtest extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return Soal|\Phalcon\Mvc\Model\ResultInterface
+     * @return SiswaHasSubtest|\Phalcon\Mvc\Model\ResultInterface
      */
     public static function findFirst($parameters = null)
     {
