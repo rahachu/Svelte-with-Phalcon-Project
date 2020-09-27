@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import ClassicEditor from '../library/editor/ckeditor.js';
   export let editor = null;
 
   const initializeEditor = () => {
