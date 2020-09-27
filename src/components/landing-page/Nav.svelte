@@ -2,12 +2,16 @@
   import { url } from "@sveltech/routify";
   import { auth } from "../../store/auth.js";
   import { quintOut } from "svelte/easing";
-  import { fly, slide } from "svelte/transition";
+  import { fade, fly, slide } from "svelte/transition";
+
+  import LoginModal from "../accounts/LoginModal.svelte";
 
   let y = "";
 
   let isShadow = false;
   let isEnabled = false;
+  let isModalLogin = false;
+
   $: if (y > 0) {
     isShadow = true;
   } else if (y === 0) {
@@ -17,6 +21,10 @@
   function logout() {
     fetch(`/logout`);
     auth.refresh();
+  }
+
+  function activateModalLogin() {
+    isModalLogin = !isModalLogin;
   }
 </script>
 
@@ -106,6 +114,20 @@
     display: none;
   }
 
+  /* Modal */
+  .login-modal {
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(176, 190, 217, 0.5);
+  }
+
   /* mobile */
   @media only screen and (max-width: 842px) {
     .nav-links {
@@ -193,7 +215,7 @@
     {#if $auth.login == 'wait'}
       <div class="select is-loading" />
     {:else if !$auth.login}
-      <a href={$url('/accounts/login')} class="login">Masuk</a>
+      <button class="login" on:click={activateModalLogin}>Masuk</button>
       <a href={$url('/accounts/registration')} class="registration">Daftar</a>
     {:else}
       <div class="dropdown is-right is-hoverable">
@@ -331,6 +353,14 @@
           close
         </div>
       </ul>
+    </div>
+  {/if}
+
+  {#if isModalLogin}
+    <div
+      class="login-modal"
+      transition:fade={{ duration: 1500, easing: quintOut }}>
+      <LoginModal activateModal={activateModalLogin} />
     </div>
   {/if}
 </header>
