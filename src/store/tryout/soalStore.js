@@ -1,5 +1,7 @@
 import { writable } from "svelte/store";
 import Cookies from "js-cookie";
+import { goto } from "@sveltech/routify";
+
 // Library
 import {
   setEncryptCookie,
@@ -56,7 +58,7 @@ const store = () => {
 
       let countDown = `${bulan} ${tanggal}, ${tahun} ${setJam}:${
         menit + (timeInMinute % 60)
-      }:${setDetik}`;
+        }:${setDetik}`;
 
       setEncryptCookie("TRYOUTTIME", countDown);
       localStorage.setItem("no_soal", 1);
@@ -72,45 +74,56 @@ const store = () => {
       setEncryptCookie("MARKEDQUESTION", checkMarkedQuestionState);
     },
     getListNumber() {
+      let statusUserTryout = '';
       dataSoal.subscribe((val) => {
-        // get from Cookies
-        let getTandaiSoal =
-          setDecryptCookie("MARKEDQUESTION", "object") || false;
-        let getJawabanSoal =
-          setDecryptCookie("TRYOUTANSWER", "object") || false;
-        let dataJawaban = [];
-        let subtestNo = "";
+        if (val.length == 0) {
+          statusUserTryout = false;
+        } else {
+          // get from Cookies
+          let getTandaiSoal =
+            setDecryptCookie("MARKEDQUESTION", "object") || false;
+          let getJawabanSoal =
+            setDecryptCookie("TRYOUTANSWER", "object") || false;
+          let dataJawaban = [];
+          let subtestNo = "";
 
-        subtestId.subscribe((val) => (subtestNo = val));
-        for (let i = 0; i < val.subtest[subtestNo].soal.length; i++) {
-          let data = {
-            no: i + 1,
-            tandai_soal: false,
-            terjawab: false,
-          };
-          if (getTandaiSoal) {
-            getTandaiSoal.map((soal) => {
-              if (soal.soal_no == i + 1) {
-                data = {
-                  no: i + 1,
-                  tandai_soal: true,
-                  terjawab: false,
-                };
-              }
-            });
-          }
+          subtestId.subscribe((val) => (subtestNo = val));
+          for (let i = 0; i < val.subtest[subtestNo].soal.length; i++) {
+            let data = {
+              no: i + 1,
+              tandai_soal: false,
+              terjawab: false,
+            };
+            if (getTandaiSoal) {
+              getTandaiSoal.map((soal) => {
+                if (soal.soal_no == i + 1) {
+                  data = {
+                    no: i + 1,
+                    tandai_soal: true,
+                    terjawab: false,
+                  };
+                }
+              });
+            }
 
-          if (getJawabanSoal) {
-            getJawabanSoal.map((jawaban) => {
-              if (jawaban.soal_no == i + 1) {
-                data.terjawab = true;
-              }
-            });
+            if (getJawabanSoal) {
+              getJawabanSoal.map((jawaban) => {
+                if (jawaban.soal_no == i + 1) {
+                  data.terjawab = true;
+                }
+              });
+            }
+            dataJawaban.push(data);
           }
-          dataJawaban.push(data);
+          listNumber.set(dataJawaban);
+          statusUserTryout = true;
         }
-        listNumber.set(dataJawaban);
       });
+      return statusUserTryout;
+    },
+    async checkUserTryout(idtryout) {
+      const reqSoal = await fetch(`/tryout/data/${idtryout}`);
+      return reqSoal;
     },
     async getSoalApi(idtryout) {
       const reqSoal = await fetch(`/tryout/data/${idtryout}`);
@@ -119,7 +132,7 @@ const store = () => {
       dataSoal.set(tryout);
       setEncryptLocalStorage("SOALDATA", tryout);
       setEncryptCookie("IDTRYOUT", idtryout);
-    },
+    }
   };
 
   return {

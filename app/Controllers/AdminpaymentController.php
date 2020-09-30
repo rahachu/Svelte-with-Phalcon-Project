@@ -23,7 +23,10 @@ class AdminPaymentController extends ControllerAdmin
         //menampilkan siswa yang butuh divalidasi pembayarannya
         if($this->request->hasQuery('page')){
             $currentPage = $this->request->getQuery('page');
-            $bukti = Buktipembayaran::find('validation = 1');
+            $bukti = Buktipembayaran::find([
+                'conditions' => 'validation = 1',
+                'order' => 'buy_time DESC'
+            ]);
             $dataVal = array();
             $i = 0;
             foreach($bukti as $cont){
@@ -65,7 +68,10 @@ class AdminPaymentController extends ControllerAdmin
                //menampilkan siswa yang butuh divalidasi pembayarannya
                if($this->request->hasQuery('page')){
                 $currentPage = $this->request->getQuery('page');
-                $bukti = Buktipembayaran::find('validation = 0');
+                $bukti = Buktipembayaran::find([
+                    'conditions' => 'validation = 0',
+                    'order' => 'buy_time DESC'
+                ]);
                 $dataVal = array();
                 $i = 0;
                 foreach($bukti as $cont){
@@ -85,7 +91,7 @@ class AdminPaymentController extends ControllerAdmin
     
                 $paginator = new NativeArray ([
                     'data' => $dataVal,
-                    'limit' => 5,
+                    'limit' => 50,
                     'page' => $currentPage
                 ]
                 );
@@ -124,7 +130,7 @@ class AdminPaymentController extends ControllerAdmin
         $siswahastryout = new SiswaHasTryout();
         $siswahastryout->siswa_iduser = $bukti->iduser;
         $siswahastryout->tryout = Tryout::find([
-            "condition"=>'name=:nama:',
+            "conditions"=>'name=:nama:',
             "bind"=>['nama'=>$bukti->productname]
         ])[0];
         if ($siswahastryout->save()) {

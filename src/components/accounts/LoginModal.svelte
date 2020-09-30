@@ -1,12 +1,10 @@
 <script>
+  export let activateModal;
+  import { quintOut } from "svelte/easing";
+  import { fade, fly, slide } from "svelte/transition";
   import { get, post } from "../../library/csrfFetch.js";
   import { goto } from "@sveltech/routify";
   import { auth } from "../../store/auth.js";
-
-  // let userInfo = get("/auth").then(res=>res.json())
-  // .then(data=>{
-  // 	console.log(data)
-  // })
 
   let userLogin = {
     login: "",
@@ -50,10 +48,10 @@
 </script>
 
 <style>
-  .login {
+  .login-modal {
     display: flex;
     justify-content: center;
-    margin-top: 100px;
+    align-items: center;
   }
 
   .error {
@@ -61,13 +59,31 @@
     text-align: left;
   }
 
+  .login-modal__form {
+    background-color: #fff;
+    width: 400px;
+    padding: 10px;
+    position: absolute;
+    z-index: 5;
+    border-radius: 10px;
+  }
+
+  .login-modal__form__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: -20px;
+  }
+
+  #close {
+    cursor: pointer;
+  }
+
   .main-form {
     padding: 20px;
     margin-top: -20px;
     display: flex;
     flex-direction: column;
-    box-shadow: 3px 3px 30px rgba(1, 49, 131, 0.15);
-    border-radius: 10px;
   }
 
   .input-login {
@@ -77,38 +93,31 @@
   }
 
   .buttons {
-    padding-bottom: 40px;
-    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-top: 30px;
   }
 
   .btn-masuk {
     background-color: var(--blue-color);
-    width: 100%;
+    width: 200px;
     text-align: center;
     margin-top: 20px;
     color: #fff;
     border-radius: 10px;
     margin: 0 auto;
   }
-
-  form input {
-    width: 350px;
-  }
-
-  h4 {
-    color: var(--blue-color);
-  }
-
-  hr {
-    margin-top: -20px;
-  }
 </style>
 
-<div>
-  <div class="login">
+<div
+  class="login-modal"
+  transition:fly={{ delay: 200, duration: 800, y: 50, easing: quintOut }}>
+  <div class="login-modal__form">
+    <div class="login-modal__form__header">
+      <div class="has-text-weight-semibold is-size-5">Masuk</div>
+      <div id="close" on:click={activateModal}>X</div>
+    </div>
+    <hr />
     <form on:submit|preventDefault={loginProcess} class="main-form">
-      <h4 class="title is-5">Masuk untuk melanjutkan</h4>
-      <hr />
       <div class="field">
         <div class="control">
           <label for="username">Username</label>

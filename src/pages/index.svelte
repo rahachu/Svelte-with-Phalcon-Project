@@ -1,44 +1,44 @@
 <script>
   import Nav from "../components/landing-page/Nav.svelte";
   import Footer from "../components/landing-page/Footer.svelte";
-  import Banner from "../components/landing-page/Banner.svelte"
-  import ProgramContent from "../components/landing-page/ProgramContent.svelte"
-  import Feature from "../components/landing-page/Feature.svelte"
-  import UserFeature from "../components/landing-page/UserFeature.svelte"
-  import Fasiliteron from "../components/landing-page/Fasiliteron.svelte"
-  import Faq from "../components/landing-page/Faq.svelte"
-  import Testimoni from "../components/landing-page/Testimoni.svelte"
+  import Banner from "../components/landing-page/Banner.svelte";
+  import ProgramContent from "../components/landing-page/ProgramContent.svelte";
+  import Feature from "../components/landing-page/Feature.svelte";
+  import UserFeature from "../components/landing-page/UserFeature.svelte";
+  import Fasiliteron from "../components/landing-page/Fasiliteron.svelte";
+  import Faq from "../components/landing-page/Faq.svelte";
+  import Testimoni from "../components/landing-page/Testimoni.svelte";
 </script>
 
 <!-- components -->
-<Nav/>
+<Nav />
 <!-- Header Banner -->
-  <Banner/>
+<Banner />
 <!-- ============ -->
 
 <!-- Program Component -->
-  <ProgramContent/>
+<ProgramContent />
 <!-- ============ -->
 
 <!-- Feature Component -->
-  <Feature/>
+<Feature />
 <!-- ============ -->
 
 <!-- User Component -->
-  <UserFeature/>
+<UserFeature />
 <!-- ============ -->
 
 <!-- Fasiliteron Component -->
-  <Fasiliteron/>
+<Fasiliteron />
 <!-- ============ -->
 
 <!-- Testimoni Component -->
-  <Testimoni/>
-  <img src="./assets/line_blue.svg" alt="ilustration">
+<Testimoni />
+<!-- <img src="./assets/line_blue.svg" alt="ilustration"> -->
 <!-- ============ -->
 
 <!-- Program Component -->
-  <Faq/>
+<Faq />
 <!-- ============ -->
 
-<Footer/>
+<Footer />

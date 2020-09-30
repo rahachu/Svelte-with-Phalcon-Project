@@ -13,7 +13,7 @@
 		<div class="card-content">
 			<p class="title is-4">{prod.name}</p>
 			<p class="subtitle">{prod.tryout_price.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}</p>
-			<div class="button-container"><button class="button is-primary" on:click={()=>{$goto($url('../buy',{product: prod.idtryout}))}}>Beli</button></div>
+			<div class="button-container"><button class="button is-primary" disabled={prod.buyed} on:click={()=>{$goto($url('../buy',{product: prod.idtryout}))}}>{prod.buyed?'Menunggu Konfirmasi':'Beli'}</button></div>
 		</div>
 	</div>
 	{:else}

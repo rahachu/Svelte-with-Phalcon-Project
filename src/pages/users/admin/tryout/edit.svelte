@@ -5,6 +5,7 @@
     let judul = '';
     let name = '';
     let time = 0;
+    let loading = false;
     const templateSoal = {
         question : 'Masukan disini!',
         option_a : 'Masukan disini!',
@@ -66,6 +67,7 @@
     }
 
     function saveTO() {
+        loading = true;
         let saveData = $dataTO;
         saveData.name = name;
         fetch(`/tryout/save`,{
@@ -78,6 +80,15 @@
         .catch(e=>console.log(e.message))
     }
 </script>
+
+{#if loading}
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <p class="has-text-white">menyimpan data tryout...</p>
+  </div>
+</div>
+{/if}
 
 {#await loadFullData}
 loading boss...
@@ -92,8 +103,8 @@ loading boss...
 {#each $dataTO.subtest as sub,i}
     <div class="card">
         <header class="card-header">
-            <p class="card-header-title">
-            {sub.judul} - {sub.time_in_minute} minutes</p>
+            <p class="card-header-title" style="flex-grow: 0;">
+            {sub.judul} - </p><input style="width: 60px;" type=number bind:value={sub.time_in_minute} min=1><p class="card-header-title">minutes</p>
             <p on:click={()=>delSubtest(i)} class="card-header-icon" aria-label="delete">
             <span class="icon">
                 <i class="fas fa-trash has-text-danger" aria-hidden="true"></i>

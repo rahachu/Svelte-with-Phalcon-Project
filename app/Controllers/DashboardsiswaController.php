@@ -11,6 +11,7 @@ use App\Models\SiswaHasSoal;
 use App\Models\Soal;
 use App\Models\SiswaHasSubtest;
 use App\Models\Subtest;
+use App\Models\Buktipembayaran;
 
 class DashboardSiswaController extends ControllerSiswa
 {
@@ -25,9 +26,15 @@ class DashboardSiswaController extends ControllerSiswa
             "hydration" => \Phalcon\Mvc\Model\Resultset::HYDRATE_OBJECTS])->toArray());
         $strSiswaTryout = implode(',',$siswaTryout);
         $tryout = Tryout::find([
-            'conditions' => 'idtryout NOT IN (:strSiswaTryout:) AND publish_time IS NOT NULL',
-            'bind' => ['strSiswaTryout'=>$strSiswaTryout],
-        ]);
+            'conditions' => (count($siswaTryout)==0?'':'idtryout NOT IN ('.$strSiswaTryout.') AND ').'publish_time IS NOT NULL',
+            
+        ])->toArray();
+        foreach ($tryout as $key => $value) {
+            $tryout[$key]['buyed']=count(Buktipembayaran::find([
+                'conditions'=> 'iduser = :idsiswa: AND productname = :pname:',
+                'bind' => ['idsiswa'=>$idsiswa,'pname'=>$value['name']],
+            ]))!=0;
+        }
 
         return $tryout;
     }
@@ -105,7 +112,7 @@ class DashboardSiswaController extends ControllerSiswa
         ]);
         if($exsist){ //berarti udah ada di db
             $this->response->setStatusCode(200,'OK');
-            return json_decode($exsist->result);
+            return json_decode($exsist->result,true);
         }else{ // belom ada didb
             $answerKey = Soal::find([
                 'conditions'=> 'subtest_idsubtest = :idsubtest: AND subtest_tryout_idtryout = :idtryout:',
@@ -177,9 +184,9 @@ class DashboardSiswaController extends ControllerSiswa
             array_push($result,array(
                 'judul' => $subtest->judul,
                 'score' => $this->countScore($score),
-                'benar' => $score->benar,
-                'salah' => $score->salah,
-                'jumlahSoal' => $score->jumlahSoal
+                'benar' => $score['benar'],
+                'salah' => $score['salah'],
+                'jumlahSoal' => $score['jumlahSoal']
             ));
         }
         $this->response->setJsonContent($result);
