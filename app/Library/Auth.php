@@ -49,8 +49,12 @@ class Auth extends Injectable
                     $this->response->setStatusCode(200,"login berhasil");
                 }
                 else {
-                    $contentResponse['error']="Email belum terkonfirmasi";
+                    $contentResponse['error']="Kami telah mengirimkan ulang email konfirmasi, periksa kembali!";
                     $this->response->setStatusCode(403,"Forbidden");
+                    $this->getDi()->getMail()->send([$user->email=>$user->username], 
+                        "Konfirmasi email anda, Pateron Academy", 'confirmation', [
+                        'confirmUrl' => '/confirm/' . $user->token . '/' . $user->username,
+                    ]);
                 }
                 $this->response->setJsonContent($contentResponse);
                 return $this->response->send();

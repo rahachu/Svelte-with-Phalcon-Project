@@ -91,7 +91,7 @@ class AdminPaymentController extends ControllerAdmin
     
                 $paginator = new NativeArray ([
                     'data' => $dataVal,
-                    'limit' => 5,
+                    'limit' => 50,
                     'page' => $currentPage
                 ]
                 );
