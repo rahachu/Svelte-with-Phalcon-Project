@@ -42,6 +42,7 @@
   .btn-daftar-segera {
     background-color: var(--blue-color);
     color: #fff;
+    margin-left: 20px;
   }
 
   /* tablet */
