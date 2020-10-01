@@ -54,6 +54,10 @@
       getOptionValue();
       getMarkedQuestion(soalNo);
     }
+
+    let script = document.createElement('script');
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML";
+    document.head.append(script);
   });
   setupDataSoal(false);
 
@@ -119,6 +123,8 @@
     setTimeout(() => {
       isLoadingSoal = false;
     }, 1000);
+
+    window.location.reload();
   }
 
   if (soalNo == totalSoal) {

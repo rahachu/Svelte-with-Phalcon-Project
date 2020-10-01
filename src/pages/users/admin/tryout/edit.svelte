@@ -103,8 +103,8 @@ loading boss...
 {#each $dataTO.subtest as sub,i}
     <div class="card">
         <header class="card-header">
-            <p class="card-header-title">
-            {sub.judul} - {sub.time_in_minute} minutes</p>
+            <p class="card-header-title" style="flex-grow: 0;">
+            {sub.judul} - </p><input style="width: 60px;" type=number bind:value={sub.time_in_minute} min=1><p class="card-header-title">minutes</p>
             <p on:click={()=>delSubtest(i)} class="card-header-icon" aria-label="delete">
             <span class="icon">
                 <i class="fas fa-trash has-text-danger" aria-hidden="true"></i>
