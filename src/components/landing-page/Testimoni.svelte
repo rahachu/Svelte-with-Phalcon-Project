@@ -5,29 +5,29 @@
   let visible = true;
   const testimonials = [
     [
-      'In one of the testimonials which accompanied his application to the trustees of Rugby, the writer stated it as his conviction that "if Mr Arnold were elected, he would change the face of education all through the public schools of England."',
-      "https://image.flaticon.com/icons/svg/3203/3203725.svg",
-      "Diana"
+      "Berkat bimbel online Pateron yang sangat membantu dalam menghadapi soal-soal UTBK yang sangat rumit menjadi mudah sehingga saya menjadi lebih siap dalam menghadapi UTBK kemaren, untuk adik adik semangat belajar dan berdoa untuk mengejar cita cita setinggi langit. jangan lupa juga gunakan bimbel online Pateron untuk membantu adik adik menjadi lebih siap lagi, tetap semangat !",
+      "https://pateron.id/assets/testimonial_1.jpeg",
+      "Hasan Nasrulloh"
     ],
     [
-      'Horsford, in a number of monographs (unfortunately of no historical or scientific value), fixed upon the vicinity of Boston, where now stand a Leif Ericsson statue and Horsford" Norumbega Tower as testimonials to the Norse explorers.',
-      "https://image.flaticon.com/icons/svg/3144/3144735.svg",
-      "Marcel"
+      "Belajar di program SAS Pateron itu seru banget sih fix, tentor nya asik asik, bener bener diajarin sampe paham deh pokoknya dan tentunya mantep banget deh belajar di Pateron ini!!!, fix kalian wajib banget sih buat join program SAS Pateron 2021.",
+      "https://pateron.id/assets/testimonial_2.jpeg",
+      "Rahma Fadila P."
     ],
     [
-      "He received large money testimonials (6000 on his silver-wedding day and £5000 on his fiftieth birthday), which he handed over to these institutions.",
-      "https://image.flaticon.com/icons/svg/3048/3048122.svg",
-      "Alex"
+      "Seneng banget bisa belajar di Pateron bener-bener belajar dari 0 sampe akhirnya bisa nyampe target nilai di TryOut. Temen-temen dan mentornya pun asik semua, bisa diajak diskusi. Cara belajarnya juga sesuai sama cara belajar aku sendiri. Sampe H-3 UTBK juga aku masih ikut Pateron buat ngelatih kemampuan kuantitatif aku, karna jujur ngerasa kurang bgt disitu, dan ternyata tadi skor kuantitatif aku malah jadi paling tinggi dibanding sub tes lainnya. Jadi jujur ngerasa kebantu banget dengan adanya Pateron.",
+      "https://pateron.id/assets/testimonial_3.jpeg",
+      "Shakeela Wulandari S."
     ],
     [
-      "Information on how the monitor works, along with product testimonials and instruction video clip, can be found about the Snuza Halo on the product website at Snuza.",
-      "https://image.flaticon.com/icons/svg/3048/3048163.svg",
-      "Angel"
+      "Belajar di Peteron itu seru! Tutornya baik dan ramah, jadi aku bisa ngerti materinya. Ini ngebantu banget persiapan UTBK terutama dimasa pandemi ini. Kelasnya kondusif dan MATERINYA LENGKAP! Pokoknya worth it banget lah!",
+      "https://pateron.id/assets/testimonial_5.jpeg",
+      "Mia R. Suciana"
     ],
     [
-      'According to testimonials on the company"s website, a number of people who have suffered from migraines for years have experienced a great deal of success with Micranium.',
-      "https://image.flaticon.com/icons/svg/3048/3048176.svg",
-      "Thomas"
+      "Soal-soal HOTS dari modul yang diberikan membutuhkan pemikiran ayng lebih, sehingga mengasah cara berpikir saya untuk menyelesaikan soal-soal UTBK. Selain itu, ditengah COVID-19 ini, modul yang diberikan sanget berguna untuk mengisi waktu dengan belajar!",
+      "https://pateron.id/assets/testimonial_7.jpeg",
+      "Timothy Brian"
     ]
   ];
 
@@ -126,13 +126,14 @@
   }
 
   .user-testimonial {
-    padding: 50px;
+    padding: 20px;
+    padding-top: 30px;
     margin-top: -50px;
   }
 
   .user-testimonial .user-image {
-    padding: 20px;
-    margin-top: 20px;
+    padding: 5px;
+    margin-top: 40px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -143,12 +144,14 @@
   .user-testimonial .user-image img {
     border-radius: 50%;
     width: 50px;
+    height: 50px;
     background-color: skyblue;
+    object-fit: cover;
   }
 
   .user-testimonial .user-image p {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .btn-controller {
@@ -193,13 +196,17 @@
     }
 
     .comment .bubble-text {
+      font-size: 12px;
       width: 300px;
       padding: 10px;
+      border: 4px solid skyblue;
+      margin-bottom: 20px;
     }
 
     .user-image {
       margin-top: 50px;
       padding: 0;
+      background-color: red width;
     }
 
     .user-testimonial .user-image p {
