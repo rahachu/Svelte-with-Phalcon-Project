@@ -58,8 +58,9 @@ class DashboardSiswaController extends ControllerSiswa
     public function updateProfileAction($siswa_iduser)
     {
         $upload = new File($_FILES['profile_picture']);
-        /*$validation = new Validation();
-        $validation->add('file', new Validation\Validator\File([
+        // validate request
+        $validation = new Validation();
+        $validation->add('profile_picture', new Validation\Validator\File([
             "maxSize"      => "1M",
             "messageSize"  => ":field exceeds the max filesize (:max)",
             "allowedTypes" => [
@@ -67,41 +68,60 @@ class DashboardSiswaController extends ControllerSiswa
                 "image/jpeg",
                 "image/jpg"
             ],
+            "maxResolution" => "500x500",
             "messageType" => "Allowed file types are :types",
+        ]));
+        $validation->add([
+            'fullname',
+            'school',
+            'city',
+            'phone'
+        ], new Validation\Validator\StringLength([
+            'max' => [
+                'fullname' => 45,
+                'school' => 45,
+                'city' => 45,
+                'phone' => 45
+            ],
+            'messageMaximum' => 'Field :field terlalu panjang (max :max karakter)'
         ]));
         $messages = $validation->validate($_FILES);
         if (count($messages)) {
             $this->response->setStatusCode(400);
             $this->response->setJsonContent($messages);
-        } else {
-            $siswa = Siswa::findFirst([
-                'conditions' => 'iduser = :idsiswa:',
-                'bind' =>[
-                    'idsiswa' => $siswa_iduser
-                ]
-            ]);
-            $upload->moveTo(__DIR__.'\..\app\public\uploads');
-            $siswa->photo = $upload->getName().$upload->getExtension();
-            $siswa->save();
-            $this->response->setStatusCode(201, $siswa->iduser);
-            $this->response->setJsonContent('Siswa berhasil diupdate');
-        }*/
+        }
         $siswa = Siswa::findFirst([
             'conditions' => 'iduser = :idsiswa:',
             'bind' =>[
                 'idsiswa' => $siswa_iduser
             ]
         ]);
-        $upload_dir = __DIR__.'/../../public/upload/';
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0755);
+
+        // Apakah siswa nya ada?
+        if ($siswa === false) {
+            // Jika siswa tidak ada
+            $this->response->setStatusCode(404, 'Siswa tidak ditemukan');
+            $this->response->setJsonContent('');
+        } else {
+            // Jika siswa ditemukan
+            $upload_dir = __DIR__.'/../../public/upload/';
+            if (!is_dir($upload_dir)) { // jika folder upload gaada
+                mkdir($upload_dir, 0755);
+            }
+            $siswa_photo_name = sprintf('siswa_profil_%d_%d.%s', $siswa_iduser, time(), $upload->getExtension());
+            $upload->moveTo($upload_dir.$siswa_photo_name);
+
+            // Update profil siswa
+            $siswa->fullname = $this->request->getPost('fullname');
+            $siswa->school = $this->request->getPost('school');
+            $siswa->city = $this->request->getPost('city');
+            $siswa->phone = $this->request->getPost('phone');
+            $siswa->photo = $siswa_photo_name;
+            $siswa->save();
+            $this->response->setStatusCode(200, 'updated');
+            $this->response->setJsonContent('Siswa berhasil diupdate');
         }
-        $upload->moveTo($upload_dir.$upload->getName());
-        $siswa->photo = $upload->getName();
-        $siswa->save();
-        $this->response->setStatusCode(201, $siswa->iduser);
-        $this->response->setJsonContent('Siswa berhasil diupdate');
-        return $this->response/*->send()*/;
+        return $this->response;
     }
     public function dashboardSiswaAction()
     {

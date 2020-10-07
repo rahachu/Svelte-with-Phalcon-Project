@@ -85,7 +85,8 @@ CREATE TABLE `siswa` (
   `fullname` varchar(45) DEFAULT NULL,
   `school` varchar(45) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
-  `phone` varchar(45) DEFAULT NULL
+  `phone` varchar(45) DEFAULT NULL,
+  `photo` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
