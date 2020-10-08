@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Library\Exception;
+use Phalcon\Http\Request\File;
+use Phalcon\Image\Adapter\Gd;
 use Phalcon\Mvc\Controller;
 use App\Models\Tryout;
 use App\Models\SiswaHasTryout;
@@ -12,6 +15,7 @@ use App\Models\Soal;
 use App\Models\SiswaHasSubtest;
 use App\Models\Subtest;
 use App\Models\Buktipembayaran;
+use Phalcon\Validation;
 
 class DashboardSiswaController extends ControllerSiswa
 {
@@ -42,13 +46,83 @@ class DashboardSiswaController extends ControllerSiswa
     private function getProfileSiswa()
     {
         $idsiswa = $this->auth->getUser()['id'] || 1;
-        $dataSiswa = Siswa::find(['conditions' => 'iduser = :idsiswa:',
+        $dataSiswa = Siswa::findFirst(['conditions' => 'iduser = :idsiswa:',
                                 'bind'=>['idsiswa'=>$idsiswa]]);
         return $dataSiswa;
     }
     private function getDataNiai()
     {
         return null;
+    }
+
+    public function updateProfileAction()
+    {
+        $upload = new File($_FILES['profile_picture']);
+        // validate request
+        $validation = new Validation();
+        $validation->add('profile_picture', new Validation\Validator\File([
+            "maxSize"      => "1M",
+            "messageSize"  => ":field exceeds the max filesize (:max)",
+            "allowedTypes" => [
+                "image/png",
+                "image/jpeg",
+                "image/jpg"
+            ],
+            "maxResolution" => "500x500",
+            "messageType" => "Allowed file types are :types",
+        ]));
+        $validation->add([
+            'fullname',
+            'school',
+            'city',
+            'phone'
+        ], new Validation\Validator\StringLength([
+            'max' => [
+                'fullname' => 45,
+                'school' => 45,
+                'city' => 45,
+                'phone' => 45
+            ],
+            'messageMaximum' => 'Field :field terlalu panjang (max :max karakter)'
+        ]));
+        $messages = $validation->validate($_FILES);
+        if (count($messages)) {
+            $this->response->setStatusCode(400);
+            $this->response->setJsonContent($messages);
+        }
+        /*$siswa = Siswa::findFirst([
+            'conditions' => 'iduser = :idsiswa:',
+            'bind' =>[
+                'idsiswa' => $siswa_iduser
+            ]
+        ]);*/
+        $siswa = $this->getProfileSiswa();
+
+        // Apakah siswa nya ada?
+        if ($siswa === false) {
+            // Jika siswa tidak ada
+            $this->response->setStatusCode(404, 'Siswa tidak ditemukan');
+            $this->response->setJsonContent('');
+        } else {
+            // Jika siswa ditemukan
+            $upload_dir = __DIR__.'/../../public/upload/';
+            if (!is_dir($upload_dir)) { // jika folder upload gaada
+                mkdir($upload_dir, 0755);
+            }
+            $siswa_photo_name = sprintf('siswa_profil_%d_%d.%s', $siswa->iduser, time(), $upload->getExtension());
+            $upload->moveTo($upload_dir.$siswa_photo_name);
+
+            // Update profil siswa
+            $siswa->fullname = $this->request->getPost('fullname');
+            $siswa->school = $this->request->getPost('school');
+            $siswa->city = $this->request->getPost('city');
+            $siswa->phone = $this->request->getPost('phone');
+            $siswa->photo = $siswa_photo_name;
+            $siswa->save();
+            $this->response->setStatusCode(200, 'updated');
+            $this->response->setJsonContent('Siswa berhasil diupdate');
+        }
+        return $this->response;
     }
     public function dashboardSiswaAction()
     {

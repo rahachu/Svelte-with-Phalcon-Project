@@ -34,6 +34,12 @@ class Siswa extends \Phalcon\Mvc\Model
     public $phone;
 
     /**
+     *
+     * @var string
+     */
+    public $photo;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()

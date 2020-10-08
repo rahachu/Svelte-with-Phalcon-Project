@@ -23,6 +23,7 @@ $router->add('/tryout/siswa/listanswer/{siswa_iduser}/{soal_subtest_tryout_idtry
 $router->addGet('/dashboard/list',['controller' => 'dashboardSiswa', 'action'=>'dashboardSiswa']);
 $router->addGet('/dashboard/tryoutsaya',['controller'=>'dashboardSiswa','action'=>'getSiswaHasTryout']);
 $router->addGet('/siswa/mytryout/{idtryout}',['controller'=>'dashboardSiswa','action'=>'getScore']);
+$router->addPost('/siswa/profile', ['controller' => 'dashboardSiswa', 'action' => 'updateProfile']);
 
 //Tryout editor API
 $router->addPost('/tryout/create',['controller'=>'tryoutEditor','action'=>'createTryout']);
