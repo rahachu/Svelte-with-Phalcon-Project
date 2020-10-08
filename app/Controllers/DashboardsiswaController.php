@@ -55,7 +55,7 @@ class DashboardSiswaController extends ControllerSiswa
         return null;
     }
 
-    public function updateProfileAction($siswa_iduser)
+    public function updateProfileAction()
     {
         $upload = new File($_FILES['profile_picture']);
         // validate request
@@ -90,12 +90,13 @@ class DashboardSiswaController extends ControllerSiswa
             $this->response->setStatusCode(400);
             $this->response->setJsonContent($messages);
         }
-        $siswa = Siswa::findFirst([
+        /*$siswa = Siswa::findFirst([
             'conditions' => 'iduser = :idsiswa:',
             'bind' =>[
                 'idsiswa' => $siswa_iduser
             ]
-        ]);
+        ]);*/
+        $siswa = $this->getProfileSiswa();
 
         // Apakah siswa nya ada?
         if ($siswa === false) {
@@ -108,7 +109,7 @@ class DashboardSiswaController extends ControllerSiswa
             if (!is_dir($upload_dir)) { // jika folder upload gaada
                 mkdir($upload_dir, 0755);
             }
-            $siswa_photo_name = sprintf('siswa_profil_%d_%d.%s', $siswa_iduser, time(), $upload->getExtension());
+            $siswa_photo_name = sprintf('siswa_profil_%d_%d.%s', $siswa->iduser, time(), $upload->getExtension());
             $upload->moveTo($upload_dir.$siswa_photo_name);
 
             // Update profil siswa
