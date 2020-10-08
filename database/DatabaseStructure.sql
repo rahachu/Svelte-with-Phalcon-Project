@@ -171,7 +171,6 @@ CREATE TABLE `tryout` (
   `publish_time` varchar(45) DEFAULT NULL,
   `thumbnail_tryout` varchar(30) NOT NULL,
   `tryout_time` int NOT NULL,
-  `end_date` date NOT NULL,
   `category` varchar(50) NOT NULL,
   `description` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
