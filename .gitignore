@@ -3,6 +3,7 @@
 /cache/
 /node_modules/
 /public/build/
+!/public/upload/user.png
 /public/upload/*
 .yarn.lock
 .env

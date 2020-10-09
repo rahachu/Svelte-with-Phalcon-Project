@@ -6,7 +6,9 @@ namespace App\Controllers;
 Use App\Models\User;
 Use App\Models\Siswa;
 Use App\Library\Exception;
+use Phalcon\Http\Request\File;
 use Phalcon\Mvc\Controller;
+use Phalcon\Validation;
 
 class UserController extends Controller
 {
@@ -44,14 +46,37 @@ class UserController extends Controller
     {
         if ($this->request->isPost()) {
             if ($this->security->checkToken() || !$this->config->secureCsrf) {
+                $uploaded_image = $_FILES['photo'];
+                $siswa_photo_name = null;
                 $user = new User([
                     'email'=>$this->request->getPost('email'),
                     'username'=>$this->request->getPost('username'),
                     'password'=>$this->security->hash($this->request->getPost('password'))
                 ]);
-                $siswa = new Siswa($this->request->getPost());
+                $siswa = new Siswa([
+                    'fullname' => $this->request->getPost('fullname'),
+                    'school' => $this->request->getPost('school'),
+                    'city' => $this->request->getPost('city'),
+                    'phone' => $this->request->getPost('phone')
+                ]);
                 $user->siswa = $siswa;
-                if ($user->save()) {
+                $user->save();
+                if (empty($_FILES['photo']['tmp_name']) || !is_uploaded_file($_FILES['photo']['tmp_name'])) {
+                    // jika foto tidak diupload
+                    $siswa_photo_name = 'user.png';
+                } else {
+                    $imageFile = new File($uploaded_image);
+                    $upload_dir = __DIR__.'/../../public/upload/';
+                    if (!is_dir($upload_dir)) { // jika folder upload gaada
+                        mkdir($upload_dir, 0755);
+                    }
+                    $siswa_photo_name = sprintf('siswa_profil_%d_%d.%s', $siswa->iduser, time(), $imageFile->getExtension());
+                    $imageFile->moveTo($upload_dir.$siswa_photo_name);
+                }
+
+                $siswa->photo = $siswa_photo_name;
+
+                if ($siswa->save()) {
                     $this->response->setStatusCode(201,'Berhasil daftar');
                     $this->response->setJsonContent([
                         'csrfKey'=>$this->security->getTokenKey(),

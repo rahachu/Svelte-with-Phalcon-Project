@@ -57,10 +57,10 @@ class DashboardSiswaController extends ControllerSiswa
 
     public function updateProfileAction()
     {
-        $upload = new File($_FILES['profile_picture']);
+        $upload = new File($_FILES['photo']);
         // validate request
         $validation = new Validation();
-        $validation->add('profile_picture', new Validation\Validator\File([
+        $validation->add('photo', new Validation\Validator\File([
             "maxSize"      => "1M",
             "messageSize"  => ":field exceeds the max filesize (:max)",
             "allowedTypes" => [
