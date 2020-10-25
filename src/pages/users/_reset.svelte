@@ -184,30 +184,6 @@
               </a>
             </li>
           {/each}
-          <!-- <li>
-            <a href="/users/siswa/dashboard">
-              <span>
-                <i class="fas fa-user" />
-              </span>
-              <p>Profil</p>
-            </a>
-          </li>
-          <li>
-            <a href="/users/siswa/tryout">
-              <span class="active">
-                <i class="fas fa-clipboard-check" />
-              </span>
-              <p class="active">Tryout Saya</p>
-            </a>
-          </li>
-          <li>
-            <a href="/users/disclaimer">
-              <span>
-                <i class="fas fa-users" />
-              </span>
-              <p>Disclaimer</p>
-            </a>
-          </li> -->
         </ul>
         <div class="btn-sidebar">
           <button

@@ -15,7 +15,6 @@
       isModalActive = true;
     });
   }
-  $: console.log(paketTryoutId);
 </script>
 
 <style>

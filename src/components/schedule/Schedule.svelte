@@ -35,7 +35,6 @@
     eventBackgroundColor: "#fd7d00",
     height: "auto",
     eventClick: function(info) {
-      console.error(info);
       info.jsEvent.preventDefault();
       dataDetail = info.event;
       activeModal = true;
@@ -52,8 +51,6 @@
   });
 
   let calendarComponentRef;
-
-  $: console.log(dataDetail);
 </script>
 
 <style>

@@ -5,28 +5,6 @@
 </script>
 
 <style>
-  .flex-box {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .flex-item {
-    flex-basis: 25%;
-    margin: 10px;
-  }
-  @media only screen and (max-width: 769px) {
-    .flex-box {
-      margin: 0 20px;
-    }
-    .flex-item {
-      flex-basis: 100%;
-      margin: 10px;
-    }
-  }
-  .button-container {
-    padding: 10px;
-    width: 100%;
-  }
-
   .cards {
     padding: 40px;
     display: grid;
@@ -34,9 +12,6 @@
     grid-template-rows: auto;
     grid-gap: 2rem;
     margin-top: -10px;
-  }
-  .card-content {
-    min-height: 140px;
   }
 
   .card {

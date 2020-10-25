@@ -20,32 +20,6 @@
 </script>
 
 <style>
-  .flex-box {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .flex-item {
-    flex-basis: 25%;
-    margin: 10px;
-  }
-  @media only screen and (max-width: 769px) {
-    .flex-box {
-      margin: 0 20px;
-    }
-    .flex-item {
-      flex-basis: 100%;
-      margin: 10px;
-    }
-  }
-  .button-container {
-    text-align: right;
-    position: absolute;
-    bottom: 0px;
-    margin: 10px;
-    padding: 10px;
-    width: 80%;
-  }
-
   .paket-dibeli {
     height: 100%;
     background-color: #fcfcfc;
@@ -131,31 +105,6 @@
 {#await tryoutSaya}
   <LoaderFullPage />
 {:then data}
-  <!-- <div class="" />
-  <div class="flex-box">
-    {#each data.product as prod}
-      <div class="card flex-item">
-        <div class="card-content">
-          <p class="title is-4">{prod.name}</p>
-          <p class="subtitle">
-            {prod.tryout_price.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-          </p>
-          <div class="button-container">
-            <button
-              class="button is-primary"
-              disabled={prod.buyed}
-              on:click={() => {
-                $goto($url('../buy', { product: prod.idtryout }));
-              }}>
-              {prod.buyed ? 'Menunggu Konfirmasi' : 'Beli'}
-            </button>
-          </div>
-        </div>
-      </div>
-    {:else}
-      <p>Belum ada product</p>
-    {/each}
-  </div> -->
   <div class="columns">
     <div class="column pt-6">
       <h5 class="title is-5">Dashboard</h5>
