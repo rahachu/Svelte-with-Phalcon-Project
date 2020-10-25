@@ -5,7 +5,7 @@
     "build": "rollup -c",
     "dev": "routify -c my-server",
     "my-server": "rollup -c -w",
-    "start": "php -S localhost:8000 -t public .htrouter.php"
+    "start": "php -S 192.168.43.207:8000 -t public .htrouter.php"
   },
   "devDependencies": {
     "@beyonk/svelte-notifications": "^3.0.0",
@@ -14,9 +14,11 @@
     "@sveltech/routify": "^1.9.2",
     "rollup": "^2.3.4",
     "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
-    "svelte": "^3.0.0"
+    "svelte": "^3.0.0",
+    "svelte-fullcalendar": "^1.1.0"
   },
   "dependencies": {
     "crypto-js": "^4.0.0",

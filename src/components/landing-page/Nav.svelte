@@ -9,6 +9,7 @@
   let y = "";
 
   let isShadow = false;
+  let isActive = false;
   let isEnabled = false;
   let isModalLogin = false;
 
@@ -70,6 +71,11 @@
 
   .nav-links a {
     margin-right: 40px;
+  }
+
+  #pateron-school {
+    color: var(--blue-color);
+    margin-right: 20px;
   }
 
   .accounts {
@@ -170,7 +176,7 @@
     }
 
     .menu-item {
-      margin-bottom: 50px;
+      margin-bottom: 40px;
       cursor: pointer;
     }
 
@@ -206,9 +212,34 @@
       <img src="/assets/logo.png" alt="logo" />
     </a>
     <div class="nav-links">
-      <a href={$url('/index')}>Paket Kelas</a>
-      <a href={$url('/index')}>Paket Try Out</a>
+      <div class="dropdown is-hoverable" id="pateron-school">
+        <div class="dropdown-trigger">
+          <div aria-haspopup="true" aria-controls="dropdown-menu4">
+            <span>Pateron School</span>
+            <span class="icon is-small">
+              <i class="fas fa-angle-down" aria-hidden="true" />
+            </span>
+          </div>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+          <div class="dropdown-content">
+            <div class="dropdown-item">
+              <ul>
+                <li>
+                  <a href={$url('/index')}>Paket Kelas</a>
+                </li>
+                <li>
+                  <a href={$url('/paket-tryout')}>Paket Tryout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href={$url('/index')}>Pateron Olym</a>
+      <a href={$url('/index')}>Pateron TPB</a>
       <a href={$url('/index')}>Pateron Blog</a>
+      <a href={$url('/index')}>Pateron Store</a>
     </div>
   </div>
   <div class="accounts">
@@ -231,7 +262,8 @@
               {:else}admin{/if}
             </span>
             <span class="icon is-small">
-              <i class="fas fa-user" aria-hidden="true" />
+              <!-- <i class="fas fa-user" aria-hidden="true" /> -->
+              <img src={$auth.siswa[0].photo} alt={$auth.siswa[0].fullname} />
             </span>
           </button>
         </div>
@@ -260,13 +292,50 @@
       <ul class="list-menu">
         <li
           transition:fly={{ delay: 800, duration: 500, x: 50, easing: quintOut }}
+          class="menu-item"
+          on:click={() => {
+            isActive = !isActive;
+          }}>
+          <div class="dropdown" class:is-active={isActive} id="pateron-school">
+            <div class="dropdown-trigger">
+              <div aria-haspopup="true" aria-controls="dropdown-menu5">
+                <span>Pateron School</span>
+                {#if isActive}
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-up" aria-hidden="true" />
+                  </span>
+                {:else}
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true" />
+                  </span>
+                {/if}
+              </div>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu5" role="menu">
+              <div class="dropdown-content">
+                <div class="dropdown-item">
+                  <ul>
+                    <li>
+                      <a href={$url('/index')}>Paket Kelas</a>
+                    </li>
+                    <li>
+                      <a href={$url('/paket-tryout')}>Paket Tryout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          transition:fly={{ delay: 800, duration: 500, x: 50, easing: quintOut }}
           class="menu-item">
           <a
             href="/"
             on:click={() => {
               isEnabled = false;
             }}>
-            Paket Kelas
+            Pateron Olym
           </a>
         </li>
         <li
@@ -277,7 +346,7 @@
             on:click={() => {
               isEnabled = false;
             }}>
-            Paket TryOut
+            Pateron TPB
           </a>
         </li>
         <li
@@ -289,6 +358,17 @@
               isEnabled = false;
             }}>
             Pateron Blog
+          </a>
+        </li>
+        <li
+          transition:fly={{ delay: 1200, duration: 500, x: 50, easing: quintOut }}
+          class="menu-item">
+          <a
+            href="/"
+            on:click={() => {
+              isEnabled = false;
+            }}>
+            Pateron Store
           </a>
         </li>
         {#if $auth.login == 'wait'}
