@@ -85,7 +85,8 @@ CREATE TABLE `siswa` (
   `fullname` varchar(45) DEFAULT NULL,
   `school` varchar(45) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
-  `phone` varchar(45) DEFAULT NULL
+  `phone` varchar(45) DEFAULT NULL,
+  `photo` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -168,7 +169,11 @@ CREATE TABLE `tryout` (
   `idtryout` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `tryout_price` int(11) DEFAULT NULL,
-  `publish_time` varchar(45) DEFAULT NULL
+  `publish_time` varchar(45) DEFAULT NULL,
+  `thumbnail_tryout` varchar(30) NOT NULL,
+  `tryout_time` int NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `description` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
